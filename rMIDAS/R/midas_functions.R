@@ -29,7 +29,7 @@ import_midas <- function(...) {
 #'                           seed = 89)
 impute <- function(data,
                    binary_columns = NULL,
-                   softmax_columns,
+                   softmax_columns = NULL,
                    training_epochs = 10L,
                    # MIDAS model parameters
                    layer_structure = c(256,256,256),
@@ -77,7 +77,7 @@ impute <- function(data,
     softmax_columns = data$cat_lists
   }
 
-  mod_build <- mod_inst$build_model(na_to_nan(data),
+  mod_build <- mod_inst$build_model(na_to_nan(data$data),
                                     softmax_columns = softmax_columns,
                                     binary_columns = binary_columns)
 
@@ -91,6 +91,10 @@ impute <- function(data,
 #'
 #' Having generated an imputation model, generate() produces `m` datasets, saved as a list.
 #' @keywords generate
+#' @param mid_obj object of class `midas`, the result of running `rMIDAS::impute()`
+#' @param m integer number of completed datasets required
+#' @param file path to save completed datasets. If `NULL`, completed datasets are only loaded into memory.
+#' @param file_root character vector used as root of completed datasets if a filepath is passed to function. If no file_root is provided, saved datasets will be saved as "file/midas_impute_<yymmdd_hhmmss>_[m].csv"
 #' @export
 #' @examples
 #' midas_obj <- impute(example_data,
@@ -102,10 +106,20 @@ impute <- function(data,
 #' imp_data <- generate(midas_obj,
 #'                      m = 5)
 #'
-generate <- function(mid_obj, m=10, file = NULL) {
+generate <- function(mid_obj, m=10L, file = NULL, file_root = NULL) {
   draws <- mid_obj$generate_samples(m = as.integer(m))
 
   dfs <- draws$output_list
 
+  if (!is.null(file)) {
+
+    if (is.null(file_root)) {
+      file_root <- paste0("midas_impute_",format(Sys.time(), "%y%m%d_%H%M%S"))
+    }
+
+    sapply(1:m, function (y) data.table::fwrite(x=dfs[[y]], file = paste0(file,"/",file_root,"_",y,".csv")))
+  }
+
   return(dfs)
 }
+

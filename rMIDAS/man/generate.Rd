@@ -4,7 +4,16 @@
 \alias{generate}
 \title{Generate}
 \usage{
-generate(mid_obj, m = 10, file = NULL)
+generate(mid_obj, m = 10L, file = NULL, file_root = NULL)
+}
+\arguments{
+\item{mid_obj}{object of class \code{midas}, the result of running \code{rMIDAS::impute()}}
+
+\item{m}{integer number of completed datasets required}
+
+\item{file}{path to save completed datasets. If \code{NULL}, completed datasets are only loaded into memory.}
+
+\item{file_root}{character vector used as root of completed datasets if a filepath is passed to function. If no file_root is provided, saved datasets will be saved as "file/midas_impute_<yymmdd_hhmmss>_\link{m}.csv"}
 }
 \description{
 Having generated an imputation model, generate() produces \code{m} datasets, saved as a list.

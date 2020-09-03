@@ -7,7 +7,7 @@
 impute(
   data,
   binary_columns = NULL,
-  softmax_columns,
+  softmax_columns = NULL,
   training_epochs = 10L,
   layer_structure = c(256, 256, 256),
   learn_rate = 4e-04,

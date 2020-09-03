@@ -32,16 +32,10 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
 
   # Check data input
 
-  if (class(data) == "character") {
+  if ("character" %in% class(data)) {
     data.table::fread(data)
-  } else if (sum(c("data.frame","data.table") %in% class(data)) == 0) {
-
-    data <- try(as.data.frame(data))
-
-    if ("try-error" %in% class(data)) {
-      stop("Cannot coerce data to data.frame")
-    }
-
+  } else  if (!("data.table" %in% class(data))) {
+    data.table::setDT(data)
   }
 
   # Check all column names are present
@@ -60,11 +54,6 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
     stop("At least one variable name is duplicated in the binary and categorical arguments.")
   }
 
-  # Convert to data.table if data.frame
-  if (!("data.table" %in% class(data))) {
-    data.table::setDT(data)
-  }
-
   # Separate the data by class
   data_bin <- data[,bin_cols, with = FALSE]
   data_cat <- data[,cat_cols, with = FALSE]
@@ -73,13 +62,16 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
   num_cols <- names(data_num)
 
   # One-hot encode categorical
-  data_cat[,(cat_cols):=lapply(.SD, as.factor),.SDcols=cat_cols]
-  data_cat_oh <- mltools::one_hot(data_cat, cols = names(data_cat))
+  cat_lists <- NULL
+  data_cat_oh <- NULL
+  if (ncol(data_cat) > 0) {
+    data_cat[,(cat_cols):=lapply(.SD, as.factor),.SDcols=cat_cols]
+    data_cat_oh <- mltools::one_hot(data_cat, cols = names(data_cat))
 
-  names(data_cat_oh)
+    cat_lists <- lapply(cat_cols,
+                        function(x) c(names(data_cat_oh)[startsWith(names(data_cat_oh),paste0(x,"_"))]))
+  }
 
-  cat_lists <- lapply(cat_cols,
-                      function(x) c(names(data_cat_oh)[startsWith(names(data_cat_oh),paste0(x,"_"))]))
 
   ## Check binary columns
 

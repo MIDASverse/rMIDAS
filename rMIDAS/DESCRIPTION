@@ -2,19 +2,19 @@ Package: rMIDAS
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Tom",
+           family = "Robinson",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "thomas.robinson@durham.ac.uk",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+License: `use_apl2_license()`
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Depends:
+  data.table
 Imports: 
   reticulate,
-  data.table,
   mltools
