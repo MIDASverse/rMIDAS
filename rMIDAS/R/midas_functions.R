@@ -12,22 +12,41 @@ import_midas <- function(...) {
   return(midas_class(...))
 }
 
-#' Impute missing data using Midas
+#' Train an imputation model using Midas
 #'
-#' impute() builds and runs a MIDAS neural network on the supplied data.
+#' train() builds and runs a MIDAS neural network on the supplied data.
 #' @keywords import
 #' @param data a data.frame (or coercible) object, or a 'midas_preproc' object created from rMIDAS::convert()
 #' @param binary_columns a vector of columns containing binary variables. NOTE: if `data` is a `midas_preproc` object, this argument will be overwritten.
 #' @param softmax_columns a list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if `data` is a `midas_preproc` object, this argument will be overwritten.
 #' @param training_epochs an integer indicating the number of forward passes to conduct when running the model.
 #' @export
-#' @return Returns object of class `midas` from which completed datasets can be drawn, using `rMIDAS::generate()`
+#' @return Returns object of class `midas` from which completed datasets can be drawn, using `rMIDAS::complete()`
 #' @examples
-#' midas_obj <- import_midas(layer_structure = c(256,256,256),
-#'                           input_drop = 0.75,
-#'                           learn_rate = 0.0005,
-#'                           seed = 89)
-impute <- function(data,
+#' # Generate raw data, with numeric, binary, and categorical variables
+#' raw_data = data.frame(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
+#'                       b = 1:1000,
+#'                       c = sample(c("YES","NO",NA),1000,replace=TRUE),
+#'                       d = runif(1000,1,10),
+#'                       e = sample(c("YES","NO"), 1000, replace = TRUE),
+#'                       f = sample(c("male","female","trans","other",NA), 1000, replace = TRUE))
+#'
+#' # Names of bin./cat. variables
+#' test_bin <- c("c","e")
+#' test_cat <- c("a","f")
+#'
+#' # Pre-process data
+#' test_data <- convert(raw_data,
+#'                      bin_cols = test_bin,
+#'                      cat_cols = test_cat,
+#'                      minmax_scale = TRUE)
+#'
+#' # Train imputation model
+#' test_model <- train(test_data)
+#'
+#' # Generate datasets
+#' complete_datasets <- complete(test_imp, m = 5)
+train <- function(data,
                    binary_columns = NULL,
                    softmax_columns = NULL,
                    training_epochs = 10L,
@@ -87,26 +106,26 @@ impute <- function(data,
 
 }
 
-#' Generate
+#' Impute missing values using imputation model
 #'
-#' Having generated an imputation model, generate() produces `m` datasets, saved as a list.
-#' @keywords generate
+#' Having trained an imputation model, complete() produces `m` completed datasets, saved as a list.
+#' @keywords impute
 #' @param mid_obj object of class `midas`, the result of running `rMIDAS::impute()`
 #' @param m integer number of completed datasets required
 #' @param file path to save completed datasets. If `NULL`, completed datasets are only loaded into memory.
 #' @param file_root character vector used as root of completed datasets if a filepath is passed to function. If no file_root is provided, saved datasets will be saved as "file/midas_impute_<yymmdd_hhmmss>_[m].csv"
 #' @export
 #' @examples
-#' midas_obj <- impute(example_data,
+#' midas_obj <- train(example_data,
 #'                     layer_structure = c(128,128),
 #'                     input_drop = 0.75,
 #'                     learn_rate = 0.0005,
 #'                     seed = 89)
 #'
-#' imp_data <- generate(midas_obj,
+#' imp_data <- complete(midas_obj,
 #'                      m = 5)
 #'
-generate <- function(mid_obj, m=10L, file = NULL, file_root = NULL) {
+complete <- function(mid_obj, m=10L, file = NULL, file_root = NULL) {
   draws <- mid_obj$generate_samples(m = as.integer(m))
 
   dfs <- draws$output_list

@@ -17,7 +17,7 @@ test_data <- convert(raw_data,
                      minmax_scale = TRUE)
 
 # Run imputations
-test_imp <- impute(test_data)
+test_imp <- train(test_data)
 
 # Generate datasets
-complete_datasets <- generate(test_imp)
+complete_datasets <- complete(test_imp, m = 5)
