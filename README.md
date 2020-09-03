@@ -1,5 +1,5 @@
 # rMIDAS
-R package implementing multiple imputation method MIDAS (Python class [here](https://github.com/ranjitlall/MIDAS)) and accompanying statistical working paper [here](https://doi.org/10.33774/apsa-2020-3tk40-v3)
+R package implementing multiple imputation method MIDAS (Python class [here](https://github.com/ranjitlall/MIDAS)) and accompanying statistical working paper [here](https://doi.org/10.33774/apsa-2020-3tk40-v3).
 
 Based on the Python module, this package uses `reticulate` to bring MIDAS to R users.
 
