@@ -70,6 +70,7 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
 
     cat_lists <- lapply(cat_cols,
                         function(x) c(names(data_cat_oh)[startsWith(names(data_cat_oh),paste0(x,"_"))]))
+
   }
 
 
@@ -85,7 +86,7 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
     b_vals <- c(unique(data_bin[,bin_col, with=FALSE]))[[1]]
 
     if (!(sum(!is.na(b_vals)) == 2)) {
-      stop("Column '",,"' specified in bin_cols but does not have two non-missing values")
+      stop("Column '",bin_col,"' does not have two non-missing values")
 
     } else if (sum(b_vals[!is.na(b_vals)] %in% c(1,2)) != 2) {
 
@@ -119,9 +120,10 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
   out <- list(data = data_conv,
               bin_list = bin_labs,
               cat_lists = cat_lists,
+              cat_names = names(data_cat),
               minmax_params = minmax_params)
 
-  attr(out, "class") <- "midas_preproc"
+  attr(out, "class") <- "midas_pre"
 
   return(out)
 

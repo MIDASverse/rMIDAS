@@ -4,7 +4,15 @@
 \alias{complete}
 \title{Impute missing values using imputation model}
 \usage{
-complete(mid_obj, m = 10L, file = NULL, file_root = NULL)
+complete(
+  mid_obj,
+  m = 10L,
+  unscale = TRUE,
+  bin_label = TRUE,
+  cat_coalesce = TRUE,
+  file = NULL,
+  file_root = NULL
+)
 }
 \arguments{
 \item{mid_obj}{object of class \code{midas}, the result of running \code{rMIDAS::impute()}}

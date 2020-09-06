@@ -24,13 +24,15 @@ train(
 )
 }
 \arguments{
-\item{data}{a data.frame (or coercible) object, or a 'midas_preproc' object created from rMIDAS::convert()}
+\item{data}{a data.frame (or coercible) object, or an object of class \code{midas_pre} created from rMIDAS::convert()}
 
-\item{binary_columns}{a vector of columns containing binary variables. NOTE: if \code{data} is a \code{midas_preproc} object, this argument will be overwritten.}
+\item{binary_columns}{a vector of columns containing binary variables. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
 
-\item{softmax_columns}{a list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if \code{data} is a \code{midas_preproc} object, this argument will be overwritten.}
+\item{softmax_columns}{a list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
 
 \item{training_epochs}{an integer indicating the number of forward passes to conduct when running the model.}
+
+\item{...}{Further arguments that can be passed to instantiate a Midas model. Please see technical documentation for more information.}
 }
 \value{
 Returns object of class \code{midas} from which completed datasets can be drawn, using \code{rMIDAS::complete()}

@@ -1,5 +1,5 @@
 # Generate raw data, with numeric, binary, and categorical variables
-raw_data = data.frame(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
+raw_data = data.table(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
                       b = 1:1000,
                       c = sample(c("YES","NO",NA),1000,replace=TRUE),
                       d = runif(1000,1,10),

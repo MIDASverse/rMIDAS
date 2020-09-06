@@ -16,10 +16,11 @@ import_midas <- function(...) {
 #'
 #' train() builds and runs a MIDAS neural network on the supplied data.
 #' @keywords import
-#' @param data a data.frame (or coercible) object, or a 'midas_preproc' object created from rMIDAS::convert()
-#' @param binary_columns a vector of columns containing binary variables. NOTE: if `data` is a `midas_preproc` object, this argument will be overwritten.
-#' @param softmax_columns a list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if `data` is a `midas_preproc` object, this argument will be overwritten.
+#' @param data a data.frame (or coercible) object, or an object of class `midas_pre` created from rMIDAS::convert()
+#' @param binary_columns a vector of columns containing binary variables. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
+#' @param softmax_columns a list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
 #' @param training_epochs an integer indicating the number of forward passes to conduct when running the model.
+#' @param ... Further arguments that can be passed to instantiate a Midas model. Please see technical documentation for more information.
 #' @export
 #' @return Returns object of class `midas` from which completed datasets can be drawn, using `rMIDAS::complete()`
 #' @examples
@@ -91,9 +92,11 @@ train <- function(data,
                            vae_alpha = vae_alpha,
                            vae_sample_var = vae_sample_var)
 
-  if (class(data) == "midas_preproc") {
+  transf_model = FALSE
+  if (class(data) == "midas_pre") {
     binary_columns = data$bin_list
     softmax_columns = data$cat_lists
+    transf_model = TRUE
   }
 
   mod_build <- mod_inst$build_model(na_to_nan(data$data),
@@ -101,6 +104,11 @@ train <- function(data,
                                     binary_columns = binary_columns)
 
   mod_train <- mod_build$train_model(training_epochs = training_epochs)
+
+  if (transf_model) {
+    mod_train$preproc <- data
+  }
+
 
   return(mod_train)
 
@@ -125,20 +133,96 @@ train <- function(data,
 #' imp_data <- complete(midas_obj,
 #'                      m = 5)
 #'
-complete <- function(mid_obj, m=10L, file = NULL, file_root = NULL) {
-  draws <- mid_obj$generate_samples(m = as.integer(m))
+complete <- function(mid_obj,
+                     m=10L,
+                     unscale = TRUE,
+                     bin_label = TRUE,
+                     cat_coalesce = TRUE,
+                     file = NULL,
+                     file_root = NULL) {
 
-  dfs <- draws$output_list
+  if (!("midas_base.Midas" %in% class(mid_obj))) {
+    stop("Trained midas object not supplied to 'mid_obj' argument")
+  }
+
+  if (!("preproc" %in% names(mid_obj))) {
+    unscale = FALSE
+    bin_label = FALSE
+    cat_coalesce = FALSE
+  }
+
+  draws <- mid_obj$generate_samples(m = as.integer(m))$output_list
+
+  ## Reverse pre-processing steps from convert():
+  draws_post <- lapply(draws, function(df) {
+
+    df <- as.data.table(df)
+
+    # Undo scaling
+    if (unscale) {
+      num_params <- mid_obj$preproc$minmax_params
+      num_cols <- names(num_params)
+
+      for (j in num_cols) {
+
+        set(df, j = j, value = undo_minmax(df[[j]], s_min = num_params[[j]]$min, s_max = num_params[[j]]$max))
+
+      }
+
+    }
+
+    # Add binary labels
+
+    if (bin_label) {
+
+      bin_params <- mid_obj$preproc$bin_list
+      bin_cols <- names(bin_params)
+
+      for (j in bin_cols) {
+
+        set(df, j = j, value = add_bin_labels(df[[j]], one = bin_params[[j]][1], zero = bin_params[[j]][2]))
+
+      }
+
+    }
+
+    if (cat_coalesce) {
+
+      cat_params <- mid_obj$preproc$cat_lists
+      cat_cols <- mid_obj$preproc$cat_names
+
+      for (i in 1:length(cat_cols)) {
+
+        set(df,
+            j = cat_cols[[i]],
+            value = coalesce_one_hot(X = df[,cat_params[[i]], with = FALSE],
+                                     var_name = cat_cols[i]))
+
+      }
+
+      # Remove one-hot columns
+      df[,do.call("c",cat_params)] <- NULL
+
+    }
+
+    return(df)
+
+  })
+
+
+  # --- Save files
 
   if (!is.null(file)) {
 
     if (is.null(file_root)) {
+
       file_root <- paste0("midas_impute_",format(Sys.time(), "%y%m%d_%H%M%S"))
+
     }
 
     sapply(1:m, function (y) data.table::fwrite(x=dfs[[y]], file = paste0(file,"/",file_root,"_",y,".csv")))
   }
 
-  return(dfs)
+  return(draws_post)
 }
 
