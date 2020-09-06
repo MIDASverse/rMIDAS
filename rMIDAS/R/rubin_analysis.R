@@ -45,7 +45,7 @@ combine <- function(formula, df_list, dof_adjust = TRUE, ...) {
   models <- lapply(df_list,
                    function (x) {
 
-                     glm(formula, data = x, family = family)
+                     glm(formula, data = x, family = family, ...)
 
                    })
 
