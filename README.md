@@ -3,13 +3,13 @@ R package implementing multiple imputation method MIDAS (Python class [here](htt
 
 Based on the Python module, this package uses `reticulate` to bring MIDAS to R users.
 
-This package also includes several convenience functions to increase the efficiency of imputation workflows:
+This package simplifies the imputation workflow to ensure MIDAS is user-friendly and efficient:
 
-* Easy pre-processing function that applies one-hot encoding and name extraction (required for MIDAS), min-max scaling (improves convergence), and binary variable formatting.
-* Easy saving of complete datasets with `generate()`
-* Optimisation for large data using `data.table` and `mltools` packages
+* Single pre-processing step that applies one-hot encoding, binary variable formatting, and name extraction (required for MIDAS), and min-max scaling to improve algorithm convergence
+* Easy generation of complete datasets with `generate()`
+* Optimisation for large datasets using `data.table` and `mltools` packages
 * Automated reversing of all pre-processing steps prior to analysis
-* Built-in regression function (applying Rubin's rules) 
+* Built-in regression function based on `glm` (applying Rubin's rules) 
 
 ## Basic imputation workflow
 
