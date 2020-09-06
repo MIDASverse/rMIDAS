@@ -2,6 +2,7 @@
 
 export(add_bin_labels)
 export(col_minmax)
+export(combine)
 export(complete)
 export(convert)
 export(import_midas)
