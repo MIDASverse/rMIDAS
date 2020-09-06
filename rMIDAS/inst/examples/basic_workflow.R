@@ -21,3 +21,8 @@ test_imp <- train(test_data)
 
 # Generate datasets
 complete_datasets <- complete(test_imp, m = 5)
+
+combine(formula = d~a+c+e+f,
+        complete_datasets)
+
+summary(glm(d ~ a +c +e +f, data = complete_datasets[[1]]))

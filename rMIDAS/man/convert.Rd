@@ -2,7 +2,7 @@
 % Please edit documentation in R/pre_processing.R
 \name{convert}
 \alias{convert}
-\title{Encoding data for Midas}
+\title{Pro-process data for Midas imputation}
 \usage{
 convert(data, bin_cols, cat_cols, minmax_scale = FALSE)
 }
