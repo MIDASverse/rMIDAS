@@ -16,4 +16,7 @@ set_python_env(path = "~/.path/to/python/binary")
 \description{
 This function allows users to set a custom python binary, virtualenv, or Conda environment.
 }
+\details{
+Users comfortable with reticulate may wish to configure Python manually using reticulate, and then call \code{mid_py_setup()} to check/install required Python dependencies for rMIDAS.
+}
 \keyword{setup}
