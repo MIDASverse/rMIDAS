@@ -3,7 +3,7 @@
   load_stat <- try(reticulate::use_python("python3", required  = FALSE))
 
   if (!("try-error" %in% class (load_stat))) {
-    py_setup()
+    mid_py_setup()
   } else {
     warning("Unable to initialise Python and required packages.\n
             Please use set_python_env() to set the Python environment manually.")
