@@ -10,13 +10,6 @@
   }
 }
 
-load_python_env <- function() {
-
-  test <- try(reticulate::use_python("~/.virtualenvs/r-reticulate/bin/python3", required  = TRUE),
-              silent = TRUE)
-
-}
-
 #' Configure python version
 #'
 #' This function allows users to set a custom python binary, virtualenv, or Conda environment.
