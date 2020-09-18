@@ -1,2 +1,4 @@
 ^rMIDAS\.Rproj$
 ^\.Rproj\.user$
+tmp
+^LICENSE\.md$

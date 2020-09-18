@@ -18,10 +18,13 @@
 #' @param type One of 'auto','virtualenv','condaenv'.
 #' @param path Path to python binary if `type == "auto"`, path to virtualenv if `type == "virtualenv"`, or the name of a Conda environment if `type=="condaenv`
 #' @param exact Boolean. If `TRUE` then only load exact match from `path`, otherwise allow reticulate to scan for other versions.
+#' @param ... Further argument passed to reticulate::use_condaenv() for `conda` executable if `type == "condaenv"`. 
 #' @keywords setup
 #' @export
-#' @usage
-#' set_python_env(path = "~/.path/to/python/binary")
+#' @examples 
+#' \dontrun{
+#' set_python_env(path = "~/.path/to/python/binary", type = "auto", exact = FALSE)
+#' }
 set_python_env <- function(path, type = "auto", exact = FALSE,...) {
 
   if (type == "auto") {

@@ -8,7 +8,6 @@ Authors@R:
            email = "thomas.robinson@durham.ac.uk",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
-License: `use_apl2_license()`
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -18,3 +17,6 @@ Depends:
 Imports: 
   reticulate,
   mltools
+Suggests: 
+    testthat
+License: Apache License (>= 2.0)

@@ -6,6 +6,9 @@
 \usage{
 import_midas(...)
 }
+\arguments{
+\item{...}{Arguments passed to the MIDAS class for instantiating network}
+}
 \description{
 Import Midas class into R environment, and instantiates passed parameters.
 }

@@ -13,26 +13,48 @@ train(
   learn_rate = 4e-04,
   input_drop = 0.8,
   seed = 123L,
-  vae_layer = FALSE,
   latent_space_size = 4,
   cont_adj = 1,
   binary_adj = 1,
   softmax_adj = 1,
   dropout_level = 0.5,
+  vae_layer = FALSE,
   vae_alpha = 1,
   vae_sample_var = 1
 )
 }
 \arguments{
-\item{data}{a data.frame (or coercible) object, or an object of class \code{midas_pre} created from rMIDAS::convert()}
+\item{data}{A data.frame (or coercible) object, or an object of class \code{midas_pre} created from rMIDAS::convert()}
 
-\item{binary_columns}{a vector of columns containing binary variables. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
+\item{binary_columns}{A vector of columns containing binary variables. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
 
-\item{softmax_columns}{a list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
+\item{softmax_columns}{A list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
 
-\item{training_epochs}{an integer indicating the number of forward passes to conduct when running the model.}
+\item{training_epochs}{An integer indicating the number of forward passes to conduct when running the model.}
 
-\item{...}{Further arguments that can be passed to instantiate a Midas model. Please see technical documentation for more information.}
+\item{layer_structure}{A vector of integers, The number of nodes in each layer of the network (default = \code{c(256, 256, 256)}, denoting a three-layer network with 256 nodes per layer). Larger networks can learn more complex data structures but require longer training and are more prone to overfitting.}
+
+\item{learn_rate}{A number, the learning rate \eqn{\gamma} (default = 0.0001), which controls the size of the weight adjustment in each training epoch. In general, higher values reduce training time at the expense of less accurate results.}
+
+\item{input_drop}{A number between 0 and 1. The probability of corruption for input columns in training mini-batches (default = 0.8). Higher values increase training time but reduce the risk of overfitting. In our experience, values between 0.7 and 0.95 deliver the best performance.}
+
+\item{seed}{An integer, the value to which \proglang{Python}'s pseudo-random number generator is initialized. This enables users to ensure that data shuffling, weight and bias initialization, and missingness indicator vectors are reproducible.}
+
+\item{latent_space_size}{An integer, the number of normal dimensions used to parameterize the latent space.}
+
+\item{cont_adj}{A number, weights the importance of continuous variables in the loss function}
+
+\item{binary_adj}{A number, weights the importance of binary variables in the loss function}
+
+\item{softmax_adj}{A number, weights the importance of categorical variables in the loss function}
+
+\item{dropout_level}{A number between 0 and 1, determines the number of nodes dropped to "thin" the network}
+
+\item{vae_layer}{Boolean, specifies whether to include a variational autoencoder layer in the network}
+
+\item{vae_alpha}{A number, the strength of the prior imposed on the Kullback-Leibler divergence term in the variational autoencoder loss functions.}
+
+\item{vae_sample_var}{A number, the sampling variance of the normal distributions used to parameterize the latent space.}
 }
 \value{
 Returns object of class \code{midas} from which completed datasets can be drawn, using \code{rMIDAS::complete()}
@@ -42,7 +64,7 @@ train() builds and runs a MIDAS neural network on the supplied data.
 }
 \examples{
 # Generate raw data, with numeric, binary, and categorical variables
-raw_data = data.frame(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
+raw_data <- data.table(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
                       b = 1:1000,
                       c = sample(c("YES","NO",NA),1000,replace=TRUE),
                       d = runif(1000,1,10),
@@ -59,10 +81,17 @@ test_data <- convert(raw_data,
                      cat_cols = test_cat,
                      minmax_scale = TRUE)
 
-# Train imputation model
-test_model <- train(test_data)
+# Run imputations
+test_imp <- train(test_data)
 
 # Generate datasets
 complete_datasets <- complete(test_imp, m = 5)
+
+# Use Rubin's rules to combine m regression models
+midas_pool <- combine(formula = d~a+c+e+f,
+                      complete_datasets)
+
+
+
 }
 \keyword{import}

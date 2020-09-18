@@ -9,43 +9,24 @@
 #' @export
 #' @return Dataframe of combined model results.
 #' @examples
-#' # Generate raw data, with numeric, binary, and categorical variables
-#' raw_data = data.frame(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
-#'                       b = 1:1000,
-#'                       c = sample(c("YES","NO",NA),1000,replace=TRUE),
-#'                       d = runif(1000,1,10),
-#'                       e = sample(c("YES","NO"), 1000, replace = TRUE),
-#'                       f = sample(c("male","female","trans","other",NA), 1000, replace = TRUE))
-#'
-#' # Names of bin./cat. variables
-#' test_bin <- c("c","e")
-#' test_cat <- c("a","f")
-#'
-#' # Pre-process data
-#' test_data <- convert(raw_data,
-#'                      bin_cols = test_bin,
-#'                      cat_cols = test_cat,
-#'                      minmax_scale = TRUE)
-#'
-#' # Train imputation model
-#' test_model <- train(test_data)
-#'
-#' # Generate datasets
-#' complete_datasets <- complete(test_imp, m = 5)
-#'
-#' combine(formula = d~a+c+e+f, complete_datasets)
+#' set.seed(89)
+#' test_dfs <- lapply(1:5, function (x) data.frame(a = rnorm(1000),
+#'                                                 b = runif(1000),
+#'                                                 c = 2*rnorm(1000)))
+#'                                                 
+#' midas_res <- combine("a ~ b + c", df_list = test_dfs)
 combine <- function(formula, df_list, dof_adjust = TRUE, ...) {
 
   args <- list(...)
   if (is.null(args[['family']])) {
     cat("No model family specified -- assuming gaussian model.\n\n")
-    family <- gaussian
+    family <- stats::gaussian
   }
 
   models <- lapply(df_list,
                    function (x) {
 
-                     glm(formula, data = x, family = family, ...)
+                     stats::glm(formula, data = x, family = family, ...)
 
                    })
 
@@ -54,7 +35,7 @@ combine <- function(formula, df_list, dof_adjust = TRUE, ...) {
                          simplify = "cbind")
 
   mods_var <- sapply(models,
-                     function (x) diag(vcov(x)),
+                     function (x) diag(stats::vcov(x)),
                      simplify = "cbind")
 
   m <- length(models)
@@ -92,10 +73,14 @@ combine <- function(formula, df_list, dof_adjust = TRUE, ...) {
   std.err = Q_bar_se
   stat = est/std.err
 
-  combined_mat <- data.frame(estimate = est,
+  combined_mat <- data.frame(term = names(est),
+                             estimate = est,
                              std.error = std.err,
                              statistic =stat,
-                             p.value = 2 * pt(abs(stat), dof, lower.tail = FALSE))
+                             df = dof,
+                             p.value = 2 * stats::pt(abs(stat), dof, lower.tail = FALSE))
+  
+  rownames(combined_mat) <- NULL
 
   return(combined_mat)
 

@@ -2,11 +2,13 @@
 #'
 #' Import Midas class into R environment, and instantiates passed parameters.
 #' @keywords import
+#' @param ... Arguments passed to the MIDAS class for instantiating network
+#' @import reticulate
 #' @export
 #' @examples
 #' midas_base <- import_midas()
 import_midas <- function(...) {
-  midas_base <- reticulate::import_from_path("midas_base", path = system.file("python", package = packageName(), mustWork = TRUE))
+  midas_base <- reticulate::import_from_path("midas_base", path = base::system.file("python", package = utils::packageName(), mustWork = TRUE))
   midas_class <- midas_base$Midas
   attr(midas_class, "class") <- "midas"
   return(midas_class(...))
@@ -16,37 +18,26 @@ import_midas <- function(...) {
 #'
 #' train() builds and runs a MIDAS neural network on the supplied data.
 #' @keywords import
-#' @param data a data.frame (or coercible) object, or an object of class `midas_pre` created from rMIDAS::convert()
-#' @param binary_columns a vector of columns containing binary variables. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
-#' @param softmax_columns a list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
-#' @param training_epochs an integer indicating the number of forward passes to conduct when running the model.
-#' @param ... Further arguments that can be passed to instantiate a Midas model. Please see technical documentation for more information.
+#' @param data A data.frame (or coercible) object, or an object of class `midas_pre` created from rMIDAS::convert()
+#' @param binary_columns A vector of columns containing binary variables. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
+#' @param softmax_columns A list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
+#' @param training_epochs An integer indicating the number of forward passes to conduct when running the model.
+#' 
+#' @param layer_structure A vector of integers, The number of nodes in each layer of the network (default = `c(256, 256, 256)`, denoting a three-layer network with 256 nodes per layer). Larger networks can learn more complex data structures but require longer training and are more prone to overfitting.
+#' @param learn_rate A number, the learning rate \eqn{\gamma} (default = 0.0001), which controls the size of the weight adjustment in each training epoch. In general, higher values reduce training time at the expense of less accurate results.
+#' @param input_drop A number between 0 and 1. The probability of corruption for input columns in training mini-batches (default = 0.8). Higher values increase training time but reduce the risk of overfitting. In our experience, values between 0.7 and 0.95 deliver the best performance.
+#' @param seed An integer, the value to which \proglang{Python}'s pseudo-random number generator is initialized. This enables users to ensure that data shuffling, weight and bias initialization, and missingness indicator vectors are reproducible.
+#' @param latent_space_size An integer, the number of normal dimensions used to parameterize the latent space.
+#' @param cont_adj A number, weights the importance of continuous variables in the loss function
+#' @param binary_adj A number, weights the importance of binary variables in the loss function
+#' @param softmax_adj A number, weights the importance of categorical variables in the loss function
+#' @param dropout_level A number between 0 and 1, determines the number of nodes dropped to "thin" the network
+#' @param vae_layer Boolean, specifies whether to include a variational autoencoder layer in the network
+#' @param vae_alpha A number, the strength of the prior imposed on the Kullback-Leibler divergence term in the variational autoencoder loss functions.
+#' @param vae_sample_var A number, the sampling variance of the normal distributions used to parameterize the latent space.
 #' @export
 #' @return Returns object of class `midas` from which completed datasets can be drawn, using `rMIDAS::complete()`
-#' @examples
-#' # Generate raw data, with numeric, binary, and categorical variables
-#' raw_data = data.frame(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
-#'                       b = 1:1000,
-#'                       c = sample(c("YES","NO",NA),1000,replace=TRUE),
-#'                       d = runif(1000,1,10),
-#'                       e = sample(c("YES","NO"), 1000, replace = TRUE),
-#'                       f = sample(c("male","female","trans","other",NA), 1000, replace = TRUE))
-#'
-#' # Names of bin./cat. variables
-#' test_bin <- c("c","e")
-#' test_cat <- c("a","f")
-#'
-#' # Pre-process data
-#' test_data <- convert(raw_data,
-#'                      bin_cols = test_bin,
-#'                      cat_cols = test_cat,
-#'                      minmax_scale = TRUE)
-#'
-#' # Train imputation model
-#' test_model <- train(test_data)
-#'
-#' # Generate datasets
-#' complete_datasets <- complete(test_imp, m = 5)
+#' @example inst/examples/basic_workflow.R
 train <- function(data,
                    binary_columns = NULL,
                    softmax_columns = NULL,
@@ -56,12 +47,12 @@ train <- function(data,
                    learn_rate = 0.0004,
                    input_drop = 0.8,
                    seed=123L,
-                   vae_layer= FALSE,
                    latent_space_size = 4,
                    cont_adj= 1.0,
                    binary_adj= 1.0,
                    softmax_adj= 1.0,
                    dropout_level = 0.5,
+                   vae_layer= FALSE,
                    vae_alpha = 1.0,
                    vae_sample_var = 1.0) {
 
@@ -90,7 +81,8 @@ train <- function(data,
                            softmax_adj = softmax_adj,
                            dropout_level = dropout_level,
                            vae_alpha = vae_alpha,
-                           vae_sample_var = vae_sample_var)
+                           vae_sample_var = vae_sample_var,
+                           savepath= tempdir())
 
   transf_model = FALSE
   if (class(data) == "midas_pre") {
@@ -108,8 +100,7 @@ train <- function(data,
   if (transf_model) {
     mod_train$preproc <- data
   }
-
-
+  
   return(mod_train)
 
 }
@@ -121,18 +112,13 @@ train <- function(data,
 #' @param mid_obj object of class `midas`, the result of running `rMIDAS::impute()`
 #' @param m integer number of completed datasets required
 #' @param file path to save completed datasets. If `NULL`, completed datasets are only loaded into memory.
-#' @param file_root character vector used as root of completed datasets if a filepath is passed to function. If no file_root is provided, saved datasets will be saved as "file/midas_impute_<yymmdd_hhmmss>_[m].csv"
+#' @param file_root character vector used as root of completed datasets if a filepath is passed to function. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"
+#' @param unscale boolean indicating whether to unscale any columns that were previously minmax scaled between 0 and 1
+#' @param bin_label boolean indicating whether to add back labels for binary columns
+#' @param cat_coalesce boolean indicating whether to decode the one-hot encoded categorical variables
+#' @import data.table
 #' @export
-#' @examples
-#' midas_obj <- train(example_data,
-#'                     layer_structure = c(128,128),
-#'                     input_drop = 0.75,
-#'                     learn_rate = 0.0005,
-#'                     seed = 89)
-#'
-#' imp_data <- complete(midas_obj,
-#'                      m = 5)
-#'
+#' @example inst/examples/basic_workflow.R
 complete <- function(mid_obj,
                      m=10L,
                      unscale = TRUE,
@@ -220,7 +206,7 @@ complete <- function(mid_obj,
 
     }
 
-    sapply(1:m, function (y) data.table::fwrite(x=dfs[[y]], file = paste0(file,"/",file_root,"_",y,".csv")))
+    sapply(1:m, function (y) data.table::fwrite(x=draws_post[[y]], file = paste0(file,"/",file_root,"_",y,".csv")))
   }
 
   return(draws_post)

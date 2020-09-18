@@ -15,6 +15,7 @@
 #' * \code{bin_list} -- vector of binary variable names
 #' * \code{cat_lists} -- embedded list of one-hot encoded categorical variable names
 #' * \code{minmax_params} -- list of min. and max. values for each numeric object scaled
+#' @import data.table
 #' @export
 #' @examples
 #' data = data.frame(a = sample(c("red","yellow","blue",NA),100, replace = TRUE),
@@ -137,6 +138,7 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
 #'
 #' Helper function to convert `NA` values in a data.frame to `NaN`. This ensures the correct conversion of missing values when reticulate converts R objects to their Python equivalent. See the reticulate package documentation on type conversions for more information.
 #' @keywords preprocessing
+#' @param df Data.frame or coercible
 #' @export
 #' @examples
 #' reticulate::r_to_py(data.frame(NA))
@@ -214,6 +216,7 @@ add_bin_labels <- function(x, one, zero) {
 #' @keywords postprocessing
 #' @param X a data.frame, data.table or matrix, for a single variable.
 #' @param var_name a character string, with the original variable label
+#' @import data.table
 coalesce_one_hot <- function(X, var_name) {
 
   X_copy <- data.table::copy(X)

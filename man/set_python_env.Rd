@@ -4,7 +4,7 @@
 \alias{set_python_env}
 \title{Configure python version}
 \usage{
-set_python_env(path = "~/.path/to/python/binary")
+set_python_env(path, type = "auto", exact = FALSE, ...)
 }
 \arguments{
 \item{path}{Path to python binary if \code{type == "auto"}, path to virtualenv if \code{type == "virtualenv"}, or the name of a Conda environment if \verb{type=="condaenv}}
@@ -12,11 +12,18 @@ set_python_env(path = "~/.path/to/python/binary")
 \item{type}{One of 'auto','virtualenv','condaenv'.}
 
 \item{exact}{Boolean. If \code{TRUE} then only load exact match from \code{path}, otherwise allow reticulate to scan for other versions.}
+
+\item{...}{Further argument passed to reticulate::use_condaenv() for \code{conda} executable if \code{type == "condaenv"}.}
 }
 \description{
 This function allows users to set a custom python binary, virtualenv, or Conda environment.
 }
 \details{
 Users comfortable with reticulate may wish to configure Python manually using reticulate, and then call \code{mid_py_setup()} to check/install required Python dependencies for rMIDAS.
+}
+\examples{
+\dontrun{
+set_python_env(path = "~/.path/to/python/binary", type = "auto", exact = FALSE)
+}
 }
 \keyword{setup}

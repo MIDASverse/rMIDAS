@@ -19,22 +19,49 @@ complete(
 
 \item{m}{integer number of completed datasets required}
 
+\item{unscale}{boolean indicating whether to unscale any columns that were previously minmax scaled between 0 and 1}
+
+\item{bin_label}{boolean indicating whether to add back labels for binary columns}
+
+\item{cat_coalesce}{boolean indicating whether to decode the one-hot encoded categorical variables}
+
 \item{file}{path to save completed datasets. If \code{NULL}, completed datasets are only loaded into memory.}
 
-\item{file_root}{character vector used as root of completed datasets if a filepath is passed to function. If no file_root is provided, saved datasets will be saved as "file/midas_impute_<yymmdd_hhmmss>_\link{m}.csv"}
+\item{file_root}{character vector used as root of completed datasets if a filepath is passed to function. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"}
 }
 \description{
 Having trained an imputation model, complete() produces \code{m} completed datasets, saved as a list.
 }
 \examples{
-midas_obj <- train(example_data,
-                    layer_structure = c(128,128),
-                    input_drop = 0.75,
-                    learn_rate = 0.0005,
-                    seed = 89)
+# Generate raw data, with numeric, binary, and categorical variables
+raw_data <- data.table(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
+                      b = 1:1000,
+                      c = sample(c("YES","NO",NA),1000,replace=TRUE),
+                      d = runif(1000,1,10),
+                      e = sample(c("YES","NO"), 1000, replace = TRUE),
+                      f = sample(c("male","female","trans","other",NA), 1000, replace = TRUE))
 
-imp_data <- complete(midas_obj,
-                     m = 5)
+# Names of bin./cat. variables
+test_bin <- c("c","e")
+test_cat <- c("a","f")
+
+# Pre-process data
+test_data <- convert(raw_data,
+                     bin_cols = test_bin,
+                     cat_cols = test_cat,
+                     minmax_scale = TRUE)
+
+# Run imputations
+test_imp <- train(test_data)
+
+# Generate datasets
+complete_datasets <- complete(test_imp, m = 5)
+
+# Use Rubin's rules to combine m regression models
+midas_pool <- combine(formula = d~a+c+e+f,
+                      complete_datasets)
+
+
 
 }
 \keyword{impute}
