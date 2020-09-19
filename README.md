@@ -48,7 +48,7 @@ use the code below to install the development version:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("tidyverse/dplyr")
+devtools::install_github("MIDASverse/rMIDAS")
 ```
 
 Note that rMIDAS uses the
