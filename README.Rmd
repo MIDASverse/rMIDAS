@@ -47,7 +47,7 @@ rMIDAS should be available on CRAN very soon. In the meantime, you can use the c
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("tidyverse/dplyr")
+devtools::install_github("MIDASverse/rMIDAS")
 ```
 
 Note that rMIDAS uses the [reticulate](https://github.com/rstudio/reticulate) package to interface with Python. Users must have Python 3.X installed in order to run MIDAS. rMIDAS will automatically try to find Python 3 unless users specify their own version, using the following code:
