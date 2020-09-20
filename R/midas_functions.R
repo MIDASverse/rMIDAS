@@ -8,7 +8,7 @@
 #' @examples
 #' midas_base <- import_midas()
 import_midas <- function(...) {
-  midas_base <- reticulate::import_from_path("midas_base", path = base::system.file("python", package = utils::packageName(), mustWork = TRUE))
+  midas_base <- reticulate::import_from_path("midas_base", path = system.file("python", package = "rMIDAS", mustWork = TRUE))
   midas_class <- midas_base$Midas
   attr(midas_class, "class") <- "midas"
   return(midas_class(...))
@@ -22,7 +22,7 @@ import_midas <- function(...) {
 #' @param binary_columns A vector of columns containing binary variables. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
 #' @param softmax_columns A list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
 #' @param training_epochs An integer indicating the number of forward passes to conduct when running the model.
-#' 
+#'
 #' @param layer_structure A vector of integers, The number of nodes in each layer of the network (default = `c(256, 256, 256)`, denoting a three-layer network with 256 nodes per layer). Larger networks can learn more complex data structures but require longer training and are more prone to overfitting.
 #' @param learn_rate A number, the learning rate \eqn{\gamma} (default = 0.0001), which controls the size of the weight adjustment in each training epoch. In general, higher values reduce training time at the expense of less accurate results.
 #' @param input_drop A number between 0 and 1. The probability of corruption for input columns in training mini-batches (default = 0.8). Higher values increase training time but reduce the risk of overfitting. In our experience, values between 0.7 and 0.95 deliver the best performance.
@@ -42,6 +42,7 @@ train <- function(data,
                    binary_columns = NULL,
                    softmax_columns = NULL,
                    training_epochs = 10L,
+
                    # MIDAS model parameters
                    layer_structure = c(256,256,256),
                    learn_rate = 0.0004,
@@ -58,7 +59,6 @@ train <- function(data,
 
   ## Parameters not integrated:
   # train_batch = 16,
-  # savepath= 'tmp/MIDAS',
   # output_layers= 'reversed',
   # loss_scale= 1,
   # init_scale= 1,
@@ -69,6 +69,8 @@ train <- function(data,
   # act = tf.nn.elu,
   # noise_type = 'bernoulli',
   # kld_min = 0.01) {
+
+  # NB: savepath overwritten to R tmp directory to ensure CRAN compatibility
 
   mod_inst <- import_midas(layer_structure = as.integer(layer_structure),
                            learn_rate = learn_rate,
@@ -86,12 +88,15 @@ train <- function(data,
 
   transf_model = FALSE
   if (class(data) == "midas_pre") {
-    binary_columns = data$bin_list
-    softmax_columns = data$cat_lists
+    binary_columns <- data$bin_list
+    softmax_columns <- data$cat_lists
+    data_in <- data$data
     transf_model = TRUE
+  } else {
+    data_in <- data
   }
 
-  mod_build <- mod_inst$build_model(na_to_nan(data$data),
+  mod_build <- mod_inst$build_model(na_to_nan(data_in),
                                     softmax_columns = softmax_columns,
                                     binary_columns = binary_columns)
 
@@ -100,7 +105,7 @@ train <- function(data,
   if (transf_model) {
     mod_train$preproc <- data
   }
-  
+
   return(mod_train)
 
 }
@@ -210,5 +215,124 @@ complete <- function(mid_obj,
   }
 
   return(draws_post)
+}
+
+
+
+#' Perform overimputation diagnostic test
+#'
+#' `overimpute()` spikes additional missingness into the input data and reports imputation accuracy at training intervals specified by the user.
+#' `overimpute()` works like `train()` -- users must specify input data, binary and categorical columns (if data is not generated via `convert()`, model parameters for the neural network, and then overimputation parameters (see below for full details).
+#'
+#' Accuracy is measured as the RMSE of imputed values versus actual values for continuous variables and classification error for categorical variables (i.e., the fraction of correctly predicted classes subtracted from 1).
+#' Both metrics are reported in two forms:
+#'   1. their summed value over all Monte Carlo samples from the estimated missing-data posterior -- "Aggregated RMSE" and "Aggregated softmax error'';
+#'   2. their aggregated value divided by the number of such samples -- "Individual RMSE" and "Individual softmax error".
+#'
+#' In the final model, we recommend selecting the number of training epochs that minimizes the average value of these metrics --- weighted by the proportion (or substantive importance) of continuous and categorical variables --- in the overimputation exercise.  This ``early stopping'' rule reduces the risk of overtraining and thus, in effect, serves as an extra layer of regularization in the network.
+#' @keywords impute
+#' @param spikein A number between 0 and 1; the proportion of observed values in the input dataset to be randomly removed.
+#' @param training_epochs An integer, specifying the number of overimputation training epochs.
+#' @param report_ival An integer, specifying the number of overimputation training epochs between calculations of loss. Shorter intervals provide a more granular view of model performance but slow down the overimputation process.
+#' @param plot_vars Boolean, specifies whether to plot the distribution of original versus overimputed values. This takes the form of a density plot for continuous variables and a barplot for categorical variables (showing proportions of each class).
+#' @param skip_plot Boolean, specifies whether to suppress the main graphical output. This may be desirable when users are conducting a series of overimputation exercises and are primarily interested in the console output. **Note**, when `skip_plot = FALSE`, users must manually close the resulting pyplot window before the code will terminate.
+#' @param spike_seed,seed An integer, to initialize the pseudo-random number generators. Separate seeds can be provided for the spiked-in missingness and imputation, otherwise `spike_seed` is set to `seed` (default = 123L).
+#' @inheritParams train
+#' @seealso \code{\link{train}} for the main imputation function.
+#' @example inst/examples/overimputation.R
+overimpute <- function(# Input data
+                       data,
+                       binary_columns = NULL,
+                       softmax_columns = NULL,
+
+                       # Overimputation parameters
+                       spikein = 0.3,
+                       training_epochs,
+                       report_ival = 35,
+                       plot_vars = FALSE,
+                       skip_plot = FALSE,
+                       spike_seed = NULL,
+
+                       # MIDAS model parameters
+                       layer_structure = c(256,256,256),
+                       learn_rate = 0.0004,
+                       input_drop = 0.8,
+                       seed=123L,
+                       latent_space_size = 4,
+                       cont_adj= 1.0,
+                       binary_adj= 1.0,
+                       softmax_adj= 1.0,
+                       dropout_level = 0.5,
+                       vae_layer= FALSE,
+                       vae_alpha = 1.0,
+                       vae_sample_var = 1.0
+                       ) {
+
+  # Not changeable currently:
+  # report_samples
+
+  # NB: plot_main not configurable to ensure compatibility between Python and R output.
+
+  if (!(is.numeric(training_epochs))) {
+
+     stop("`training_epochs' must be an integer, or coercible to an integer")
+
+  }
+
+  if (!(is.numeric(report_ival))) {
+
+   stop("`report_ival' must be an integer, or coercible to an integer")
+
+  }
+
+  if (!is.numeric(spike_seed)) {
+
+    spike_seed = seed
+
+  }
+
+
+  mod_inst <- import_midas(layer_structure = as.integer(layer_structure),
+                           learn_rate = learn_rate,
+                           input_drop = input_drop,
+                           seed = as.integer(seed),
+                           vae_layer = vae_layer,
+                           latent_space_size = as.integer(latent_space_size),
+                           cont_adj = cont_adj,
+                           binary_adj = binary_adj,
+                           softmax_adj = softmax_adj,
+                           dropout_level = dropout_level,
+                           vae_alpha = vae_alpha,
+                           vae_sample_var = vae_sample_var,
+                           savepath= tempdir())
+
+  transf_model = FALSE
+  if (class(data) == "midas_pre") {
+    binary_columns = data$bin_list
+    softmax_columns = data$cat_lists
+    transf_model = TRUE
+  }
+
+  mod_build <- mod_inst$build_model(na_to_nan(data$data),
+                                    softmax_columns = softmax_columns,
+                                    binary_columns = binary_columns)
+
+  matplotlib <- import("matplotlib", convert = TRUE)
+  matplot_render <- try(matplotlib$use("TkAgg"), silent = TRUE)
+
+  if ("try-error" %in% class(matplot_render)) {
+    stop("Cannot load TkAgg, which is needed to render the overimputation plot.\n You can try installing TkAgg by running the following at the command line: `sudo apt-get install python3-tk' ")
+  }
+
+  mod_overimp <- mod_build$overimpute(spikein = spikein,
+                                      training_epochs = as.integer(training_epochs),
+                                      report_ival = report_ival,
+                                      plot_vars = plot_vars,
+                                      skip_plot = skip_plot,
+                                      plot_main = FALSE,
+                                      spike_seed = as.integer(spike_seed))
+
+  return(mod_overimp)
+
 }
 
