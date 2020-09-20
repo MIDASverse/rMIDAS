@@ -40,7 +40,8 @@ data = data.frame(a = sample(c("red","yellow","blue",NA),100, replace = TRUE),
                   c = sample(c("YES","NO",NA),100,replace = TRUE),
                   d = runif(100),
                   e = sample(c("YES","NO"), 100, replace = TRUE),
-                  f = sample(c("male","female","trans","other",NA), 100, replace = TRUE))
+                  f = sample(c("male","female","trans","other",NA), 100, replace = TRUE),
+                  stringsAsFactors = FALSE)
 
 bin <- c("c","e")
 cat <- c("a","f")

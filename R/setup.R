@@ -10,51 +10,12 @@
   }
 }
 
-#' Configure python version
-#'
-#' This function allows users to set a custom python binary, virtualenv, or Conda environment.
-#'
-#' Users comfortable with reticulate may wish to configure Python manually using reticulate, and then call `mid_py_setup()` to check/install required Python dependencies for rMIDAS.
-#' @param type One of 'auto','virtualenv','condaenv'.
-#' @param path Path to python binary if `type == "auto"`, path to virtualenv if `type == "virtualenv"`, or the name of a Conda environment if `type=="condaenv`
-#' @param exact Boolean. If `TRUE` then only load exact match from `path`, otherwise allow reticulate to scan for other versions.
-#' @param ... Further argument passed to reticulate::use_condaenv() for `conda` executable if `type == "condaenv"`. 
-#' @keywords setup
-#' @export
-#' @examples 
-#' \dontrun{
-#' set_python_env(path = "~/.path/to/python/binary", type = "auto", exact = FALSE)
-#' }
-set_python_env <- function(path, type = "auto", exact = FALSE,...) {
-
-  if (type == "auto") {
-    set_py_attempt <- try(reticulate::use_python(python = path, required = exact),
-                          silent = TRUE)
-  } else if (type == "virtualenv") {
-    set_py_attempt <- try(reticulate::use_virtualenv(virtualenv = path, required = exact),
-                          silent = TRUE)
-  } else if (type == "condaenv") {
-    set_py_attempt <- try(reticulate::use_condaenv(condaenv = path, required = exact, ...),
-                          silent = TRUE)
-  } else {
-    stop("Type of configuration not recognised; 'type' should be one of 'auto','virtualenv','condaenv'")
-  }
-
-
-  if ("try-error" %in% class(set_py_attempt)) {
-    stop("Setting user-specified python environment '",path, "' failed.\n Please check the specified path and try again.")
-  } else {
-    message("Proceeding to check/install Python package dependencies.")
-    mid_py_setup()
-  }
-}
 
 #' Configure python for MIDAS imputation
 #'
 #' This function checks if the required Python dependencies are installed, and if not, checks with user before installing them.
 #' This function is called automatically within `set_python_env`, and should only need to be used when manually configuring python installs using reticulate.
 #' @keywords setup
-#' @export
 mid_py_setup <- function() {
   py_dep <- c("matplotlib","numpy","pandas","tensorflow==1.15","sklearn","random")
   py_pkgs <- gsub("==1.15","",py_dep)
@@ -96,5 +57,42 @@ mid_py_setup <- function() {
   }
 }
 
+#' Configure python version
+#'
+#' This function allows users to set a custom python binary, virtualenv, or Conda environment.
+#'
+#' Users comfortable with reticulate may wish to configure Python manually using reticulate, and then call `mid_py_setup()` to check/install required Python dependencies for rMIDAS.
+#' @param type Character string, one of 'auto' (for python binary),'virtualenv', or 'condaenv'
+#' @param path Character string, path to python binary if `type == "auto"`, path to virtualenv if `type == "virtualenv"`, or the name of a Conda environment if `type=="condaenv`
+#' @param exact Boolean. If `TRUE` then only load exact match from `path`, otherwise allow reticulate to scan for other versions.
+#' @param ... Further argument passed to reticulate::use_condaenv() for `conda` executable if `type == "condaenv"`.
+#' @keywords setup
+#' @export
+#' @examples
+#' \dontrun{
+#' set_python_env(path = "~/.path/to/python/binary", type = "auto", exact = FALSE)
+#' }
+set_python_env <- function(path, type = "auto", exact = FALSE,...) {
 
+  if (type == "auto") {
+    set_py_attempt <- try(reticulate::use_python(python = path, required = exact),
+                          silent = TRUE)
+  } else if (type == "virtualenv") {
+    set_py_attempt <- try(reticulate::use_virtualenv(virtualenv = path, required = exact),
+                          silent = TRUE)
+  } else if (type == "condaenv") {
+    set_py_attempt <- try(reticulate::use_condaenv(condaenv = path, required = exact, ...),
+                          silent = TRUE)
+  } else {
+    stop("Type of configuration not recognised; 'type' should be one of 'auto','virtualenv','condaenv'")
+  }
+
+
+  if ("try-error" %in% class(set_py_attempt)) {
+    stop("Setting user-specified python environment '",path, "' failed.\n Please check the specified path and try again.")
+  } else {
+    message("Proceeding to check/install Python package dependencies.")
+    mid_py_setup()
+  }
+}
 

@@ -1,22 +1,34 @@
 Package: rMIDAS
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Tom",
+Title: Multiple Imputation using Denoising Autoencoders
+Version: 0.0.1
+Authors@R: c(
+    person(given = "Thomas",
            family = "Robinson",
            role = c("aut", "cre"),
            email = "thomas.robinson@durham.ac.uk",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           comment = c(ORCID = "0000-0001-7097-1599")),
+    person(given = "Ranjit",
+           family = "Lall",
+           role = c("aut"),
+           email = "R.Lall@lse.ac.uk",
+           comment = c(ORCID = "0000-0003-1455-3506")),
+    person(given = "Alex",
+           family = "Stenlake",
+           role = c("ctb"))
+    )
+Description: This package allows users to impute missing data using 'MIDAS', a multiple imputation method using denoising autoencoders as documented in Lall and Robinson (2020) <doi:10.33774/apsa-2020-3tk40-v3>. MIDAS has significant accuracy and efficiency advantages compared to other multiple imputation strategies, particularly for when run on large datasets with many columns or categories. Alongside interfacing with Python to run the core algorithm, this package contains tools to process the data before and after model training, run imputation model diagnostics, generate multiple completed datasets, and estimate multiply-imputed regression models. 
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends:
-  data.table
+  R (>= 3.6.0),
+  data.table,
+  mltools,
+  reticulate
 Imports: 
-  reticulate,
-  mltools
 Suggests: 
     testthat
 License: Apache License (>= 2.0)
+URL: https://github.com/MIDASverse/rMIDAS
+BugReports: https://github.com/MIDASverse/rMIDAS/issues

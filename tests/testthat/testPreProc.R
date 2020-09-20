@@ -7,7 +7,8 @@ test_that("convert function works", {
 
   test_data <- data.frame(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
                           b = seq(0.265,1000),
-                          c = sample(c("YES","NO",NA),1000,replace=TRUE))
+                          c = sample(c("YES","NO",NA),1000,replace=TRUE),
+                          stringsAsFactors = FALSE)
 
   converted_data <- convert(test_data,
                            bin_cols = "c",

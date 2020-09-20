@@ -13,11 +13,8 @@ na_to_nan(df)
 Helper function to convert \code{NA} values in a data.frame to \code{NaN}. This ensures the correct conversion of missing values when reticulate converts R objects to their Python equivalent. See the reticulate package documentation on type conversions for more information.
 }
 \examples{
-reticulate::r_to_py(data.frame(NA))
-# returns 1x1 data.frame containing True
-
-na_conv <- na_to_nan(data.frame(NA))
-reticulate::r_to_py(na_conv)
-# Returns 1x1 data.frame containing nan
+\dontrun{
+na_conv <- na_to_nan(data.frame(a = c(1,NA,0,0,NA,NA)))
+}
 }
 \keyword{preprocessing}

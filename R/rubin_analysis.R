@@ -2,10 +2,10 @@
 #'
 #' `combine()` calculates *m* individual regression models, then applies "Rubin's Rules" (1987) to produce a single, combined estimate of the regression parameters and uncertainty.
 #' @keywords import
-#' @param formula a model formula or string coercible to a formula
-#' @param df_list a list of completed data.frames or objects coercible to data.frames
-#' @param dof_adjust a boolean, indicating whether or not to apply the Rubin and Barnard (1999) degrees of freedom adjustment for small-samples
-#' @param ... Further arguments passed onto `glm()`, enabling users to run other model families.
+#' @param formula A formula, or character string coercible to a formula
+#' @param df_list A list, containing data.frames or objects coercible to data.frames
+#' @param dof_adjust Boolean, indicating whether or not to apply the Rubin and Barnard (1999) degrees of freedom adjustment for small-samples
+#' @param ... Further arguments passed onto `glm()`
 #' @export
 #' @return Dataframe of combined model results.
 #' @examples
@@ -13,7 +13,7 @@
 #' test_dfs <- lapply(1:5, function (x) data.frame(a = rnorm(1000),
 #'                                                 b = runif(1000),
 #'                                                 c = 2*rnorm(1000)))
-#'                                                 
+#'
 #' midas_res <- combine("a ~ b + c", df_list = test_dfs)
 combine <- function(formula, df_list, dof_adjust = TRUE, ...) {
 
@@ -79,7 +79,7 @@ combine <- function(formula, df_list, dof_adjust = TRUE, ...) {
                              statistic =stat,
                              df = dof,
                              p.value = 2 * stats::pt(abs(stat), dof, lower.tail = FALSE))
-  
+
   rownames(combined_mat) <- NULL
 
   return(combined_mat)

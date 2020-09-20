@@ -1,12 +1,9 @@
 #' Instantiate Midas class
 #'
 #' Import Midas class into R environment, and instantiates passed parameters.
-#' @keywords import
+#' @keywords imputation
 #' @param ... Arguments passed to the MIDAS class for instantiating network
 #' @import reticulate
-#' @export
-#' @examples
-#' midas_base <- import_midas()
 import_midas <- function(...) {
   midas_base <- reticulate::import_from_path("midas_base", path = system.file("python", package = "rMIDAS", mustWork = TRUE))
   midas_class <- midas_base$Midas
@@ -16,12 +13,12 @@ import_midas <- function(...) {
 
 #' Train an imputation model using Midas
 #'
-#' train() builds and runs a MIDAS neural network on the supplied data.
-#' @keywords import
+#' Build and run a MIDAS neural network on the supplied missing data.
+#' @keywords imputation
 #' @param data A data.frame (or coercible) object, or an object of class `midas_pre` created from rMIDAS::convert()
-#' @param binary_columns A vector of columns containing binary variables. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
+#' @param binary_columns A vector of column names, containing binary variables. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
 #' @param softmax_columns A list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if `data` is a `midas_pre` object, this argument will be overwritten.
-#' @param training_epochs An integer indicating the number of forward passes to conduct when running the model.
+#' @param training_epochs An integer, indicating the number of forward passes to conduct when running the model.
 #'
 #' @param layer_structure A vector of integers, The number of nodes in each layer of the network (default = `c(256, 256, 256)`, denoting a three-layer network with 256 nodes per layer). Larger networks can learn more complex data structures but require longer training and are more prone to overfitting.
 #' @param learn_rate A number, the learning rate \eqn{\gamma} (default = 0.0001), which controls the size of the weight adjustment in each training epoch. In general, higher values reduce training time at the expense of less accurate results.
@@ -113,14 +110,14 @@ train <- function(data,
 #' Impute missing values using imputation model
 #'
 #' Having trained an imputation model, complete() produces `m` completed datasets, saved as a list.
-#' @keywords impute
+#' @keywords imputation
 #' @param mid_obj object of class `midas`, the result of running `rMIDAS::impute()`
-#' @param m integer number of completed datasets required
+#' @param m An integer, the number of completed datasets required
 #' @param file path to save completed datasets. If `NULL`, completed datasets are only loaded into memory.
-#' @param file_root character vector used as root of completed datasets if a filepath is passed to function. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"
-#' @param unscale boolean indicating whether to unscale any columns that were previously minmax scaled between 0 and 1
-#' @param bin_label boolean indicating whether to add back labels for binary columns
-#' @param cat_coalesce boolean indicating whether to decode the one-hot encoded categorical variables
+#' @param file_root A character string, used as the root for all filenames when saving completed datasets if a `filepath` is supplied. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"
+#' @param unscale Boolean, indicating whether to unscale any columns that were previously minmax scaled between 0 and 1
+#' @param bin_label Boolean, indicating whether to add back labels for binary columns
+#' @param cat_coalesce Boolean, indicating whether to decode the one-hot encoded categorical variables
 #' @import data.table
 #' @export
 #' @example inst/examples/basic_workflow.R
@@ -230,8 +227,8 @@ complete <- function(mid_obj,
 #'   2. their aggregated value divided by the number of such samples -- "Individual RMSE" and "Individual softmax error".
 #'
 #' In the final model, we recommend selecting the number of training epochs that minimizes the average value of these metrics --- weighted by the proportion (or substantive importance) of continuous and categorical variables --- in the overimputation exercise.  This ``early stopping'' rule reduces the risk of overtraining and thus, in effect, serves as an extra layer of regularization in the network.
-#' @keywords impute
-#' @param spikein A number between 0 and 1; the proportion of observed values in the input dataset to be randomly removed.
+#' @keywords diagnostics
+#' @param spikein A numeric between 0 and 1; the proportion of observed values in the input dataset to be randomly removed.
 #' @param training_epochs An integer, specifying the number of overimputation training epochs.
 #' @param report_ival An integer, specifying the number of overimputation training epochs between calculations of loss. Shorter intervals provide a more granular view of model performance but slow down the overimputation process.
 #' @param plot_vars Boolean, specifies whether to plot the distribution of original versus overimputed values. This takes the form of a density plot for continuous variables and a barplot for categorical variables (showing proportions of each class).

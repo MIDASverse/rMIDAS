@@ -1,4 +1,4 @@
-#' Pro-process data for Midas imputation
+#' Pre-process data for Midas imputation
 #'
 #' `convert` pre-processes datasets to enable user-friendly interface with the main `impute` function.
 #'
@@ -6,16 +6,16 @@
 #' 1. Utilises data.table for fast read-in and processing of large datasets
 #' 2. Outputs an object that can be passed directly to `impute` without re-specifying column names etc.
 #' @keywords preprocessing
-#' @param data Either an object of class `data.frame`, `data.table`, or a path to a regular, delimited file.
-#' @param bin_cols a vector of column names corresponding to binary variables
-#' @param cat_cols a vector of column names corresponding to categorical variables
-#' @param minmax_scale a logical value indicating whether to scale all numeric columns between 0 and 1, to improve model convergence
+#' @param data Either an object of class `data.frame`, `data.table`, or a path to a regular, delimited file
+#' @param bin_cols,cat_cols A vector, column names corresponding to binary and categorical variables respectively
+#' @param minmax_scale Boolean, indicating whether to scale all numeric columns between 0 and 1, to improve model convergence
 #' @return Returns custom S3 object of class 'midas_preproc' containing:
 #' * \code{data} -- processed version of input data,
 #' * \code{bin_list} -- vector of binary variable names
 #' * \code{cat_lists} -- embedded list of one-hot encoded categorical variable names
 #' * \code{minmax_params} -- list of min. and max. values for each numeric object scaled
 #' @import data.table
+#' @import mltools
 #' @export
 #' @examples
 #' data = data.frame(a = sample(c("red","yellow","blue",NA),100, replace = TRUE),
@@ -23,7 +23,8 @@
 #'                   c = sample(c("YES","NO",NA),100,replace = TRUE),
 #'                   d = runif(100),
 #'                   e = sample(c("YES","NO"), 100, replace = TRUE),
-#'                   f = sample(c("male","female","trans","other",NA), 100, replace = TRUE))
+#'                   f = sample(c("male","female","trans","other",NA), 100, replace = TRUE),
+#'                   stringsAsFactors = FALSE)
 #'
 #' bin <- c("c","e")
 #' cat <- c("a","f")
@@ -138,15 +139,12 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
 #'
 #' Helper function to convert `NA` values in a data.frame to `NaN`. This ensures the correct conversion of missing values when reticulate converts R objects to their Python equivalent. See the reticulate package documentation on type conversions for more information.
 #' @keywords preprocessing
-#' @param df Data.frame or coercible
+#' @param df Data frame, or object coercible to one.
 #' @export
 #' @examples
-#' reticulate::r_to_py(data.frame(NA))
-#' # returns 1x1 data.frame containing True
-#'
-#' na_conv <- na_to_nan(data.frame(NA))
-#' reticulate::r_to_py(na_conv)
-#' # Returns 1x1 data.frame containing nan
+#' \dontrun{
+#' na_conv <- na_to_nan(data.frame(a = c(1,NA,0,0,NA,NA)))
+#' }
 na_to_nan <- function(df) {
   as.data.frame(apply(df,2, function(x) ifelse(is.na(x),NaN,x)))
 }
@@ -155,7 +153,7 @@ na_to_nan <- function(df) {
 #'
 #' Helper function to scale numeric variables. Aids convergence of Midas model.
 #' @keywords preprocessing
-#' @param x a numeric vector or column.
+#' @param x A numeric vector or column.
 #' @export
 #' @examples
 #' ex_num <- runif(100,1,10)
@@ -171,9 +169,9 @@ col_minmax <- function(x) {
 #'
 #' Helper function to reverse minmax scaling applied in the pre-processing step.
 #' @keywords postprocessing
-#' @param s a numeric vector or column, scaled between 0 and 1.
-#' @param s_min a numeric value, the minimum of the unscaled variable
-#' @param s_max a numeric value, the maximum of the unscaled variable
+#' @param s A numeric vector or column, scaled between 0 and 1.
+#' @param s_min A numeric value, the minimum of the unscaled vector
+#' @param s_max A numeric value, the maximum of the unscaled vector
 #' @export
 #' @examples
 #' ex_num <- runif(100,1,10)
@@ -192,9 +190,9 @@ undo_minmax <- function(s, s_min, s_max) {
 #'
 #' Helper function to re-apply binary variable labels post-imputation.
 #' @keywords postprocessing
-#' @param x a numeric vector or column, scaled between 0 and 1.
-#' @param one a character string, the label associated with binary value 1
-#' @param zero a character string, the label associated with binary value 0
+#' @param x A numeric vector or column, scaled between 0 and 1
+#' @param one A character string, the label associated with binary value 1
+#' @param zero A character string, the label associated with binary value 0
 #' @export
 #' @examples
 #' ex_bin <- --c(1,0,0,1,1,0,0,1,0)
@@ -214,8 +212,8 @@ add_bin_labels <- function(x, one, zero) {
 #'
 #' Helper function to reverse one-hot encoding post-imputation.
 #' @keywords postprocessing
-#' @param X a data.frame, data.table or matrix, for a single variable.
-#' @param var_name a character string, with the original variable label
+#' @param X A data.frame, data.table or matrix, for a single variable
+#' @param var_name A character string, with the original variable label
 #' @import data.table
 coalesce_one_hot <- function(X, var_name) {
 

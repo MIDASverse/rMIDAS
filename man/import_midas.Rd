@@ -12,7 +12,4 @@ import_midas(...)
 \description{
 Import Midas class into R environment, and instantiates passed parameters.
 }
-\examples{
-midas_base <- import_midas()
-}
 \keyword{import}

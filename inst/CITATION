@@ -1,0 +1,10 @@
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+         title = "{rMIDAS}: Multiple Imputation using Denoising Autoencoders",
+         author = c(person("Thomas", "Robinson"),
+                    person("Ranjit", "Lall"),
+                    person("Alex", "Stenlake")),
+         year = year,
+         note = note)

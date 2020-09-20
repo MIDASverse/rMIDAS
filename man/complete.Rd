@@ -34,6 +34,8 @@ Having trained an imputation model, complete() produces \code{m} completed datas
 }
 \examples{
 # Generate raw data, with numeric, binary, and categorical variables
+
+\dontrun{
 raw_data <- data.table(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
                       b = 1:1000,
                       c = sample(c("YES","NO",NA),1000,replace=TRUE),
@@ -60,8 +62,7 @@ complete_datasets <- complete(test_imp, m = 5)
 # Use Rubin's rules to combine m regression models
 midas_pool <- combine(formula = d~a+c+e+f,
                       complete_datasets)
-
-
+}
 
 }
 \keyword{impute}
