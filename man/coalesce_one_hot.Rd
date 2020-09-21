@@ -7,9 +7,9 @@
 coalesce_one_hot(X, var_name)
 }
 \arguments{
-\item{X}{a data.frame, data.table or matrix, for a single variable.}
+\item{X}{A data.frame, data.table or matrix, for a single variable}
 
-\item{var_name}{a character string, with the original variable label}
+\item{var_name}{A character string, with the original variable label}
 }
 \description{
 Helper function to reverse one-hot encoding post-imputation.

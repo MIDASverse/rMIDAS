@@ -7,11 +7,11 @@
 add_bin_labels(x, one, zero)
 }
 \arguments{
-\item{x}{a numeric vector or column, scaled between 0 and 1.}
+\item{x}{A numeric vector or column, scaled between 0 and 1}
 
-\item{one}{a character string, the label associated with binary value 1}
+\item{one}{A character string, the label associated with binary value 1}
 
-\item{zero}{a character string, the label associated with binary value 0}
+\item{zero}{A character string, the label associated with binary value 0}
 }
 \description{
 Helper function to re-apply binary variable labels post-imputation.

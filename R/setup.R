@@ -57,7 +57,7 @@ mid_py_setup <- function() {
   }
 }
 
-#' Configure python version
+#' Manually configure python version
 #'
 #' This function allows users to set a custom python binary, virtualenv, or Conda environment.
 #'

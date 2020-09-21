@@ -2,18 +2,16 @@
 % Please edit documentation in R/pre_processing.R
 \name{convert}
 \alias{convert}
-\title{Pro-process data for Midas imputation}
+\title{Pre-process data for Midas imputation}
 \usage{
 convert(data, bin_cols, cat_cols, minmax_scale = FALSE)
 }
 \arguments{
-\item{data}{Either an object of class \code{data.frame}, \code{data.table}, or a path to a regular, delimited file.}
+\item{data}{Either an object of class \code{data.frame}, \code{data.table}, or a path to a regular, delimited file}
 
-\item{bin_cols}{a vector of column names corresponding to binary variables}
+\item{bin_cols, cat_cols}{A vector, column names corresponding to binary and categorical variables respectively}
 
-\item{cat_cols}{a vector of column names corresponding to categorical variables}
-
-\item{minmax_scale}{a logical value indicating whether to scale all numeric columns between 0 and 1, to improve model convergence}
+\item{minmax_scale}{Boolean, indicating whether to scale all numeric columns between 0 and 1, to improve model convergence}
 }
 \value{
 Returns custom S3 object of class 'midas_preproc' containing:

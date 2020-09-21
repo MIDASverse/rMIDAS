@@ -26,11 +26,11 @@ train(
 \arguments{
 \item{data}{A data.frame (or coercible) object, or an object of class \code{midas_pre} created from rMIDAS::convert()}
 
-\item{binary_columns}{A vector of columns containing binary variables. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
+\item{binary_columns}{A vector of column names, containing binary variables. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
 
 \item{softmax_columns}{A list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
 
-\item{training_epochs}{An integer indicating the number of forward passes to conduct when running the model.}
+\item{training_epochs}{An integer, indicating the number of forward passes to conduct when running the model.}
 
 \item{layer_structure}{A vector of integers, The number of nodes in each layer of the network (default = \code{c(256, 256, 256)}, denoting a three-layer network with 256 nodes per layer). Larger networks can learn more complex data structures but require longer training and are more prone to overfitting.}
 
@@ -60,7 +60,7 @@ train(
 Returns object of class \code{midas} from which completed datasets can be drawn, using \code{rMIDAS::complete()}
 }
 \description{
-train() builds and runs a MIDAS neural network on the supplied data.
+Build and run a MIDAS neural network on the supplied missing data.
 }
 \examples{
 # Generate raw data, with numeric, binary, and categorical variables
@@ -95,4 +95,4 @@ midas_pool <- combine(formula = d~a+c+e+f,
 }
 
 }
-\keyword{import}
+\keyword{imputation}

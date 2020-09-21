@@ -9,7 +9,7 @@
 #' @param data Either an object of class `data.frame`, `data.table`, or a path to a regular, delimited file
 #' @param bin_cols,cat_cols A vector, column names corresponding to binary and categorical variables respectively
 #' @param minmax_scale Boolean, indicating whether to scale all numeric columns between 0 and 1, to improve model convergence
-#' @return Returns custom S3 object of class 'midas_preproc' containing:
+#' @return Returns custom S3 object of class `midas_preproc' containing:
 #' * \code{data} -- processed version of input data,
 #' * \code{bin_list} -- vector of binary variable names
 #' * \code{cat_lists} -- embedded list of one-hot encoded categorical variable names
@@ -135,7 +135,7 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
 
 
 
-#' Replace missing values
+#' Replace NA missing values with NaN
 #'
 #' Helper function to convert `NA` values in a data.frame to `NaN`. This ensures the correct conversion of missing values when reticulate converts R objects to their Python equivalent. See the reticulate package documentation on type conversions for more information.
 #' @keywords preprocessing
@@ -149,7 +149,7 @@ na_to_nan <- function(df) {
   as.data.frame(apply(df,2, function(x) ifelse(is.na(x),NaN,x)))
 }
 
-#' Scales numeric vector between 0 and 1
+#' Scale numeric vector between 0 and 1
 #'
 #' Helper function to scale numeric variables. Aids convergence of Midas model.
 #' @keywords preprocessing
@@ -195,7 +195,7 @@ undo_minmax <- function(s, s_min, s_max) {
 #' @param zero A character string, the label associated with binary value 0
 #' @export
 #' @examples
-#' ex_bin <- --c(1,0,0,1,1,0,0,1,0)
+#' ex_bin <- c(1,0,0,1,1,0,0,1,0)
 #' cat <- "cat"
 #' dog <- "dog"
 #'

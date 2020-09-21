@@ -7,7 +7,7 @@
 col_minmax(x)
 }
 \arguments{
-\item{x}{a numeric vector or column.}
+\item{x}{A numeric vector or column.}
 }
 \description{
 Helper function to scale numeric variables. Aids convergence of Midas model.

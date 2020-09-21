@@ -20,6 +20,7 @@
   # Overimpute
   test_imp <- overimpute(test_data,
                          spikein = 0.3,
+                         plot_vars = TRUE,
                          training_epochs = 10,
                          report_ival = 5)
 

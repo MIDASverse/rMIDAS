@@ -31,11 +31,11 @@ overimpute(
 \arguments{
 \item{data}{A data.frame (or coercible) object, or an object of class \code{midas_pre} created from rMIDAS::convert()}
 
-\item{binary_columns}{A vector of columns containing binary variables. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
+\item{binary_columns}{A vector of column names, containing binary variables. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
 
 \item{softmax_columns}{A list of lists, each internal list corresponding to a single categorical variable and containing names of the one-hot encoded variable names. NOTE: if \code{data} is a \code{midas_pre} object, this argument will be overwritten.}
 
-\item{spikein}{A number between 0 and 1; the proportion of observed values in the input dataset to be randomly removed.}
+\item{spikein}{A numeric between 0 and 1; the proportion of observed values in the input dataset to be randomly removed.}
 
 \item{training_epochs}{An integer, specifying the number of overimputation training epochs.}
 
@@ -106,6 +106,7 @@ In the final model, we recommend selecting the number of training epochs that mi
   # Overimpute
   test_imp <- overimpute(test_data,
                          spikein = 0.3,
+                         plot_vars = TRUE,
                          training_epochs = 10,
                          report_ival = 5)
 
@@ -116,4 +117,4 @@ In the final model, we recommend selecting the number of training epochs that mi
 \seealso{
 \code{\link{train}} for the main imputation function.
 }
-\keyword{impute}
+\keyword{diagnostics}

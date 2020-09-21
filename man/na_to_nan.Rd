@@ -7,7 +7,7 @@
 na_to_nan(df)
 }
 \arguments{
-\item{df}{Data.frame or coercible}
+\item{df}{Data frame, or object coercible to one.}
 }
 \description{
 Helper function to convert \code{NA} values in a data.frame to \code{NaN}. This ensures the correct conversion of missing values when reticulate converts R objects to their Python equivalent. See the reticulate package documentation on type conversions for more information.

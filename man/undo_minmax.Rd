@@ -7,11 +7,11 @@
 undo_minmax(s, s_min, s_max)
 }
 \arguments{
-\item{s}{a numeric vector or column, scaled between 0 and 1.}
+\item{s}{A numeric vector or column, scaled between 0 and 1.}
 
-\item{s_min}{a numeric value, the minimum of the unscaled variable}
+\item{s_min}{A numeric value, the minimum of the unscaled vector}
 
-\item{s_max}{a numeric value, the maximum of the unscaled variable}
+\item{s_max}{A numeric value, the maximum of the unscaled vector}
 }
 \description{
 Helper function to reverse minmax scaling applied in the pre-processing step.

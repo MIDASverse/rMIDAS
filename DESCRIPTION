@@ -1,11 +1,11 @@
 Package: rMIDAS
 Title: Multiple Imputation using Denoising Autoencoders
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: c(
     person(given = "Thomas",
            family = "Robinson",
            role = c("aut", "cre"),
-           email = "thomas.robinson@durham.ac.uk",
+           email = "ts.robinson1994@gmail.com",
            comment = c(ORCID = "0000-0001-7097-1599")),
     person(given = "Ranjit",
            family = "Lall",
@@ -16,7 +16,7 @@ Authors@R: c(
            family = "Stenlake",
            role = c("ctb"))
     )
-Description: This package allows users to impute missing data using 'MIDAS', a multiple imputation method using denoising autoencoders as documented in Lall and Robinson (2020) <doi:10.33774/apsa-2020-3tk40-v3>. MIDAS has significant accuracy and efficiency advantages compared to other multiple imputation strategies, particularly for when run on large datasets with many columns or categories. Alongside interfacing with Python to run the core algorithm, this package contains tools to process the data before and after model training, run imputation model diagnostics, generate multiple completed datasets, and estimate multiply-imputed regression models. 
+Description: A tool that allows users to impute missing data with 'MIDAS', a multiple imputation method using denoising autoencoders as documented in Lall and Robinson (2020) <doi:10.33774/apsa-2020-3tk40-v3>. This method has significant accuracy and efficiency advantages over other multiple imputation strategies, particularly when run on large datasets with many columns or categories. Alongside interfacing with Python to run the core algorithm, this package contains tools to process the data before and after model training, run imputation model diagnostics, generate multiple completed datasets, and estimate multiply-imputed regression models. 
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

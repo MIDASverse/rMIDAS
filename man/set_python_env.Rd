@@ -7,9 +7,9 @@
 set_python_env(path, type = "auto", exact = FALSE, ...)
 }
 \arguments{
-\item{path}{Path to python binary if \code{type == "auto"}, path to virtualenv if \code{type == "virtualenv"}, or the name of a Conda environment if \verb{type=="condaenv}}
+\item{path}{Character string, path to python binary if \code{type == "auto"}, path to virtualenv if \code{type == "virtualenv"}, or the name of a Conda environment if \verb{type=="condaenv}}
 
-\item{type}{One of 'auto','virtualenv','condaenv'.}
+\item{type}{Character string, one of 'auto' (for python binary),'virtualenv', or 'condaenv'}
 
 \item{exact}{Boolean. If \code{TRUE} then only load exact match from \code{path}, otherwise allow reticulate to scan for other versions.}
 

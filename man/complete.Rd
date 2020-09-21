@@ -17,17 +17,17 @@ complete(
 \arguments{
 \item{mid_obj}{object of class \code{midas}, the result of running \code{rMIDAS::impute()}}
 
-\item{m}{integer number of completed datasets required}
+\item{m}{An integer, the number of completed datasets required}
 
-\item{unscale}{boolean indicating whether to unscale any columns that were previously minmax scaled between 0 and 1}
+\item{unscale}{Boolean, indicating whether to unscale any columns that were previously minmax scaled between 0 and 1}
 
-\item{bin_label}{boolean indicating whether to add back labels for binary columns}
+\item{bin_label}{Boolean, indicating whether to add back labels for binary columns}
 
-\item{cat_coalesce}{boolean indicating whether to decode the one-hot encoded categorical variables}
+\item{cat_coalesce}{Boolean, indicating whether to decode the one-hot encoded categorical variables}
 
 \item{file}{path to save completed datasets. If \code{NULL}, completed datasets are only loaded into memory.}
 
-\item{file_root}{character vector used as root of completed datasets if a filepath is passed to function. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"}
+\item{file_root}{A character string, used as the root for all filenames when saving completed datasets if a \code{filepath} is supplied. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"}
 }
 \description{
 Having trained an imputation model, complete() produces \code{m} completed datasets, saved as a list.
@@ -65,4 +65,4 @@ midas_pool <- combine(formula = d~a+c+e+f,
 }
 
 }
-\keyword{impute}
+\keyword{imputation}

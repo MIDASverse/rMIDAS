@@ -1,13 +1,13 @@
-#' Calculate and combine *m* regression models
+#' Estimate and combine regression models from multiply-imputed data
 #'
-#' `combine()` calculates *m* individual regression models, then applies "Rubin's Rules" (1987) to produce a single, combined estimate of the regression parameters and uncertainty.
+#' `combine()` calculates *m* individual regression models, then applies "Rubin's Rules" to produce a single, combined estimate of the regression parameters and uncertainty.
 #' @keywords import
 #' @param formula A formula, or character string coercible to a formula
 #' @param df_list A list, containing data.frames or objects coercible to data.frames
 #' @param dof_adjust Boolean, indicating whether or not to apply the Rubin and Barnard (1999) degrees of freedom adjustment for small-samples
 #' @param ... Further arguments passed onto `glm()`
 #' @export
-#' @return Dataframe of combined model results.
+#' @return Data.frame of combined model results.
 #' @examples
 #' set.seed(89)
 #' test_dfs <- lapply(1:5, function (x) data.frame(a = rnorm(1000),

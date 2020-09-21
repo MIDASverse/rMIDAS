@@ -111,9 +111,9 @@ train <- function(data,
 #'
 #' Having trained an imputation model, complete() produces `m` completed datasets, saved as a list.
 #' @keywords imputation
-#' @param mid_obj object of class `midas`, the result of running `rMIDAS::impute()`
+#' @param mid_obj Object of class `midas`, the result of running `rMIDAS::impute()`
 #' @param m An integer, the number of completed datasets required
-#' @param file path to save completed datasets. If `NULL`, completed datasets are only loaded into memory.
+#' @param file Path to save completed datasets. If `NULL`, completed datasets are only loaded into memory.
 #' @param file_root A character string, used as the root for all filenames when saving completed datasets if a `filepath` is supplied. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"
 #' @param unscale Boolean, indicating whether to unscale any columns that were previously minmax scaled between 0 and 1
 #' @param bin_label Boolean, indicating whether to add back labels for binary columns
@@ -286,6 +286,10 @@ overimpute <- function(# Input data
 
     spike_seed = seed
 
+  }
+
+  if (plot_vars) {
+    cat("**Note**: Plotting variables is enabled.\n Overimputation will not proceed until these graphs are closed.")
   }
 
 

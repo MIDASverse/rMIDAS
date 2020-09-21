@@ -7,13 +7,13 @@
 combine(formula, df_list, dof_adjust = TRUE, ...)
 }
 \arguments{
-\item{formula}{a model formula or string coercible to a formula}
+\item{formula}{A formula, or character string coercible to a formula}
 
-\item{df_list}{a list of completed data.frames or objects coercible to data.frames}
+\item{df_list}{A list, containing data.frames or objects coercible to data.frames}
 
-\item{dof_adjust}{a boolean, indicating whether or not to apply the Rubin and Barnard (1999) degrees of freedom adjustment for small-samples}
+\item{dof_adjust}{Boolean, indicating whether or not to apply the Rubin and Barnard (1999) degrees of freedom adjustment for small-samples}
 
-\item{...}{Further arguments passed onto \code{glm()}, enabling users to run other model families.}
+\item{...}{Further arguments passed onto \code{glm()}}
 }
 \value{
 Dataframe of combined model results.
@@ -26,7 +26,7 @@ set.seed(89)
 test_dfs <- lapply(1:5, function (x) data.frame(a = rnorm(1000),
                                                 b = runif(1000),
                                                 c = 2*rnorm(1000)))
-                                                
+
 midas_res <- combine("a ~ b + c", df_list = test_dfs)
 }
 \keyword{import}
