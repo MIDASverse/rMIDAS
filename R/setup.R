@@ -16,6 +16,7 @@
 #' This function checks if the required Python dependencies are installed, and if not, checks with user before installing them.
 #' This function is called automatically within `set_python_env`, and should only need to be used when manually configuring python installs using reticulate.
 #' @keywords setup
+#' @return NULL
 mid_py_setup <- function() {
   py_dep <- c("matplotlib","numpy","pandas","tensorflow==1.15","sklearn","random")
   py_pkgs <- gsub("==1.15","",py_dep)
@@ -68,11 +69,10 @@ mid_py_setup <- function() {
 #' @param ... Further argument passed to reticulate::use_condaenv() for `conda` executable if `type == "condaenv"`.
 #' @keywords setup
 #' @export
-#' @examples
-#' \dontrun{
-#' set_python_env(path = "~/.path/to/python/binary", type = "auto", exact = FALSE)
-#' }
+#' @return Boolean indicating whether setup passed without errors
 set_python_env <- function(path, type = "auto", exact = FALSE,...) {
+
+  set_complete <- FALSE
 
   if (type == "auto") {
     set_py_attempt <- try(reticulate::use_python(python = path, required = exact),
@@ -94,5 +94,8 @@ set_python_env <- function(path, type = "auto", exact = FALSE,...) {
     message("Proceeding to check/install Python package dependencies.")
     mid_py_setup()
   }
+
+  set_complete <- TRUE
+  return(set_complete)
 }
 

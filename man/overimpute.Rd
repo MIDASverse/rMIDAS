@@ -69,6 +69,9 @@ overimpute(
 
 \item{vae_sample_var}{A number, the sampling variance of the normal distributions used to parameterize the latent space.}
 }
+\value{
+Object of class \code{midas}, and outputs both overimputation loss values to the console and generates overimputation graphs.
+}
 \description{
 \code{overimpute()} spikes additional missingness into the input data and reports imputation accuracy at training intervals specified by the user.
 \code{overimpute()} works like \code{train()} -- users must specify input data, binary and categorical columns (if data is not generated via \code{convert()}, model parameters for the neural network, and then overimputation parameters (see below for full details).
@@ -84,34 +87,35 @@ Both metrics are reported in two forms:
 In the final model, we recommend selecting the number of training epochs that minimizes the average value of these metrics --- weighted by the proportion (or substantive importance) of continuous and categorical variables --- in the overimputation exercise.  This ``early stopping'' rule reduces the risk of overtraining and thus, in effect, serves as an extra layer of regularization in the network.
 }
 \examples{
-\dontrun{
+\donttest{
+# Run where Python available
+if (reticulate::py_module_available("numpy")) {
 
-  raw_data <- data.table(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
+raw_data <- data.table(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
                          b = 1:1000,
                          c = sample(c("YES","NO",NA),1000,replace=TRUE),
                          d = runif(1000,1,10),
                          e = sample(c("YES","NO"), 1000, replace = TRUE),
                          f = sample(c("male","female","trans","other",NA), 1000, replace = TRUE))
 
-  # Names of bin./cat. variables
-  test_bin <- c("c","e")
-  test_cat <- c("a","f")
+# Names of bin./cat. variables
+test_bin <- c("c","e")
+test_cat <- c("a","f")
 
-  # Pre-process data
-  test_data <- convert(raw_data,
+# Pre-process data
+test_data <- convert(raw_data,
                        bin_cols = test_bin,
                        cat_cols = test_cat,
                        minmax_scale = TRUE)
 
-  # Overimpute
-  test_imp <- overimpute(test_data,
-                         spikein = 0.3,
-                         plot_vars = TRUE,
-                         training_epochs = 10,
-                         report_ival = 5)
-
-
-
+# Overimpute - without plots
+test_imp <- overimpute(test_data,
+                       spikein = 0.3,
+                       plot_vars = FALSE,
+                       skip_plot = TRUE,
+                       training_epochs = 10,
+                       report_ival = 5)
+}
 }
 }
 \seealso{

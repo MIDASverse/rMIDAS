@@ -2,7 +2,7 @@
 % Please edit documentation in R/setup.R
 \name{set_python_env}
 \alias{set_python_env}
-\title{Configure python version}
+\title{Manually configure python version}
 \usage{
 set_python_env(path, type = "auto", exact = FALSE, ...)
 }
@@ -15,15 +15,13 @@ set_python_env(path, type = "auto", exact = FALSE, ...)
 
 \item{...}{Further argument passed to reticulate::use_condaenv() for \code{conda} executable if \code{type == "condaenv"}.}
 }
+\value{
+Boolean indicating whether setup passed without errors
+}
 \description{
 This function allows users to set a custom python binary, virtualenv, or Conda environment.
 }
 \details{
 Users comfortable with reticulate may wish to configure Python manually using reticulate, and then call \code{mid_py_setup()} to check/install required Python dependencies for rMIDAS.
-}
-\examples{
-\dontrun{
-set_python_env(path = "~/.path/to/python/binary", type = "auto", exact = FALSE)
-}
 }
 \keyword{setup}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/rubin_analysis.R
 \name{combine}
 \alias{combine}
-\title{Calculate and combine \emph{m} regression models}
+\title{Estimate and combine regression models from multiply-imputed data}
 \usage{
 combine(formula, df_list, dof_adjust = TRUE, ...)
 }
@@ -16,10 +16,10 @@ combine(formula, df_list, dof_adjust = TRUE, ...)
 \item{...}{Further arguments passed onto \code{glm()}}
 }
 \value{
-Dataframe of combined model results.
+Data.frame of combined model results.
 }
 \description{
-\code{combine()} calculates \emph{m} individual regression models, then applies "Rubin's Rules" (1987) to produce a single, combined estimate of the regression parameters and uncertainty.
+\code{combine()} calculates \emph{m} individual regression models, then applies "Rubin's Rules" to produce a single, combined estimate of the regression parameters and uncertainty.
 }
 \examples{
 set.seed(89)

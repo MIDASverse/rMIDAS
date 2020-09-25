@@ -27,7 +27,7 @@ providing a simplified workflow to multiply impute and analyse data:
   - `combine()` runs regression analysis across the complete data,
     following Rubin’s Rules.
 
-rMIDAS is based on [pyMIDAS](https://github.com/MIDASverse/pyMIDAS).
+rMIDAS is based on [MIDASpy](https://github.com/MIDASverse/MIDASpy).
 More information about the underlying imputation method can be found
 [here](https://doi.org/10.33774/apsa-2020-3tk40-v3).
 
@@ -81,4 +81,4 @@ set_python_env(path = "path/to/conda/env", type = "auto", exact = FALSE, conda =
 rMIDAS is still in development, and we may not have caught all bugs. If
 you come across any difficulties, or have any suggestions for
 improvements, please raise an issue
-[here](https://github.com/MIDASverse/pyMIDAS/issues).
+[here](https://github.com/MIDASverse/MIDASpy/issues).

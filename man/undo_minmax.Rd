@@ -13,6 +13,9 @@ undo_minmax(s, s_min, s_max)
 
 \item{s_max}{A numeric value, the maximum of the unscaled vector}
 }
+\value{
+Vector re-scaled using original parameters \code{s_min} and \code{s_max}
+}
 \description{
 Helper function to reverse minmax scaling applied in the pre-processing step.
 }

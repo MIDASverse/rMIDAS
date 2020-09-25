@@ -2,19 +2,20 @@
 % Please edit documentation in R/pre_processing.R
 \name{na_to_nan}
 \alias{na_to_nan}
-\title{Replace missing values}
+\title{Replace NA missing values with NaN}
 \usage{
 na_to_nan(df)
 }
 \arguments{
 \item{df}{Data frame, or object coercible to one.}
 }
+\value{
+Data frame with \code{NA} values replaced with \code{NaN} values.
+}
 \description{
 Helper function to convert \code{NA} values in a data.frame to \code{NaN}. This ensures the correct conversion of missing values when reticulate converts R objects to their Python equivalent. See the reticulate package documentation on type conversions for more information.
 }
 \examples{
-\dontrun{
-na_conv <- na_to_nan(data.frame(a = c(1,NA,0,0,NA,NA)))
-}
+na_to_nan(data.frame(a = c(1,NA,0,0,NA,NA)))
 }
 \keyword{preprocessing}

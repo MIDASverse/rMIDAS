@@ -14,13 +14,15 @@ convert(data, bin_cols, cat_cols, minmax_scale = FALSE)
 \item{minmax_scale}{Boolean, indicating whether to scale all numeric columns between 0 and 1, to improve model convergence}
 }
 \value{
-Returns custom S3 object of class 'midas_preproc' containing:
+Returns custom S3 object of class `midas_preproc' containing:
 \itemize{
 \item \code{data} -- processed version of input data,
 \item \code{bin_list} -- vector of binary variable names
 \item \code{cat_lists} -- embedded list of one-hot encoded categorical variable names
 \item \code{minmax_params} -- list of min. and max. values for each numeric object scaled
 }
+
+List containing converted data, categorical and binary labels to be imported into the imputation model, and scaling parameters for post-imputation transformations.
 }
 \description{
 \code{convert} pre-processes datasets to enable user-friendly interface with the main \code{impute} function.

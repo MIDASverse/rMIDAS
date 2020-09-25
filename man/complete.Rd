@@ -15,7 +15,7 @@ complete(
 )
 }
 \arguments{
-\item{mid_obj}{object of class \code{midas}, the result of running \code{rMIDAS::impute()}}
+\item{mid_obj}{Object of class \code{midas}, the result of running \code{rMIDAS::impute()}}
 
 \item{m}{An integer, the number of completed datasets required}
 
@@ -25,23 +25,28 @@ complete(
 
 \item{cat_coalesce}{Boolean, indicating whether to decode the one-hot encoded categorical variables}
 
-\item{file}{path to save completed datasets. If \code{NULL}, completed datasets are only loaded into memory.}
+\item{file}{Path to save completed datasets. If \code{NULL}, completed datasets are only loaded into memory.}
 
 \item{file_root}{A character string, used as the root for all filenames when saving completed datasets if a \code{filepath} is supplied. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"}
+}
+\value{
+List of length \code{m}, each element of which is a completed data.frame (i.e. no missing values)
 }
 \description{
 Having trained an imputation model, complete() produces \code{m} completed datasets, saved as a list.
 }
 \examples{
 # Generate raw data, with numeric, binary, and categorical variables
+\donttest{
+# Run where Python available
+if (reticulate::py_module_available("numpy")) {
 
-\dontrun{
 raw_data <- data.table(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
-                      b = 1:1000,
-                      c = sample(c("YES","NO",NA),1000,replace=TRUE),
-                      d = runif(1000,1,10),
-                      e = sample(c("YES","NO"), 1000, replace = TRUE),
-                      f = sample(c("male","female","trans","other",NA), 1000, replace = TRUE))
+                       b = 1:1000,
+                       c = sample(c("YES","NO",NA),1000,replace=TRUE),
+                       d = runif(1000,1,10),
+                       e = sample(c("YES","NO"), 1000, replace = TRUE),
+                       f = sample(c("male","female","trans","other",NA), 1000, replace = TRUE))
 
 # Names of bin./cat. variables
 test_bin <- c("c","e")
@@ -62,6 +67,7 @@ complete_datasets <- complete(test_imp, m = 5)
 # Use Rubin's rules to combine m regression models
 midas_pool <- combine(formula = d~a+c+e+f,
                       complete_datasets)
+}
 }
 
 }

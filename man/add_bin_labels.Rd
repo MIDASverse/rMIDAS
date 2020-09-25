@@ -2,7 +2,7 @@
 % Please edit documentation in R/pre_processing.R
 \name{add_bin_labels}
 \alias{add_bin_labels}
-\title{Reverse minmax scaling of numeric vector}
+\title{Reverse numeric conversion of binary vector}
 \usage{
 add_bin_labels(x, one, zero)
 }
@@ -13,11 +13,14 @@ add_bin_labels(x, one, zero)
 
 \item{zero}{A character string, the label associated with binary value 0}
 }
+\value{
+Vector of character strings corresponding to binary values
+}
 \description{
 Helper function to re-apply binary variable labels post-imputation.
 }
 \examples{
-ex_bin <- --c(1,0,0,1,1,0,0,1,0)
+ex_bin <- c(1,0,0,1,1,0,0,1,0)
 cat <- "cat"
 dog <- "dog"
 

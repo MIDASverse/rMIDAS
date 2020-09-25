@@ -2,12 +2,15 @@
 % Please edit documentation in R/pre_processing.R
 \name{col_minmax}
 \alias{col_minmax}
-\title{Scales numeric vector between 0 and 1}
+\title{Scale numeric vector between 0 and 1}
 \usage{
 col_minmax(x)
 }
 \arguments{
 \item{x}{A numeric vector or column.}
+}
+\value{
+Vector scaled between 0 and 1
 }
 \description{
 Helper function to scale numeric variables. Aids convergence of Midas model.

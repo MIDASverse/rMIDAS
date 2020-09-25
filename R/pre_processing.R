@@ -17,6 +17,7 @@
 #' @import data.table
 #' @import mltools
 #' @export
+#' @return List containing converted data, categorical and binary labels to be imported into the imputation model, and scaling parameters for post-imputation transformations.
 #' @examples
 #' data = data.frame(a = sample(c("red","yellow","blue",NA),100, replace = TRUE),
 #'                   b = 1:100,
@@ -141,10 +142,9 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
 #' @keywords preprocessing
 #' @param df Data frame, or object coercible to one.
 #' @export
+#' @return Data frame with `NA` values replaced with `NaN` values.
 #' @examples
-#' \dontrun{
-#' na_conv <- na_to_nan(data.frame(a = c(1,NA,0,0,NA,NA)))
-#' }
+#' na_to_nan(data.frame(a = c(1,NA,0,0,NA,NA)))
 na_to_nan <- function(df) {
   as.data.frame(apply(df,2, function(x) ifelse(is.na(x),NaN,x)))
 }
@@ -155,6 +155,7 @@ na_to_nan <- function(df) {
 #' @keywords preprocessing
 #' @param x A numeric vector or column.
 #' @export
+#' @return Vector scaled between 0 and 1
 #' @examples
 #' ex_num <- runif(100,1,10)
 #' scaled <- col_minmax(ex_num)
@@ -173,6 +174,7 @@ col_minmax <- function(x) {
 #' @param s_min A numeric value, the minimum of the unscaled vector
 #' @param s_max A numeric value, the maximum of the unscaled vector
 #' @export
+#' @return Vector re-scaled using original parameters `s_min` and `s_max`
 #' @examples
 #' ex_num <- runif(100,1,10)
 #' scaled <- col_minmax(ex_num)
@@ -186,7 +188,7 @@ undo_minmax <- function(s, s_min, s_max) {
 
 }
 
-#' Reverse minmax scaling of numeric vector
+#' Reverse numeric conversion of binary vector
 #'
 #' Helper function to re-apply binary variable labels post-imputation.
 #' @keywords postprocessing
@@ -194,6 +196,7 @@ undo_minmax <- function(s, s_min, s_max) {
 #' @param one A character string, the label associated with binary value 1
 #' @param zero A character string, the label associated with binary value 0
 #' @export
+#' @return Vector of character strings corresponding to binary values
 #' @examples
 #' ex_bin <- c(1,0,0,1,1,0,0,1,0)
 #' cat <- "cat"
@@ -215,6 +218,7 @@ add_bin_labels <- function(x, one, zero) {
 #' @param X A data.frame, data.table or matrix, for a single variable
 #' @param var_name A character string, with the original variable label
 #' @import data.table
+#' @return A vector of length equal to `nrow(X)`, containing categorical labels corresponding to the columns of `X`
 coalesce_one_hot <- function(X, var_name) {
 
   X_copy <- data.table::copy(X)

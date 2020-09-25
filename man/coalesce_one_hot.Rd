@@ -11,6 +11,9 @@ coalesce_one_hot(X, var_name)
 
 \item{var_name}{A character string, with the original variable label}
 }
+\value{
+A vector of length equal to \code{nrow(X)}, containing categorical labels corresponding to the columns of \code{X}
+}
 \description{
 Helper function to reverse one-hot encoding post-imputation.
 }

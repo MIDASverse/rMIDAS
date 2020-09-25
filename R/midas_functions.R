@@ -4,6 +4,7 @@
 #' @keywords imputation
 #' @param ... Arguments passed to the MIDAS class for instantiating network
 #' @import reticulate
+#' @return Object of class 'midas'
 import_midas <- function(...) {
   midas_base <- reticulate::import_from_path("midas_base", path = system.file("python", package = "rMIDAS", mustWork = TRUE))
   midas_class <- midas_base$Midas
@@ -33,7 +34,7 @@ import_midas <- function(...) {
 #' @param vae_alpha A number, the strength of the prior imposed on the Kullback-Leibler divergence term in the variational autoencoder loss functions.
 #' @param vae_sample_var A number, the sampling variance of the normal distributions used to parameterize the latent space.
 #' @export
-#' @return Returns object of class `midas` from which completed datasets can be drawn, using `rMIDAS::complete()`
+#' @return Object of class `midas` from which completed datasets can be drawn, using `rMIDAS::complete()`
 #' @example inst/examples/basic_workflow.R
 train <- function(data,
                    binary_columns = NULL,
@@ -118,6 +119,7 @@ train <- function(data,
 #' @param unscale Boolean, indicating whether to unscale any columns that were previously minmax scaled between 0 and 1
 #' @param bin_label Boolean, indicating whether to add back labels for binary columns
 #' @param cat_coalesce Boolean, indicating whether to decode the one-hot encoded categorical variables
+#' @return List of length `m`, each element of which is a completed data.frame (i.e. no missing values)
 #' @import data.table
 #' @export
 #' @example inst/examples/basic_workflow.R
@@ -236,6 +238,8 @@ complete <- function(mid_obj,
 #' @param spike_seed,seed An integer, to initialize the pseudo-random number generators. Separate seeds can be provided for the spiked-in missingness and imputation, otherwise `spike_seed` is set to `seed` (default = 123L).
 #' @inheritParams train
 #' @seealso \code{\link{train}} for the main imputation function.
+#' @export
+#' @return Object of class `midas`, and outputs both overimputation loss values to the console and generates overimputation graphs.
 #' @example inst/examples/overimputation.R
 overimpute <- function(# Input data
                        data,
