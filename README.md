@@ -5,14 +5,13 @@
 
 <!-- badges: start -->
 
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr) -->
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org/package=rMIDAS)
 <!-- [![R build status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R-CMD-check) -->
-
 <!-- [![Codecov test coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master) -->
-
 <!-- [![R build status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions) -->
-
+[![R build
+status](https://github.com/tsrobinson/rMIDAS/workflows/R-CMD-check/badge.svg)](https://github.com/tsrobinson/rMIDAS/actions)
 <!-- badges: end -->
 
 ## Overview
