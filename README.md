@@ -7,9 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org/package=rMIDAS)
-<!-- [![R build status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R-CMD-check) -->
-<!-- [![Codecov test coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master) -->
-<!-- [![R build status](https://github.com/tidyverse/dplyr/workflows/R-CMD-check/badge.svg)](https://github.com/tidyverse/dplyr/actions) -->
+[![R build
+status](https://github.com/MIDASverse/rMIDAS/workflows/R/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R)
 [![R build
 status](https://github.com/tsrobinson/rMIDAS/workflows/R-CMD-check/badge.svg)](https://github.com/tsrobinson/rMIDAS/actions)
 <!-- badges: end -->
@@ -42,8 +41,16 @@ efficiency of multiple imputation analysis:
 
 ## Installation
 
-rMIDAS should be available on CRAN very soon. In the meantime, you can
-use the code below to install the development version:
+rMIDAS is now available on
+[CRAN](https://cran.r-project.org/package=rMIDAS). To install the
+package in R, you can use the following code:
+
+``` r
+install.packages("rMIDAS")
+```
+
+To install the latest development version, please use the following
+code:
 
 ``` r
 # install.packages("devtools")
