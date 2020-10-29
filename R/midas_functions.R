@@ -148,7 +148,7 @@ complete <- function(mid_obj,
   draws <- mid_obj$generate_samples(m = as.integer(m))$output_list
 
   if ((unscale || bin_label || cat_coalesce)) {
-    cat("Imputations generated. Completing post-imputation transformations.\n")
+    message("Imputations generated. Completing post-imputation transformations.\n")
   }
 
   ## Reverse pre-processing steps from convert():
@@ -216,7 +216,7 @@ complete <- function(mid_obj,
 
   if (!is.null(file)) {
 
-    cat("Saving imputed datasets.\n")
+    message("Saving imputed datasets.\n")
 
     if (is.null(file_root)) {
 
@@ -307,7 +307,7 @@ overimpute <- function(# Input data
   }
 
   if (plot_vars) {
-    cat("**Note**: Plotting variables is enabled.\n Overimputation will not proceed until these graphs are closed.")
+    message("**Note**: Plotting variables is enabled.\n Overimputation will not proceed until these graphs are closed.")
   }
 
 

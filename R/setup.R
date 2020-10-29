@@ -28,7 +28,7 @@ mid_py_setup <- function() {
   missing_pkg <- py_dep[missing_pkg]
 
   if (length(missing_pkg) >= 1) {
-    cat("\nThe following packages need to be installed: ", paste0(missing_pkg, sep = "  "))
+    message("\nThe following packages need to be installed: ", paste0(missing_pkg, sep = "  "))
     ask <- 1
     usr_response <- readline(prompt="Are you happy to proceed? [Y/N]: ")
 
@@ -40,7 +40,7 @@ mid_py_setup <- function() {
     if (tolower(usr_response) == "y") {
 
       for (py_pkg in missing_pkg) {
-        cat("\nInstalling missing python dependency: ",py_pkg)
+        message("\nInstalling missing python dependency: ",py_pkg)
         reticulate::py_install(py_pkg)
       }
 
