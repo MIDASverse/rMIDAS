@@ -733,7 +733,7 @@ class Midas(object):
     with tf.Session(graph= self.graph) as sess:
       sess.run(self.init)
       if verbose:
-        print("Model initialised")
+        print("Model initialised", flush = True)
         print()
       for epoch in range(training_epochs):
         count = 0
@@ -753,7 +753,7 @@ class Midas(object):
             run_loss += loss
         if verbose:
           if epoch % verbosity_ival == 0:
-            print('Epoch:', epoch, ", loss:", str(run_loss/count))
+            print('Epoch:', epoch, ", loss:", str(run_loss/count), flush = True)
       if verbose:
         print("Training complete. Saving file...")
       save_path = self.saver.save(sess, self.savepath)

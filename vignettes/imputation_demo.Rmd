@@ -11,31 +11,21 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This vignette provides a brief demonstration of using rMIDAS to multiply impute missing data using the MIDAS imputation algorithm. We show how to use the package to multiply impute missing values in the Adult census dataset, the basis for our applied accuracy test.
+This vignette provides a brief demonstration of using rMIDAS to multiply impute missing data using the MIDAS imputation algorithm. We show how to use the package to multiply impute missing values using the Adult census data, a commonly used machine-learning dataset.
 
-## Ensuring your system is correctly configured
+## Ensure your system is correctly configured
 
-rMIDAS relies on Python to run the actual imputation algorithm, and so users should ensure they have a Python 3.X environment installed on their computer. When the package is first loaded, it will try to automatically try to locate a suitable Python environment, but if this fails you will receive a warning message.
-
-If this occurs, users can manually specify a Python binary, virtualenv or condaenv using the `set_python_` functions within rMIDAS.
-
-The first time rMIDAS is used it will check that the required Python dependencies are also installed. If you do not have Tensorflow or other packages installed, you will be prompted in the console to let rMIDAS install these to the relevant Python environment.
-
-```{r}
-
-# install.packages("rMIDAS")
-library(rMIDAS)
-
-```
+rMIDAS relies on Python to run the actual imputation algorithm, and so users should ensure they have a Python 3.X environment installed on their machine. When the package is first loaded, it will try and automatically locate a suitable Python environment, but if this fails you will receive a warning message. If this occurs, users can manually specify a Python binary, virtualenv, or condaenv using the `set_python_` functions within rMIDAS.
 
 ## Loading the data
 
-Once rMIDAS is initialised, we can begin by loading the Adult data from our MIDAS repository:
+Once rMIDAS is initialised, we can begin by loading the Adult data from our MIDAS repository (we use a subset for the sake of efficiency):
 
 ```{r}
+library(rMIDAS)
+
 adult <- read.csv("https://raw.githubusercontent.com/MIDASverse/MIDASpy/master/Examples/adult_data.csv",
-                  row.names = 1)
-adult <- adult[1:1000,]
+                  row.names = 1)[1:1000,]
 ```
 
 As the dataset has a very low proportion of missingness (one of the reasons we selected it for the accuracy test), we randomly set approximately 10% of observed values as missing in each column:
@@ -57,34 +47,37 @@ adult_cat <- c('workclass','marital_status','relationship','race','education','o
 adult_bin <- c('sex','class_labels')
 
 adult_conv <- convert(adult, 
-                       bin_cols = adult_bin, 
-                       cat_cols = adult_cat,
-                       minmax_scale = TRUE)
+                      bin_cols = adult_bin, 
+                      cat_cols = adult_cat,
+                      minmax_scale = TRUE)
 ```
 
-The data are now ready to be fed into the MIDAS algorithm, which involves a single call to the `train()` function. At this stage, we can specify the dimensions, input corruption proportion, and other hyperparameters of the MIDAS neural network as well as the number of training epochs (20 in this example):
+The data are now ready to be fed into the MIDAS algorithm, which involves a single call to the `train()` function. At this stage, we can specify the dimensions, input corruption proportion, and other hyperparameters of the MIDAS neural network as well as the number of epochs to train the network for:
 
 ```{r}
 
 adult_train <- train(adult_conv,
-                       training_epochs = 20L,
-                       layer_structure = c(256,256,256),
+                       training_epochs = 20,
+                       layer_structure = c(128,128),
                        input_drop = 0.75,
-                       seed = 89L)
+                       seed = 89)
 ```
 
 Once training is complete, we can generate any number of imputed datasets using the `complete()` function (here we generate 10 complete datasets). By default, this function will unscale continuous variables and convert binary and categorical variables to their original shape. These data.frames can also be saved as '.csv' files by declaring `file` and `file_root` parameters (not demonstrated here):
 
 ```{r}
-adult_complete <- complete(adult_train)
+adult_complete <- complete(adult_train, m = 10)
 
 # Inspect first imputed dataset:
 head(adult_complete[[1]])
 ```
 
-Finally, rMIDAS' `combine()` function allows users to run multiple imputation regression analysis according to Rubin's Rules:
+Finally, rMIDAS' `combine()` function allows users to run multiple imputation regression analysis according to Rubin's Rules. This function wraps the `stats::glm()` package, and can be used to run a variety of different model families including gaussian, binomial etc.:
 
 ```{r}
-adult_lm <- combine("class_labels ~ hours_per_week + education + sex", 
-                    adult_complete)
+adult_model <- combine("class_labels ~ hours_per_week + sex", 
+                    adult_complete,
+                    family = stats::binomial)
+
+adult_model
 ```

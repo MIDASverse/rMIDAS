@@ -131,7 +131,7 @@ complete <- function(mid_obj,
                      unscale = TRUE,
                      bin_label = TRUE,
                      cat_coalesce = TRUE,
-                     fast = TRUE,
+                     fast = FALSE,
                      file = NULL,
                      file_root = NULL) {
 
@@ -146,6 +146,10 @@ complete <- function(mid_obj,
   }
 
   draws <- mid_obj$generate_samples(m = as.integer(m))$output_list
+
+  if ((unscale || bin_label || cat_coalesce)) {
+    cat("Imputations generated. Completing post-imputation transformations.\n")
+  }
 
   ## Reverse pre-processing steps from convert():
   draws_post <- lapply(draws, function(df) {
@@ -211,6 +215,8 @@ complete <- function(mid_obj,
   # --- Save files
 
   if (!is.null(file)) {
+
+    cat("Saving imputed datasets.\n")
 
     if (is.null(file_root)) {
 
