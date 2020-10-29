@@ -24,9 +24,7 @@ status](https://github.com/tsrobinson/rMIDAS/workflows/R-CMD-check/badge.svg)](h
   - `combine()` runs regression analysis across the complete data,
     following Rubin’s Rules.
 
-rMIDAS is based on the Python class [MIDASpy](https://github.com/MIDASverse/MIDASpy).
-
-For more information on the underlying imputation method, MIDAS, see:
+rMIDAS is based on the Python class [MIDASpy](https://github.com/MIDASverse/MIDASpy). For more information on the underlying imputation method, MIDAS, see:
 
 Lall, Ranjit, and Thomas Robinson. 2020. “Applying the MIDAS Touch: How to Handle Missing Values in Large and Complex Data.” APSA Preprints. https://doi.org/10.33774/apsa-2020-3tk40-v3
 
