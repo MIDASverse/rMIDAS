@@ -28,8 +28,8 @@ Depends:
   reticulate
 Imports: 
 Suggests: 
-    testthat
-    knitr
+    testthat,
+    knitr,
     rmarkdown
 VignetteBuilder: knitr
 License: Apache License (>= 2.0)

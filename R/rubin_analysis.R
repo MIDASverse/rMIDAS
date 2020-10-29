@@ -20,13 +20,12 @@ combine <- function(formula, df_list, dof_adjust = TRUE, ...) {
   args <- list(...)
   if (is.null(args[['family']])) {
     cat("No model family specified -- assuming gaussian model.\n\n")
-    family <- stats::gaussian
   }
 
   models <- lapply(df_list,
                    function (x) {
 
-                     stats::glm(formula, data = x, family = family, ...)
+                     stats::glm(formula, data = x, ...)
 
                    })
 

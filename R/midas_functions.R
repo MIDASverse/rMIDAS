@@ -69,6 +69,8 @@ train <- function(data,
   # kld_min = 0.01) {
 
   # NB: savepath overwritten to R tmp directory to ensure CRAN compatibility
+  # But this seems to cause issue when tempdir() returns double slash
+  # So adding minor gsub command to fix
 
   mod_inst <- import_midas(layer_structure = as.integer(layer_structure),
                            learn_rate = learn_rate,
@@ -82,7 +84,7 @@ train <- function(data,
                            dropout_level = dropout_level,
                            vae_alpha = vae_alpha,
                            vae_sample_var = vae_sample_var,
-                           savepath= tempdir())
+                           savepath= gsub("//","/",tempdir()))
 
   transf_model = FALSE
   if (class(data) == "midas_pre") {
@@ -98,7 +100,7 @@ train <- function(data,
                                     softmax_columns = softmax_columns,
                                     binary_columns = binary_columns)
 
-  mod_train <- mod_build$train_model(training_epochs = training_epochs)
+  mod_train <- mod_build$train_model(training_epochs = as.integer(training_epochs))
 
   if (transf_model) {
     mod_train$preproc <- data
@@ -119,6 +121,7 @@ train <- function(data,
 #' @param unscale Boolean, indicating whether to unscale any columns that were previously minmax scaled between 0 and 1
 #' @param bin_label Boolean, indicating whether to add back labels for binary columns
 #' @param cat_coalesce Boolean, indicating whether to decode the one-hot encoded categorical variables
+#' @param fast Boolean, indicating whether to impute category with highest predicted probability (TRUE), or to use predicted probabilities to make weighted sample of category levels
 #' @return List of length `m`, each element of which is a completed data.frame (i.e. no missing values)
 #' @import data.table
 #' @export
@@ -128,6 +131,7 @@ complete <- function(mid_obj,
                      unscale = TRUE,
                      bin_label = TRUE,
                      cat_coalesce = TRUE,
+                     fast = TRUE,
                      file = NULL,
                      file_root = NULL) {
 
@@ -170,7 +174,10 @@ complete <- function(mid_obj,
 
       for (j in bin_cols) {
 
-        set(df, j = j, value = add_bin_labels(df[[j]], one = bin_params[[j]][1], zero = bin_params[[j]][2]))
+        set(df, j = j, value = add_bin_labels(df[[j]],
+                                              one = bin_params[[j]][1],
+                                              zero = bin_params[[j]][2],
+                                              fast))
 
       }
 
@@ -186,7 +193,8 @@ complete <- function(mid_obj,
         set(df,
             j = cat_cols[[i]],
             value = coalesce_one_hot(X = df[,cat_params[[i]], with = FALSE],
-                                     var_name = cat_cols[i]))
+                                     var_name = cat_cols[i],
+                                     fast))
 
       }
 

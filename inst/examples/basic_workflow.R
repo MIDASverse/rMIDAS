@@ -24,7 +24,7 @@ test_data <- convert(raw_data,
 test_imp <- train(test_data)
 
 # Generate datasets
-complete_datasets <- complete(test_imp, m = 5)
+complete_datasets <- complete(test_imp, m = 5, fast = FALSE)
 
 # Use Rubin's rules to combine m regression models
 midas_pool <- combine(formula = d~a+c+e+f,

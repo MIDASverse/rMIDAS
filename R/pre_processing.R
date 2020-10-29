@@ -195,6 +195,7 @@ undo_minmax <- function(s, s_min, s_max) {
 #' @param x A numeric vector or column, scaled between 0 and 1
 #' @param one A character string, the label associated with binary value 1
 #' @param zero A character string, the label associated with binary value 0
+#' @param fast Boolean indicating whether to return binary value 1 if predicted probability >= 0.5  (TRUE), or take random draw using predicted probability as weighting.
 #' @export
 #' @return Vector of character strings corresponding to binary values
 #' @examples
@@ -203,9 +204,16 @@ undo_minmax <- function(s, s_min, s_max) {
 #' dog <- "dog"
 #'
 #' add_bin_labels(x = ex_bin, one = cat, zero = dog)
-add_bin_labels <- function(x, one, zero) {
+add_bin_labels <- function(x, one, zero, fast = TRUE) {
 
-  x_out <- factor(ifelse(x == 1, one,ifelse(x==0,zero,NA)), levels = c(zero, one))
+  if (fast) {
+    x_out <- factor(ifelse(x >= 0.5, one, ifelse(x<0.5,zero,NA)),
+                    levels = c(zero, one))
+  } else {
+    bin_draw <- rbinom(length(x),1,x)
+    x_out <- factor(ifelse(bin_draw == 1, one, ifelse(bin_draw == 0, zero, NA)),
+                    levels = c(zero, one))
+  }
 
   return(x_out)
 
@@ -217,15 +225,23 @@ add_bin_labels <- function(x, one, zero) {
 #' @keywords postprocessing
 #' @param X A data.frame, data.table or matrix, for a single variable
 #' @param var_name A character string, with the original variable label
+#' @param fast Boolean, indicating whether to choose category with highest predicted probability (TRUE), or use predicted probabilities as weights in draw from random distribution
 #' @import data.table
 #' @return A vector of length equal to `nrow(X)`, containing categorical labels corresponding to the columns of `X`
-coalesce_one_hot <- function(X, var_name) {
+coalesce_one_hot <- function(X, var_name, fast = TRUE) {
 
   X_copy <- data.table::copy(X)
 
-  X_max <- apply(X_copy, 1, which.max)
+  X_names <- names(X_copy)
 
-  X_max_cat <- sub(paste0(var_name,"_"),"",names(X_copy))[X_max]
+  set.seed(89)
+  if (fast) {
+    X_max <- apply(X_copy, 1, which.max)
+    X_max_cat <- sub(paste0(var_name,"_"),"",X_names)[X_max]
+  } else {
+    X_max <- apply(X_copy, 1, function (r) sample(X_names, 1, prob = r))
+    X_max_cat <- sub(paste0(var_name,"_"),"",X_max)
+  }
 
   return(X_max_cat)
 
