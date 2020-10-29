@@ -83,10 +83,6 @@ set_python_env(path = "path/to/conda/env", type = "auto", exact = FALSE, conda =
 
 <!-- ``` -->
 
-## Example
-
-Coming soon...
-
 ## Getting help
 
 rMIDAS is still in development, and we may not have caught all bugs. If
