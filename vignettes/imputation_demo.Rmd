@@ -1,0 +1,22 @@
+---
+title: "Imputing missing data using rMIDAS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Imputing missing data using rMIDAS}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This vignette provides a brief demonstration of using rMIDAS to multiply impute missing data using the MIDAS imputation algorithm. We show how to use the package to multiply impute missing values in the Adult census dataset, the basis for our applied accuracy test.
+
+rMIDAS relies on Python calls, and so users must ensure they have a Python 3.X environment installed on their computer. 
+
+
+
+To access the class, users must have TensorFlow installed as a pip package in their Python environment. MIDAS is written in TensorFlow 1.X API; users of TensorFlow 2.X can install the final v1 release via the command line pip install tensorflow==1.15.0. We recommend creating a Conda environment before reinstalling TensorFlow to avoid conflicts with projects using later versions of the package.
+
+Once these packages have been installed, users can import the dependencies and load the data:
