@@ -15,7 +15,7 @@ status](https://github.com/tsrobinson/rMIDAS/workflows/R-CMD-check/badge.svg)](h
 
 ## Overview
 
-**rMIDAS** is an R package for multiply imputing missing data using an accurate and efficient deep learning algorithm. The package provides a simplified workflow for imputing and then analyzing data:
+**rMIDAS** is an R package for multiply imputing missing data using an accurate and efficient algorithm based on deep learning methods. The package provides a simplified workflow for imputing and then analyzing data:
 
   - `convert()` carries out all necessary preprocessing steps
   - `train()` constructs and trains a MIDAS imputation model.
