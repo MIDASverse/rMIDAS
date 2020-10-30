@@ -5,23 +5,19 @@
 * windows server 2008 R2 SP1 (on rhub), R-devel
 * win-builder (devel and release)
 
-## Resubmission
+## Version 0.2.0
 
-This is a resubmission. In this version I have:
+In this version I have:
 
-* Added single quotation marks to all software and API names in the Description field of DESCRIPTION
+* Improved handling of predicted probabilities, by adding a `fast` parameter to the `complete()` function, and the two post-processing helper functions `add_bin_labels()` and `coalesce_one_hot()`
 
-* Replaced all instances of \\dontrun{} with \\donttest{}
-    - Removed example from `set_python_env()` since this code was designed to fail, and matches \\usage so was redundant
-    - Removed \\dontrun{} from `na_to_nan()` function 
+* Added a vignette example
 
-* Added \\value tags to all exported functions
+* Updated the Python code base to support Tensorflow 2.X
 
-    - Added boolean return value to `set_python_env()` for consistency
-    
-* Added export tags where missing, and checked all functions to ensure those without export do not have examples.
+* Minor amendments to the README and DESCRIPTION files
 
-* Added copyright holder tags to Authors@R field in DESCRIPTION
+* Replaced all instances of `cat()` with `message()` for better logging
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 

@@ -9,6 +9,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+LOCAL <- identical(Sys.getenv("LOCAL"), "true")
 ```
 
 This vignette provides a brief demonstration of using rMIDAS to multiply impute missing data using the MIDAS imputation algorithm. We show how to use the package to multiply impute missing values using the Adult census data, a commonly used machine-learning dataset.
@@ -21,7 +22,7 @@ rMIDAS relies on Python to run the actual imputation algorithm, and so users sho
 
 Once rMIDAS is initialised, we can begin by loading the Adult data. We subset the full dataset to decrease the runtime of this demonstration:
 
-```{r}
+```{r, eval = LOCAL}
 library(rMIDAS)
 
 adult <- read.csv("https://raw.githubusercontent.com/MIDASverse/MIDASpy/master/Examples/adult_data.csv",
@@ -30,7 +31,7 @@ adult <- read.csv("https://raw.githubusercontent.com/MIDASverse/MIDASpy/master/E
 
 As the dataset has a very low proportion of missingness (one of the reasons it is favoured in machine learning communities), we randomly set approximately 10% of observed values as missing in each column:
 
-```{r}
+```{r, eval = LOCAL}
 set.seed(89)
 
 for (column in names(adult)) {
@@ -45,14 +46,14 @@ for (column in names(adult)) {
 }
 ```
 
-Next, we list the categorical and binary variables in our data, and prepare the data for imputation using rMIDAS' `convert()` function. Note that using the `convert()` function automatically pre-processes the data  to reduce the number of parameters that need to be set before the MIDAS algorithm can be run. To improve convergence in the training step, it is often useful to scale continuous variables between 0 and 1, which can be achieved by setting the `minmax_scale` parameter to `TRUE`. :
+Next, we list the categorical and binary variables in our data, and prepare the data for imputation using rMIDAS' `convert()` function. Note that using the `convert()` function automatically preprocesses the data  to reduce the number of parameters that need to be set before the MIDAS algorithm can be run. To improve convergence in the training step, it is often useful to scale continuous variables between 0 and 1, which can be achieved by setting the `minmax_scale` parameter to `TRUE`. :
 
-```{r}
+```{r, eval = LOCAL}
 
 adult_cat <- c('workclass','marital_status','relationship','race','education','occupation','native_country')
 adult_bin <- c('sex','class_labels')
 
-# Apply rMIDAS pre-processing steps
+# Apply rMIDAS preprocessing steps
 adult_conv <- convert(adult, 
                       bin_cols = adult_bin, 
                       cat_cols = adult_cat,
@@ -61,7 +62,7 @@ adult_conv <- convert(adult,
 
 The data are now ready to be fed into the MIDAS algorithm, which involves a single call to the `train()` function. At this stage, we can specify the dimensions, input corruption proportion, and other hyperparameters of the MIDAS neural network as well as the number of epochs to train the network for:
 
-```{r}
+```{r, eval = LOCAL}
 # Train the model for 2 epochs
 adult_train <- train(adult_conv,
                        training_epochs = 20,
@@ -72,7 +73,7 @@ adult_train <- train(adult_conv,
 
 Once training is complete, we can generate any number of imputed datasets using the `complete()` function (here we generate 10 complete datasets). By default, this function will unscale continuous variables and convert binary and categorical variables to their original shape. These data.frames can also be saved as '.csv' files by declaring `file` and `file_root` parameters (not demonstrated here):
 
-```{r}
+```{r, eval = LOCAL}
 
 # Generate 10 imputed datasets
 adult_complete <- complete(adult_train, m = 10)
@@ -83,7 +84,7 @@ head(adult_complete[[1]])
 
 Finally, rMIDAS' `combine()` function allows users to run multiple imputation regression analysis according to Rubin's Rules. This function wraps the `stats::glm()` package, and can be used to run a variety of different model families including gaussian, binomial etc.:
 
-```{r}
+```{r, eval = LOCAL}
 
 # Estimate logit model using Rubin's Rules on 10 imputed datasets
 adult_model <- combine("class_labels ~ hours_per_week + sex", 

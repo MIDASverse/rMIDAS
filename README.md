@@ -15,19 +15,25 @@ status](https://github.com/tsrobinson/rMIDAS/workflows/R-CMD-check/badge.svg)](h
 
 ## Overview
 
-rMIDAS is a multiple imputation package for R using deep learning,
-providing a simplified workflow to multiply impute and analyse data:
+**rMIDAS** is an R package for multiply imputing missing data using an
+accurate and efficient algorithm based on deep learning methods. The
+package provides a simplified workflow for imputing and then analyzing
+data:
 
-  - `convert()` carries out all necessary pre-processing steps
+  - `convert()` carries out all necessary preprocessing steps
   - `train()` constructs and trains a MIDAS imputation model.
   - `complete()` generates multiple completed datasets from the trained
     model
   - `combine()` runs regression analysis across the complete data,
     following Rubin’s Rules.
 
-rMIDAS is based on [MIDASpy](https://github.com/MIDASverse/MIDASpy).
-More information about the underlying imputation method can be found
-[here](https://doi.org/10.33774/apsa-2020-3tk40-v3).
+**rMIDAS** is based on the Python class
+[MIDASpy](https://github.com/MIDASverse/MIDASpy). For more information
+on the underlying imputation method, MIDAS, see:
+
+Lall, Ranjit, and Thomas Robinson. 2020. “Applying the MIDAS Touch: How
+to Handle Missing Values in Large and Complex Data.” APSA Preprints.
+<https://doi.org/10.33774/apsa-2020-3tk40-v3>
 
 ### Efficient handling of large data
 
@@ -37,7 +43,8 @@ efficiency of multiple imputation analysis:
   - Optimisation for large datasets using `data.table` and `mltools`
     packages
   - Automatic reversing of all pre-processing steps prior to analysis
-  - Built-in regression function based on `glm` (applying Rubin’s rules)
+  - Built-in regression function based on `glm` (applying Rubin’s
+    combination rules)
 
 ## Installation
 
