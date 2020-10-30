@@ -12,15 +12,15 @@ knitr::opts_chunk$set(echo = TRUE)
 LOCAL <- identical(Sys.getenv("LOCAL"), "true")
 ```
 
-This vignette provides a brief demonstration of using rMIDAS to multiply impute missing data using the MIDAS imputation algorithm. We show how to use the package to multiply impute missing values using the Adult census data, a commonly used machine-learning dataset.
+This vignette provides a brief demonstration of using **rMIDAS** to multiply impute missing data using the MIDAS imputation algorithm. We show how to use the package to multiply impute missing values using the Adult census data, a commonly used machine-learning dataset.
 
 ## Ensure your system is correctly configured
 
-rMIDAS relies on Python to run the actual imputation algorithm, and so users should ensure they have a Python 3.X environment installed on their machine. When the package is first loaded, it will try and automatically locate a suitable Python environment, but if this fails you will receive a warning message. If this occurs, users can manually specify a Python binary, virtualenv, or condaenv using the `set_python_` functions within rMIDAS.
+rMIDAS relies on Python to run the MIDAS imputation algorithm, and so you should ensure you have a Python 3.X environment installed on your machine. When the package is first loaded, it will try and automatically locate a suitable Python environment, but if this fails you will receive a warning message. When this occurs, users can manually specify a Python binary, virtualenv, or condaenv using the `set_python_` functions (see the help files for more information).
 
 ## Loading the data
 
-Once rMIDAS is initialised, we can begin by loading the Adult data. We subset the full dataset to decrease the runtime of this demonstration:
+Once **rMIDAS** is initialised, we can load in our data. For the purpose of this brief demonstration, we'll use a subset of the Adult census data (a commonly used machine learning dataset):
 
 ```{r, eval = LOCAL}
 library(rMIDAS)
@@ -29,24 +29,15 @@ adult <- read.csv("https://raw.githubusercontent.com/MIDASverse/MIDASpy/master/E
                   row.names = 1)[1:1000,]
 ```
 
-As the dataset has a very low proportion of missingness (one of the reasons it is favoured in machine learning communities), we randomly set approximately 10% of observed values as missing in each column:
+As the dataset has a very low proportion of missingness (one of the reasons it is favoured in machine learning communities), we randomly set approximately 10% of observed values as missing in each column using **rMIDAS'** inbuilt `add_missingness()` function:
 
 ```{r, eval = LOCAL}
 set.seed(89)
 
-for (column in names(adult)) {
-  
-  # Generate an indicator variable with 10% probability of assigning missingness
-  r <- sample(c(FALSE,TRUE), 
-              length(adult[[column]]), 
-              replace = TRUE, prob = c(0.9,0.1))
-  
-  # Apply missingness indicator to Adult data
-  adult[[column]] <- ifelse(r, NA, adult[[column]])
-}
+adult <- add_missingness(adult, prop = 0.1)
 ```
 
-Next, we list the categorical and binary variables in our data, and prepare the data for imputation using rMIDAS' `convert()` function. Note that using the `convert()` function automatically preprocesses the data  to reduce the number of parameters that need to be set before the MIDAS algorithm can be run. To improve convergence in the training step, it is often useful to scale continuous variables between 0 and 1, which can be achieved by setting the `minmax_scale` parameter to `TRUE`. :
+Next, we list the categorical and binary variables in our data, and prepare the data for training using the `convert()` function. This function automatically preprocesses the data. Setting the `minmax_scale` parameter to `TRUE` ensures continuous variables are scaled to between 0 and 1, which can substantially improve convergence in the training step. All pre-processing steps can be reversed after we impute the missing values:
 
 ```{r, eval = LOCAL}
 
@@ -71,7 +62,7 @@ adult_train <- train(adult_conv,
                        seed = 89)
 ```
 
-Once training is complete, we can generate any number of imputed datasets using the `complete()` function (here we generate 10 complete datasets). By default, this function will unscale continuous variables and convert binary and categorical variables to their original shape. These data.frames can also be saved as '.csv' files by declaring `file` and `file_root` parameters (not demonstrated here):
+Once training is complete, we can generate any number of imputed datasets using the `complete()` function (here we generate 10 complete datasets). The completed data.frames can also be saved as '.csv' files by declaring `file` and `file_root` parameters (not demonstrated here). By default, this function will unscale continuous variables and convert binary and categorical variables back to their original shape. Since the MIDAS algorithm returns predicted probabilities, categorical and binary predictions can be generated using one of two options. When `fast = FALSE` (the default), the function uses the predicted probabilities for each level to take a weighted random draw from the set of category levels. If `fast = TRUE`, the function will select the category level with the highest predicted probability. If the imputed datasets are very large, or `complete()` is taking too long to run, users may wish to try setting `fast = TRUE`:
 
 ```{r, eval = LOCAL}
 
@@ -82,7 +73,7 @@ adult_complete <- complete(adult_train, m = 10)
 head(adult_complete[[1]])
 ```
 
-Finally, rMIDAS' `combine()` function allows users to run multiple imputation regression analysis according to Rubin's Rules. This function wraps the `stats::glm()` package, and can be used to run a variety of different model families including gaussian, binomial etc.:
+Finally, the `combine()` function allows users to run multiple imputation regression analysis according to Rubin's combination rules. This function wraps the `glm()` package, and as such can be passed `glm` options as additional arguments, and run different families of model (gaussian, binomial etc.):
 
 ```{r, eval = LOCAL}
 

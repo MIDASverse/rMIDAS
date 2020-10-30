@@ -210,7 +210,7 @@ add_bin_labels <- function(x, one, zero, fast = TRUE) {
     x_out <- factor(ifelse(x >= 0.5, one, ifelse(x<0.5,zero,NA)),
                     levels = c(zero, one))
   } else {
-    bin_draw <- rbinom(length(x),1,x)
+    bin_draw <- stats::rbinom(length(x),1,x)
     x_out <- factor(ifelse(bin_draw == 1, one, ifelse(bin_draw == 0, zero, NA)),
                     levels = c(zero, one))
   }
@@ -248,5 +248,40 @@ coalesce_one_hot <- function(X, var_name, fast = TRUE) {
 }
 
 
+#' Apply MAR missingness to data
+#'
+#' Helper function to re-apply binary variable labels post-imputation.
+#' @keywords preprocessing
+#' @param X A data.frame or similar
+#' @param prop Numeric between 0 and 1; the proportion of observations set to missing
+#' @param cols A vector of column names to be corrupted; if NULL, all columns are used
+#' @export
+#' @return Data with missing values
+#' @examples
+#' whole_data <- data.frame(a = rnorm(1000),
+#'                         b = rnorm(1000))
+#'
+#' missing_data <- add_missingness(whole_data, 0.1)
+add_missingness <- function(X, prop, cols = NULL) {
+
+
+  if (is.null(cols)) {
+    cols <- names(X)
+  }
+
+  for (column in cols) {
+
+    # Generate an indicator variable with 10% probability of assigning missingness
+    r <- sample(c(FALSE,TRUE),
+                length(X[[column]]),
+                replace = TRUE, prob = c(1-prop,prop))
+
+    # Corrupt data based on missingness indicator
+    X[[column]] <- ifelse(r, NA, X[[column]])
+  }
+
+  return(X)
+
+}
 
 

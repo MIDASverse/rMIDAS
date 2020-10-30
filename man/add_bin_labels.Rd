@@ -4,7 +4,7 @@
 \alias{add_bin_labels}
 \title{Reverse numeric conversion of binary vector}
 \usage{
-add_bin_labels(x, one, zero)
+add_bin_labels(x, one, zero, fast = TRUE)
 }
 \arguments{
 \item{x}{A numeric vector or column, scaled between 0 and 1}
@@ -12,6 +12,8 @@ add_bin_labels(x, one, zero)
 \item{one}{A character string, the label associated with binary value 1}
 
 \item{zero}{A character string, the label associated with binary value 0}
+
+\item{fast}{Boolean indicating whether to return binary value 1 if predicted probability >= 0.5  (TRUE), or take random draw using predicted probability as weighting.}
 }
 \value{
 Vector of character strings corresponding to binary values

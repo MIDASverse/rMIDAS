@@ -10,7 +10,7 @@ status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org
 [![R build
 status](https://github.com/MIDASverse/rMIDAS/workflows/R/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R)
 [![R build
-status](https://github.com/tsrobinson/rMIDAS/workflows/R-CMD-check/badge.svg)](https://github.com/tsrobinson/rMIDAS/actions)
+status](https://github.com/tsrobinson/rMIDAS/workflows/R-CMD-check/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions)
 <!-- badges: end -->
 
 ## Overview

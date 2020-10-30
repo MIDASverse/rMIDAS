@@ -121,7 +121,7 @@ train <- function(data,
 #' @param unscale Boolean, indicating whether to unscale any columns that were previously minmax scaled between 0 and 1
 #' @param bin_label Boolean, indicating whether to add back labels for binary columns
 #' @param cat_coalesce Boolean, indicating whether to decode the one-hot encoded categorical variables
-#' @param fast Boolean, indicating whether to impute category with highest predicted probability (TRUE), or to use predicted probabilities to make weighted sample of category levels
+#' @param fast Boolean, indicating whether to impute category with highest predicted probability (TRUE), or to use predicted probabilities to make weighted sample of category levels (FALSE)
 #' @return List of length `m`, each element of which is a completed data.frame (i.e. no missing values)
 #' @import data.table
 #' @export
