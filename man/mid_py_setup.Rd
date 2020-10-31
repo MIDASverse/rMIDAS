@@ -7,7 +7,7 @@
 mid_py_setup()
 }
 \description{
-This function checks if the required Python dependencies are installed, and if not, checks with user before installing them.
-This function is called automatically within \code{set_python_env}, and should only need to be used when manually configuring python installs using reticulate.
+This helper function checks if the required Python dependencies are installed, and if not, checks with user before installing them.
+Users should not call this function directly. Users can set a custom python install using \code{set_python_env()} so long as this is done prior to the first call to \code{train()} or \code{complete()}.
 }
 \keyword{setup}

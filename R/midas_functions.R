@@ -68,6 +68,11 @@ train <- function(data,
   # noise_type = 'bernoulli',
   # kld_min = 0.01) {
 
+  if (is.null(options("python_initialised")$python_initialised)) {
+    message("Initialising Python connection")
+    python_init()
+  }
+
   # NB: savepath overwritten to R tmp directory to ensure CRAN compatibility
   # But this seems to cause issue when tempdir() returns double slash
   # So adding minor gsub command to fix
@@ -137,6 +142,10 @@ complete <- function(mid_obj,
 
   if (!("midas_base.Midas" %in% class(mid_obj))) {
     stop("Trained midas object not supplied to 'mid_obj' argument")
+  }
+
+  if (is.null(options("python_initialised")$python_initialised)) {
+    python_init()
   }
 
   if (!("preproc" %in% names(mid_obj))) {

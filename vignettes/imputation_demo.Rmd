@@ -16,7 +16,7 @@ This vignette provides a brief demonstration of using **rMIDAS** to multiply imp
 
 ## Ensure your system is correctly configured
 
-rMIDAS relies on Python to run the MIDAS imputation algorithm, and so you should ensure you have a Python 3.X environment installed on your machine. When the package is first loaded, it will try and automatically locate a suitable Python environment, but if this fails you will receive a warning message. When this occurs, users can manually specify a Python binary, virtualenv, or condaenv using the `set_python_` functions (see the help files for more information).
+rMIDAS relies on Python to run the MIDAS imputation algorithm, and so you should ensure you have a Python 3.X environment installed on your machine. When the package is first loaded, it will try and automatically locate a suitable Python environment, but if this fails you will receive a warning message. When this occurs, users can manually specify a Python binary, virtualenv, or condaenv using `set_python_env()` (see the help files for more information).
 
 ## Loading the data
 

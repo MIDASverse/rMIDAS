@@ -28,12 +28,7 @@ data:
     following Rubin’s Rules.
 
 **rMIDAS** is based on the Python class
-[MIDASpy](https://github.com/MIDASverse/MIDASpy). For more information
-on the underlying imputation method, MIDAS, see:
-
-Lall, Ranjit, and Thomas Robinson. 2020. “Applying the MIDAS Touch: How
-to Handle Missing Values in Large and Complex Data.” APSA Preprints.
-<https://doi.org/10.33774/apsa-2020-3tk40-v3>
+[MIDASpy](https://github.com/MIDASverse/MIDASpy).
 
 ### Efficient handling of large data
 
@@ -45,6 +40,15 @@ efficiency of multiple imputation analysis:
   - Automatic reversing of all pre-processing steps prior to analysis
   - Built-in regression function based on `glm` (applying Rubin’s
     combination rules)
+
+### Background on method
+
+For more information on the underlying multiple imputation method,
+MIDAS, see:
+
+Lall, Ranjit, and Thomas Robinson. 2020. “Applying the MIDAS Touch: How
+to Handle Missing Values in Large and Complex Data.” APSA Preprints.
+<https://doi.org/10.33774/apsa-2020-3tk40-v3>
 
 ## Installation
 
@@ -68,7 +72,9 @@ Note that rMIDAS uses the
 [reticulate](https://github.com/rstudio/reticulate) package to interface
 with Python. Users must have Python 3.X installed in order to run MIDAS.
 rMIDAS will automatically try to find Python 3 unless users specify
-their own version, using the following code:
+their own version using `set_python_env()` (examples below). Setting a
+custom Python install must be performed *before* training or imputing
+data occurs:
 
 ``` r
 library(rMIDAS)
@@ -81,6 +87,8 @@ set_python_env(path = "path/to/virtual/env", type = "virtualenv", exact = FALSE)
 
 # Point to a condaenv, where conda can be supplied to choose a specific executable
 set_python_env(path = "path/to/conda/env", type = "auto", exact = FALSE, conda = "auto")
+
+# Now run rMIDAS::train() and rMIDAS::complete()...
 ```
 
 <!-- ## Usage -->

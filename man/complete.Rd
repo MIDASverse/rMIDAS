@@ -16,7 +16,7 @@ complete(
 )
 }
 \arguments{
-\item{mid_obj}{Object of class \code{midas}, the result of running \code{rMIDAS::impute()}}
+\item{mid_obj}{Object of class \code{midas}, the result of running \code{rMIDAS::train()}}
 
 \item{m}{An integer, the number of completed datasets required}
 

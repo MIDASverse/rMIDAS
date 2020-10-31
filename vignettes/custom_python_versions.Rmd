@@ -1,0 +1,57 @@
+---
+title: "Using custom Python versions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using custom Python versions}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This vignette provides more detail on the three different ways to initialise the R session's connection to Python using the **rMIDAS** package, as well as [**reticulate**](https://github.com/rstudio/reticulate).
+
+## Option 1: Do nothing!
+ 
+rMIDAS relies on Python 3 to run the MIDAS imputation algorithm. For most users the default settings within **rMIDAS** will be sufficient so long as a version of Python 3 is installed on the system.
+
+If a suitable Python version is not found on your system, you will be asked to manually set the path to a Python binary. You can do this by following option 2 below.
+
+## Option 2: 
+
+If the automatic setup returns an error, or you wish to use a specific Python binary on your system, you can use the `set_python_env()` function within **rMIDAS**, providing an exact path to your chosen Python binary:
+
+```{r, eval = FALSE}
+
+library(rMIDAS)
+
+set_python_env("~/path/to/bin/python")
+
+# Then proceed as normal...
+
+```
+
+As with option 1, **rMIDAS** will handle all other aspects of configuring Python to run the MIDAS algorithm.
+
+*Note*: **reticulate** only allows you to set a Python binary once per R session, and so if you wish to switch to a different Python binary, or have already run `train()` or `convert()`, you will need to restart R prior to using `set_python_env()`. You can check whether the correct Python version has been loaded by running `reticulate::py_discover_config()`.
+
+## Option 3:
+
+If you would like more granular control of the R-Python interface, for instance to point to a specific virtual or conda environment, it is possible to use **reticulate**'s in-built Python configuration tools prior to running `train()`.
+
+Unlike options 1 and 2, however, this configuration take place outside the **rMIDAS** package, and so you must also manually call `midas_setup()` after configuring your Python install, e.g.:
+
+```{r, eval = FALSE}
+
+library(rMIDAS)
+
+reticulate::use_condaenv(condaenv = "myenv", required = TRUE)
+midas_setup()
+
+# Then proceed as normal...
+
+```
+
+*Note*: As with option 2, **reticulate** only allows you to set a Python binary once per R session. If you wish to switch to a different Python binary, or have already run `train()` or `convert()`, you will need to restart R prior to changing Python version and then call `midas_setup()`.
