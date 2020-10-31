@@ -114,7 +114,7 @@ train <- function(data,
 #'
 #' Having trained an imputation model, complete() produces `m` completed datasets, saved as a list.
 #' @keywords imputation
-#' @param mid_obj Object of class `midas`, the result of running `rMIDAS::impute()`
+#' @param mid_obj Object of class `midas`, the result of running `rMIDAS::train()`
 #' @param m An integer, the number of completed datasets required
 #' @param file Path to save completed datasets. If `NULL`, completed datasets are only loaded into memory.
 #' @param file_root A character string, used as the root for all filenames when saving completed datasets if a `filepath` is supplied. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"

@@ -1,10 +1,10 @@
 #' Pre-process data for Midas imputation
 #'
-#' `convert` pre-processes datasets to enable user-friendly interface with the main `impute` function.
+#' `convert` pre-processes datasets to enable user-friendly interface with the main `train()` function.
 #'
 #' The function has two advantages over manual pre-processing:
 #' 1. Utilises data.table for fast read-in and processing of large datasets
-#' 2. Outputs an object that can be passed directly to `impute` without re-specifying column names etc.
+#' 2. Outputs an object that can be passed directly to `train()` without re-specifying column names etc.
 #' @keywords preprocessing
 #' @param data Either an object of class `data.frame`, `data.table`, or a path to a regular, delimited file
 #' @param bin_cols,cat_cols A vector, column names corresponding to binary and categorical variables respectively
