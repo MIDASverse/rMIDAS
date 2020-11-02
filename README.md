@@ -20,20 +20,22 @@ accurate and efficient algorithm based on deep learning methods. The
 package provides a simplified workflow for imputing and then analyzing
 data:
 
+
   - `convert()` carries out all necessary preprocessing steps
-  - `train()` constructs and trains a MIDAS imputation model.
+  - `train()` constructs and trains a MIDAS imputation model
   - `complete()` generates multiple completed datasets from the trained
     model
-  - `combine()` runs regression analysis across the complete data,
-    following Rubin’s Rules.
+  - `combine()` estimates regression models on the complete data,
+    using Rubin’s combination Rules
+
 
 **rMIDAS** is based on the Python class
 [MIDASpy](https://github.com/MIDASverse/MIDASpy).
 
 ### Efficient handling of large data
 
-**rMIDAS** also incorporates several features to streamline and improve
-the efficiency of multiple imputation analysis:
+rMIDAS also incorporates several features to streamline and improve the
+efficiency of multiple imputation analysis:
 
   - Optimisation for large datasets using `data.table` and `mltools`
     packages
@@ -52,7 +54,7 @@ to Handle Missing Values in Large and Complex Data.” APSA Preprints.
 
 ## Installation
 
-**rMIDAS** is now available on
+rMIDAS is now available on
 [CRAN](https://cran.r-project.org/package=rMIDAS). To install the
 package in R, you can use the following code:
 
@@ -68,7 +70,7 @@ code:
 devtools::install_github("MIDASverse/rMIDAS")
 ```
 
-Note that **rMIDAS** uses the
+Note that rMIDAS uses the
 [reticulate](https://github.com/rstudio/reticulate) package to interface
 with Python. Users must have Python 3.5 - 3.8 installed in order to run
 MIDAS (Python 3.9 is not yet supported). rMIDAS will automatically try
@@ -91,19 +93,19 @@ set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 # Now run rMIDAS::train() and rMIDAS::complete()...
 ```
 
-## Vignettes
+## Vignettes (including demo)
 
 **rMIDAS** is packaged with two vignettes:
 
 1.  `vignette("impute-demo", "rMIDAS")` demonstrates the basic workflow
-    of using the **rMIDAS** package
+    and capacities of **rMIDAS**
 2.  `vignette("custom-python", "rMIDAS")` provides detailed guidance on
-    configuring Python binaries and environments, including
+    configuring Python binaries and environments, including some
     troubleshooting tips
 
 ## Getting help
 
-**rMIDAS** is still in development, and we may not have caught all bugs.
-If you come across any difficulties, or have any suggestions for
+rMIDAS is still in development, and we may not have caught all bugs. If
+you come across any difficulties, or have any suggestions for
 improvements, please raise an issue
 [here](https://github.com/MIDASverse/MIDASpy/issues).
