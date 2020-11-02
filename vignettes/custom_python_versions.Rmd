@@ -79,6 +79,7 @@ Sometimes the above three options may fail due to system configuration issues. H
 If you are using a Mac, **reticulate** may be defaulting to Python 2.7 which is not supported by **rMIDAS**. If this is the case you will have to configure the R session to use a Python 3 binary, as in option 2 above, by running:
 
 ```{r, eval = FALSE}
+
 set_python_env("/usr/local/bin/python3")
 
 # Then proceed as normal...
@@ -88,7 +89,6 @@ If this returns an error, it's likely **reticulate** cannot find a Python enviro
 
 ```{r, eval = FALSE}
 
-# 
 reticulate::virtualenv_create(envname = "myenv", python = "/path/to/your/python3/bin")
 set_python_env("myenv", type = "virtualenv")
 
