@@ -1,0 +1,107 @@
+---
+title: "Using custom Python versions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{custom-python}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This vignette describes the three different ways to initialize the R session's connection to Python using the **rMIDAS** package as well as [**reticulate**](https://github.com/rstudio/reticulate).
+
+## Option 1: Do nothing!
+ 
+rMIDAS relies on Python 3.X to run the MIDAS imputation algorithm (note: Python 3.9 is not yet supported). For most users, the default settings in **rMIDAS** will be sufficient. Both `train()` and `complete()` check if Python has been initialized and, if not, run the required setup using the best Python 3 version available on your system (as determined by **reticulate**). The first time you run **rMIDAS** after installation, you may be prompted to install additional Python dependencies.
+
+If a suitable Python version is not found on your system, you will be asked to manually set the path to a Python binary. You can do this using the next option.
+
+## Option 2: 
+
+If the automatic setup returns an error or you wish to use a specific Python binary on your system, you can use the `set_python_env()` function in **rMIDAS**, providing an exact path to your chosen Python binary:
+
+```{r, eval = FALSE}
+
+library(rMIDAS)
+
+set_python_env(python = "~/path/to/bin/python")
+
+# Then proceed as normal...
+
+```
+
+With `set_python_env()` you can also set a virtualenv or condaenv environment:
+
+```{r, eval = FALSE}
+
+library(rMIDAS)
+
+set_python_env(python = "myenv", type = "virtualenv")
+
+# or
+
+set_python_env(python = "mycondaenv", type = "conda")
+
+# Then proceed as normal...
+
+```
+
+**rMIDAS** will handle the rest of the initialization and setup.
+
+*Note*: **reticulate** only allows you to set a Python binary once per R session, so if you wish to switch to a different Python binary, or have already run `train()` or `convert()`, you will need to restart R prior to using `set_python_env()`.
+
+## Option 3:
+
+If you desire more granular control of the R-Python interface, it is possible to use **reticulate**'s in-built Python configuration tools. Since these commands are outside of **rMIDAS**, you must also manually call `midas_setup()` after configuring your Python install, e.g.:
+
+```{r, eval = FALSE}
+
+library(rMIDAS)
+
+reticulate::use_condaenv(condaenv = "myenv", conda = "some_conda_executable", required = FALSE)
+midas_setup()
+
+# Then proceed as normal...
+
+```
+
+As with option 2, **reticulate** only allows you to set a Python binary once per R session. If you wish to switch to a different Python binary, or have already run `train()` or `convert()`, you will need to restart R prior to changing Python version and then call `midas_setup()`.
+
+## Troubleshooting errors
+
+Sometimes the above three options may fail due to system configuration issues. Here we note a few common issues and fixes.
+
+### Mac defaults to Python 2.7
+
+If you are using a Mac, **reticulate** may be defaulting to Python 2.7 which is not supported by **rMIDAS**. If this is the case you will have to configure the R session to use a Python 3 binary, as in option 2 above, by running:
+
+```{r, eval = FALSE}
+
+set_python_env("/usr/local/bin/python3")
+
+# Then proceed as normal...
+```
+
+If this returns an error, it's likely **reticulate** cannot find a Python environment related to the binary. In which case we recommend restarting the R session and creating a `virtualenv` that points to your desired Python 3 binary, as follows:
+
+```{r, eval = FALSE}
+
+reticulate::virtualenv_create(envname = "myenv", python = "/path/to/your/python3/bin")
+set_python_env("myenv", type = "virtualenv")
+
+# Then proceed as normal...
+
+```
+
+### Shared library access
+
+If, after setting a Python binary/virtualenv/conda environment using either **rMIDAS** or **reticulate**, you still get an error, it is worth calling `reticulate::py_discover_config` to check whether the required python binary is visible.
+
+If the `python` path is correct, but `libpython` is listed as `[NOT FOUND]` this suggests your Python binary does not have a shared library. In which case, either point to an alternative Python binary or reinstall your Python version with shared library enabled. On a Unix/Linux system, and using `pyenv`, this can be done as follows (replacing the version number as required):
+
+```{bash, eval = FALSE}
+env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.6
+```

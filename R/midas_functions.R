@@ -68,7 +68,14 @@ train <- function(data,
   # noise_type = 'bernoulli',
   # kld_min = 0.01) {
 
+  if (is.null(options("python_initialised")$python_initialised)) {
+    message("Initialising Python connection")
+    python_init()
+  }
+
   # NB: savepath overwritten to R tmp directory to ensure CRAN compatibility
+  # But this seems to cause issue when tempdir() returns double slash
+  # So adding minor gsub command to fix
 
   mod_inst <- import_midas(layer_structure = as.integer(layer_structure),
                            learn_rate = learn_rate,
@@ -82,7 +89,7 @@ train <- function(data,
                            dropout_level = dropout_level,
                            vae_alpha = vae_alpha,
                            vae_sample_var = vae_sample_var,
-                           savepath= tempdir())
+                           savepath= gsub("//","/",tempdir()))
 
   transf_model = FALSE
   if (class(data) == "midas_pre") {
@@ -98,7 +105,7 @@ train <- function(data,
                                     softmax_columns = softmax_columns,
                                     binary_columns = binary_columns)
 
-  mod_train <- mod_build$train_model(training_epochs = training_epochs)
+  mod_train <- mod_build$train_model(training_epochs = as.integer(training_epochs))
 
   if (transf_model) {
     mod_train$preproc <- data
@@ -112,13 +119,14 @@ train <- function(data,
 #'
 #' Having trained an imputation model, complete() produces `m` completed datasets, saved as a list.
 #' @keywords imputation
-#' @param mid_obj Object of class `midas`, the result of running `rMIDAS::impute()`
+#' @param mid_obj Object of class `midas`, the result of running `rMIDAS::train()`
 #' @param m An integer, the number of completed datasets required
 #' @param file Path to save completed datasets. If `NULL`, completed datasets are only loaded into memory.
 #' @param file_root A character string, used as the root for all filenames when saving completed datasets if a `filepath` is supplied. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"
 #' @param unscale Boolean, indicating whether to unscale any columns that were previously minmax scaled between 0 and 1
 #' @param bin_label Boolean, indicating whether to add back labels for binary columns
 #' @param cat_coalesce Boolean, indicating whether to decode the one-hot encoded categorical variables
+#' @param fast Boolean, indicating whether to impute category with highest predicted probability (TRUE), or to use predicted probabilities to make weighted sample of category levels (FALSE)
 #' @return List of length `m`, each element of which is a completed data.frame (i.e. no missing values)
 #' @import data.table
 #' @export
@@ -128,11 +136,16 @@ complete <- function(mid_obj,
                      unscale = TRUE,
                      bin_label = TRUE,
                      cat_coalesce = TRUE,
+                     fast = FALSE,
                      file = NULL,
                      file_root = NULL) {
 
   if (!("midas_base.Midas" %in% class(mid_obj))) {
     stop("Trained midas object not supplied to 'mid_obj' argument")
+  }
+
+  if (is.null(options("python_initialised")$python_initialised)) {
+    python_init()
   }
 
   if (!("preproc" %in% names(mid_obj))) {
@@ -142,6 +155,10 @@ complete <- function(mid_obj,
   }
 
   draws <- mid_obj$generate_samples(m = as.integer(m))$output_list
+
+  if ((unscale || bin_label || cat_coalesce)) {
+    message("Imputations generated. Completing post-imputation transformations.\n")
+  }
 
   ## Reverse pre-processing steps from convert():
   draws_post <- lapply(draws, function(df) {
@@ -170,7 +187,10 @@ complete <- function(mid_obj,
 
       for (j in bin_cols) {
 
-        set(df, j = j, value = add_bin_labels(df[[j]], one = bin_params[[j]][1], zero = bin_params[[j]][2]))
+        set(df, j = j, value = add_bin_labels(df[[j]],
+                                              one = bin_params[[j]][1],
+                                              zero = bin_params[[j]][2],
+                                              fast))
 
       }
 
@@ -186,7 +206,8 @@ complete <- function(mid_obj,
         set(df,
             j = cat_cols[[i]],
             value = coalesce_one_hot(X = df[,cat_params[[i]], with = FALSE],
-                                     var_name = cat_cols[i]))
+                                     var_name = cat_cols[i],
+                                     fast))
 
       }
 
@@ -203,6 +224,8 @@ complete <- function(mid_obj,
   # --- Save files
 
   if (!is.null(file)) {
+
+    message("Saving imputed datasets.\n")
 
     if (is.null(file_root)) {
 
@@ -293,7 +316,7 @@ overimpute <- function(# Input data
   }
 
   if (plot_vars) {
-    cat("**Note**: Plotting variables is enabled.\n Overimputation will not proceed until these graphs are closed.")
+    message("**Note**: Plotting variables is enabled.\n Overimputation will not proceed until these graphs are closed.")
   }
 
 

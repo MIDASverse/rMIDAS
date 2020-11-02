@@ -4,12 +4,14 @@
 \alias{coalesce_one_hot}
 \title{Coalesce one-hot encoding back to a single variable}
 \usage{
-coalesce_one_hot(X, var_name)
+coalesce_one_hot(X, var_name, fast = TRUE)
 }
 \arguments{
 \item{X}{A data.frame, data.table or matrix, for a single variable}
 
 \item{var_name}{A character string, with the original variable label}
+
+\item{fast}{Boolean, indicating whether to choose category with highest predicted probability (TRUE), or use predicted probabilities as weights in draw from random distribution}
 }
 \value{
 A vector of length equal to \code{nrow(X)}, containing categorical labels corresponding to the columns of \code{X}

@@ -25,13 +25,13 @@ Returns custom S3 object of class `midas_preproc' containing:
 List containing converted data, categorical and binary labels to be imported into the imputation model, and scaling parameters for post-imputation transformations.
 }
 \description{
-\code{convert} pre-processes datasets to enable user-friendly interface with the main \code{impute} function.
+\code{convert} pre-processes datasets to enable user-friendly interface with the main \code{train()} function.
 }
 \details{
 The function has two advantages over manual pre-processing:
 \enumerate{
 \item Utilises data.table for fast read-in and processing of large datasets
-\item Outputs an object that can be passed directly to \code{impute} without re-specifying column names etc.
+\item Outputs an object that can be passed directly to \code{train()} without re-specifying column names etc.
 }
 }
 \examples{
