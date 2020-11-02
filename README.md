@@ -20,14 +20,12 @@ accurate and efficient algorithm based on deep learning methods. The
 package provides a simplified workflow for imputing and then analyzing
 data:
 
-
   - `convert()` carries out all necessary preprocessing steps
   - `train()` constructs and trains a MIDAS imputation model
   - `complete()` generates multiple completed datasets from the trained
     model
-  - `combine()` estimates regression models on the complete data,
-    using Rubin’s combination Rules
-
+  - `combine()` runs regression analysis across the complete data,
+    following Rubin’s combination Rules
 
 **rMIDAS** is based on the Python class
 [MIDASpy](https://github.com/MIDASverse/MIDASpy).
@@ -35,7 +33,7 @@ data:
 ### Efficient handling of large data
 
 rMIDAS also incorporates several features to streamline and improve the
-efficiency of multiple imputation analysis:
+the efficiency of multiple imputation analysis:
 
   - Optimisation for large datasets using `data.table` and `mltools`
     packages
