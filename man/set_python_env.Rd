@@ -4,17 +4,21 @@
 \alias{set_python_env}
 \title{Manually select python binary}
 \usage{
-set_python_env(path)
+set_python_env(python, type = "auto", ...)
 }
 \arguments{
-\item{path}{Character string, path to python binary}
+\item{python}{Character string, path to python binary, or directory of virtualenv, or name of conda environment}
+
+\item{type}{Character string, specifies whether to set a python binary ("auto"), "virtualenv", or "conda"}
+
+\item{...}{Further arguments passed to \code{reticulate::use_condaenv()}}
 }
 \value{
 Boolean indicating whether the custom python environment was activated.
 }
 \description{
-This function allows users to set a custom python binary from which the MIDAS algorithm is run.
-Users comfortable with reticulate can configure Python manually using \code{reticulate::use_} functions, including pointing to a virtualenv or conda environment.
+This function allows users to set a custom python binary, virtualenv or conda environment, from which the MIDAS algorithm is run.
+Users comfortable with reticulate can configure Python manually using \code{reticulate::use_}.
 Note: If users wish to set a custom binary/environment, this must be completed prior to the first call to either \code{train()} or \code{complete()}. The same is true if users use the reticulate package directly.
 If users wish to switch to a different Python binaries, R must be restarted prior to calling this function.
 }

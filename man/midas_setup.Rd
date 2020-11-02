@@ -10,6 +10,10 @@ midas_setup()
 This function allows users to initialise a custom Python configuration to run MIDAS, having manually set a Python version using \code{reticulate::use_python}, \code{reticulate::use_virtualenv}, \code{reticulate::use_condaenv}, or \code{reticulate::use_miniconda}.
 }
 \note{
-This function is primarily aimed at users who wish to have complete control over configuring which Python version is used. This function call is \strong{not} required if users do not manually configure their Python configuration via the \code{reticulate} package. This function is also not required if using the \code{rMIDAS::set_python_env()} function. If users set a custom binary/environment, this must be completed prior to the first call to either \code{train()} or \code{complete()}.
+This function is primarily for users who wish to have complete control over configuring Python versions and environments.
+
+This function call is \strong{not} required if users either use the \code{rMIDAS::set_python_env()} function or leave settings at their default.
+
+If users set a custom binary/environment, this must be completed prior to the first call to either \code{train()} or \code{complete()}.
 }
 \keyword{setup}

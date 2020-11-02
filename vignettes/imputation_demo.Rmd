@@ -2,7 +2,7 @@
 title: "Imputing missing data using rMIDAS"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Imputing missing data using rMIDAS}
+  %\VignetteIndexEntry{impute-demo}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -12,15 +12,15 @@ knitr::opts_chunk$set(echo = TRUE)
 LOCAL <- identical(Sys.getenv("LOCAL"), "true")
 ```
 
-This vignette provides a brief demonstration of using **rMIDAS** to multiply impute missing data using the MIDAS imputation algorithm. We show how to use the package to multiply impute missing values using the Adult census data, a commonly used machine-learning dataset.
+This vignette provides a brief demonstration of **rMIDAS**. We show how to use the package to multiply impute missing values in the Adult census dataset, which is commonly used for benchmarking machine learning tasks.
 
 ## Ensure your system is correctly configured
 
-rMIDAS relies on Python to run the MIDAS imputation algorithm, and so you should ensure you have a Python 3.X environment installed on your machine. When the package is first loaded, it will try and automatically locate a suitable Python environment, but if this fails you will receive a warning message. When this occurs, users can manually specify a Python binary, virtualenv, or condaenv using `set_python_env()` (see the help files for more information).
+**rMIDAS** relies on Python to implement the MIDAS imputation algorithm, so you should ensure you have a Python 3.X environment installed on your machine. When the package is first loaded, it will try and automatically locate a suitable Python environment; if this fails, you will receive a warning message. When this occurs, users can manually specify a Python binary using `set_python_env()` or via **reticulate** directly (see [this vignette](custom_python_versions.html) for more information).
 
 ## Loading the data
 
-Once **rMIDAS** is initialised, we can load in our data. For the purpose of this brief demonstration, we'll use a subset of the Adult census data (a commonly used machine learning dataset):
+Once **rMIDAS** is initialized, we can load our data. For the purpose of this example, we'll use a subset of the Adult data:
 
 ```{r, eval = LOCAL}
 library(rMIDAS)
@@ -29,7 +29,7 @@ adult <- read.csv("https://raw.githubusercontent.com/MIDASverse/MIDASpy/master/E
                   row.names = 1)[1:1000,]
 ```
 
-As the dataset has a very low proportion of missingness (one of the reasons it is favoured in machine learning communities), we randomly set approximately 10% of observed values as missing in each column using **rMIDAS'** inbuilt `add_missingness()` function:
+As the dataset has a very low proportion of missingness (one of the reasons it is favored for machine learning tasks), we randomly set 10% of observed values as missing in each column using the **rMIDAS**' `add_missingness()` function:
 
 ```{r, eval = LOCAL}
 set.seed(89)
@@ -37,7 +37,7 @@ set.seed(89)
 adult <- add_missingness(adult, prop = 0.1)
 ```
 
-Next, we list the categorical and binary variables in our data, and prepare the data for training using the `convert()` function. This function automatically preprocesses the data. Setting the `minmax_scale` parameter to `TRUE` ensures continuous variables are scaled to between 0 and 1, which can substantially improve convergence in the training step. All pre-processing steps can be reversed after we impute the missing values:
+Next, we make a list of all categorical and binary variables, before preprocessing the data for training using the `convert()` function. Setting the `minmax_scale` argument to `TRUE` ensures that continuous variables are scaled between 0 and 1, which can substantially improve convergence in the training step. All pre-processing steps can be reversed after imputation:
 
 ```{r, eval = LOCAL}
 
@@ -51,7 +51,7 @@ adult_conv <- convert(adult,
                       minmax_scale = TRUE)
 ```
 
-The data are now ready to be fed into the MIDAS algorithm, which involves a single call to the `train()` function. At this stage, we can specify the dimensions, input corruption proportion, and other hyperparameters of the MIDAS neural network as well as the number of epochs to train the network for:
+The data are now ready to be fed into the MIDAS algorithm, which involves a single call of the `train()` function. At this stage, we specify the dimensions, input corruption proportion, and other hyperparameters of the MIDAS neural network as well as the number of training epochs:
 
 ```{r, eval = LOCAL}
 # Train the model for 2 epochs
@@ -62,7 +62,9 @@ adult_train <- train(adult_conv,
                        seed = 89)
 ```
 
-Once training is complete, we can generate any number of imputed datasets using the `complete()` function (here we generate 10 complete datasets). The completed data.frames can also be saved as '.csv' files by declaring `file` and `file_root` parameters (not demonstrated here). By default, this function will unscale continuous variables and convert binary and categorical variables back to their original shape. Since the MIDAS algorithm returns predicted probabilities, categorical and binary predictions can be generated using one of two options. When `fast = FALSE` (the default), the function uses the predicted probabilities for each level to take a weighted random draw from the set of category levels. If `fast = TRUE`, the function will select the category level with the highest predicted probability. If the imputed datasets are very large, or `complete()` is taking too long to run, users may wish to try setting `fast = TRUE`:
+Once training is complete, we can generate any number of completed datasets using the `complete()` function (below we generate 10). The completed dataframes can also be saved as '.csv' files using the `file` and `file_root` arguments (not demonstrated here). By default, `complete()` unscales continuous variables and converts binary and categorical variables back to their original form.
+
+Since the MIDAS algorithm returns predicted probabilities for binary and categorical variables, imputed values of such variables can be generated using one of two options. When `fast = FALSE` (the default), `complete()` uses the predicted probabilities for each category level to take a weighted random draw from the set of all levels. When `fast = TRUE`, the function selects the level with the highest predicted probability. If completed datasets are very large or `complete()` is taking a long time to run, users may benefit from choosing the latter option:
 
 ```{r, eval = LOCAL}
 
@@ -73,11 +75,11 @@ adult_complete <- complete(adult_train, m = 10)
 head(adult_complete[[1]])
 ```
 
-Finally, the `combine()` function allows users to run multiple imputation regression analysis according to Rubin's combination rules. This function wraps the `glm()` package, and as such can be passed `glm` options as additional arguments, and run different families of model (gaussian, binomial etc.):
+Finally, the `combine()` function allows users to estimate regression models on the completed datasets with Rubin's combination rules. This function wraps the `glm()` package, whose arguments can be used to select different families of estimation methods (gaussian/OLS, binomial etc.) and to specify other aspects of the model:
 
 ```{r, eval = LOCAL}
 
-# Estimate logit model using Rubin's Rules on 10 imputed datasets
+# Estimate logit model on 10 completed datasets (using Rubin's combination rules)
 adult_model <- combine("class_labels ~ hours_per_week + sex", 
                     adult_complete,
                     family = stats::binomial)

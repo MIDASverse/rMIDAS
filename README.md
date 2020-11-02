@@ -70,32 +70,36 @@ devtools::install_github("MIDASverse/rMIDAS")
 
 Note that rMIDAS uses the
 [reticulate](https://github.com/rstudio/reticulate) package to interface
-with Python. Users must have Python 3.X installed in order to run MIDAS.
-rMIDAS will automatically try to find Python 3 unless users specify
-their own version using `set_python_env()` (examples below). Setting a
-custom Python install must be performed *before* training or imputing
-data occurs:
+with Python. Users must have Python 3.5 - 3.8 installed in order to run
+MIDAS (Python 3.9 not yet supported). rMIDAS will automatically try to
+set up a Python configuration unless users specify their own version
+using `set_python_env()` (examples below). Setting a custom Python
+install must be performed *before* training or imputing data occurs:
 
 ``` r
 library(rMIDAS)
 
 # Point to a Python binary
-set_python_env(path = "path/to/python/binary", type = "auto", exact = FALSE)
+set_python_env(python = "path/to/python/binary")
 
 # Point to a virtualenv binary
-set_python_env(path = "path/to/virtual/env", type = "virtualenv", exact = FALSE)
+set_python_env(python = "virtual_env", type = "virtualenv")
 
 # Point to a condaenv, where conda can be supplied to choose a specific executable
-set_python_env(path = "path/to/conda/env", type = "auto", exact = FALSE, conda = "auto")
+set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 
 # Now run rMIDAS::train() and rMIDAS::complete()...
 ```
 
-<!-- ## Usage -->
+## Vignettes
 
-<!-- ```{r, message = FALSE} -->
+**rMIDAS** is packaged with two vignettes:
 
-<!-- ``` -->
+1.  `vignette("impute-demo", "rMIDAS")` demonstrates the basic workflow
+    and capacites of the rMIDAS package
+2.  `vignette("custom-python", "rMIDAS")` provides detailed guidance on
+    configuring Python binaries and environments, including some
+    troubleshooting tips
 
 ## Getting help
 
