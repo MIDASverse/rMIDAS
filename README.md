@@ -71,8 +71,8 @@ devtools::install_github("MIDASverse/rMIDAS")
 Note that rMIDAS uses the
 [reticulate](https://github.com/rstudio/reticulate) package to interface
 with Python. Users must have Python 3.5 - 3.8 installed in order to run
-MIDAS (Python 3.9 not yet supported). rMIDAS will automatically try to
-set up a Python configuration unless users specify their own version
+MIDAS (Python 3.9 is not yet supported). rMIDAS will automatically try
+to set up a Python configuration unless users specify their own version
 using `set_python_env()` (examples below). Setting a custom Python
 install must be performed *before* training or imputing data occurs:
 
