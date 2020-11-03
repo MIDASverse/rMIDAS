@@ -24,8 +24,8 @@ data:
   - `train()` constructs and trains a MIDAS imputation model
   - `complete()` generates multiple completed datasets from the trained
     model
-  - `combine()` runs regression analysis across the complete data,
-    following Rubin’s combination Rules
+  - `combine()` estimates regression models on the complete data,
+    employing Rubin’s combination Rules
 
 **rMIDAS** is based on the Python class
 [MIDASpy](https://github.com/MIDASverse/MIDASpy).
