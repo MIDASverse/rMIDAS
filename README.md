@@ -82,10 +82,10 @@ library(rMIDAS)
 # Point to a Python binary
 set_python_env(python = "path/to/python/binary")
 
-# Point to a virtualenv binary
+# Or point to a virtualenv binary
 set_python_env(python = "virtual_env", type = "virtualenv")
 
-# Point to a condaenv, where conda can be supplied to choose a specific executable
+# Or point to a condaenv, where conda can be supplied to choose a specific executable
 set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 
 # Now run rMIDAS::train() and rMIDAS::complete()...
