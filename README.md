@@ -24,8 +24,8 @@ data:
   - `train()` constructs and trains a MIDAS imputation model
   - `complete()` generates multiple completed datasets from the trained
     model
-  - `combine()` estimates regression models on the complete data,
-    employing Rubin’s combination Rules
+  - `combine()` runs regression analysis across the complete data,
+    following Rubin’s combination Rules
 
 **rMIDAS** is based on the Python class
 [MIDASpy](https://github.com/MIDASverse/MIDASpy).
@@ -95,11 +95,11 @@ set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 
 **rMIDAS** is packaged with two vignettes:
 
-1.  `vignette("impute-demo", "rMIDAS")` demonstrates the basic workflow
-    and capacities of **rMIDAS**
-2.  `vignette("custom-python", "rMIDAS")` provides detailed guidance on
-    configuring Python binaries and environments, including some
-    troubleshooting tips
+1.  `vignette("imputation_demo", "rMIDAS")` demonstrates the basic
+    workflow and capacities of **rMIDAS**
+2.  `vignette("custom_python_versions", "rMIDAS")` provides detailed
+    guidance on configuring Python binaries and environments, including
+    some troubleshooting tips
 
 ## Getting help
 

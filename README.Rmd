@@ -68,10 +68,10 @@ library(rMIDAS)
 # Point to a Python binary
 set_python_env(python = "path/to/python/binary")
 
-# Point to a virtualenv binary
+# Or point to a virtualenv binary
 set_python_env(python = "virtual_env", type = "virtualenv")
 
-# Point to a condaenv, where conda can be supplied to choose a specific executable
+# Or point to a condaenv, where conda can be supplied to choose a specific executable
 set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 
 # Now run rMIDAS::train() and rMIDAS::complete()...
@@ -83,8 +83,8 @@ set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 
 **rMIDAS** is packaged with two vignettes:
 
-1. `vignette("impute-demo", "rMIDAS")` demonstrates the basic workflow and capacities of **rMIDAS**
-2. `vignette("custom-python", "rMIDAS")` provides detailed guidance on configuring Python binaries and environments, including some troubleshooting tips
+1. `vignette("imputation_demo", "rMIDAS")` demonstrates the basic workflow and capacities of **rMIDAS**
+2. `vignette("custom_python_versions", "rMIDAS")` provides detailed guidance on configuring Python binaries and environments, including some troubleshooting tips
 
 ## Getting help
 
