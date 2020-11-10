@@ -71,14 +71,14 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
     data_cat[,(cat_cols):=lapply(.SD, as.factor),.SDcols=cat_cols]
     data_cat_oh <- mltools::one_hot(data_cat, cols = names(data_cat))
 
-    cat_lists <- lapply(cat_vars,
+    cat_lists <- lapply(cat_cols,
                         function(x) {
 
                           tmp_names <- names(data_cat_oh)
                           # Locate whether other variables share same root e.g. c("var1", "var1_other")
-                          if (sum(grepl(x, cat_vars)) > 1) {
+                          if (sum(grepl(x, cat_cols)) > 1) {
 
-                            var_matches <- cat_vars[grep(x, cat_vars)]
+                            var_matches <- cat_vars[grep(x, cat_cols)]
 
                             # Get vector of variables to remove from matching
                             del_vars <- var_matches[!(var_matches == x)]
