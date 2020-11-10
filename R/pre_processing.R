@@ -91,7 +91,7 @@ convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
     if (!(sum(!is.na(b_vals)) == 2)) {
       stop("Column '",bin_col,"' does not have two non-missing values")
 
-    } else if (sum(b_vals[!is.na(b_vals)] %in% c(1,2)) != 2) {
+    } else if (sum(b_vals[!is.na(b_vals)] %in% c(1,0)) != 2) {
 
       data_bin[,bin_col] <- ifelse(data_bin[,bin_col, with = FALSE] == b_vals[!is.na(b_vals)][1],
                                    1L,0L)
