@@ -216,7 +216,7 @@ complete <- function(mid_obj,
 
     }
 
-    return(df)
+    return(as.data.frame(df))
 
   })
 
