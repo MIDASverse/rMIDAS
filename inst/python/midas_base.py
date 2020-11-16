@@ -1326,15 +1326,14 @@ class Midas(object):
                   plt.xlabel(temp_pred.columns[n_rmse])
                   plt.ylabel('Density')
                   plt.legend()
+                  
+                  if save_figs:
+                    plt.tight_layout()
+                    plt.savefig(fig_path+temp_pred.columns[n_rmse]+"_epoch_"+str(epoch)+".png")
+                    plt.clf()
+                  else:
+                    plt.show()
                 
-                
-                if save_figs:
-                  plt.tight_layout()
-                  plt.savefig(fig_path+"continuous_vars_epoch_"+str(epoch)+".png")
-                  plt.clf()
-                else:
-                  plt.show()
-
               agg_rmse += np.sqrt(mse(temp_true[temp_spike],
                                          temp_pred[temp_spike]))
             else:
