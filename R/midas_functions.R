@@ -318,7 +318,7 @@ overimpute <- function(# Input data
   }
 
   if (plot_vars) {
-    message("**Note**: Plotting for individual variables is enabled.\nIf your dataset has many variables, this will generate a lot of files!\nTo run without plotting variable graphs, set plot_vars = FALSE")
+    message("**Note**: Plotting for individual variables is enabled.\nIf your dataset has many variables, this will generate a lot of files!\nTo run without plotting variable graphs, set plot_vars = FALSE\n")
   }
 
 
