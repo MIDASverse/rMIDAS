@@ -259,6 +259,7 @@ complete <- function(mid_obj,
 #' @param plot_vars Boolean, specifies whether to plot the distribution of original versus overimputed values. This takes the form of a density plot for continuous variables and a barplot for categorical variables (showing proportions of each class).
 #' @param skip_plot Boolean, specifies whether to suppress the main graphical output. This may be desirable when users are conducting a series of overimputation exercises and are primarily interested in the console output. **Note**, when `skip_plot = FALSE`, users must manually close the resulting pyplot window before the code will terminate.
 #' @param spike_seed,seed An integer, to initialize the pseudo-random number generators. Separate seeds can be provided for the spiked-in missingness and imputation, otherwise `spike_seed` is set to `seed` (default = 123L).
+#' @param save_path String, indicating directory to save overimputation figures.
 #' @inheritParams train
 #' @seealso \code{\link{train}} for the main imputation function.
 #' @export
@@ -276,6 +277,7 @@ overimpute <- function(# Input data
                        plot_vars = FALSE,
                        skip_plot = FALSE,
                        spike_seed = NULL,
+                       save_path = "",
 
                        # MIDAS model parameters
                        layer_structure = c(256,256,256),
@@ -358,7 +360,9 @@ overimpute <- function(# Input data
                                       plot_vars = plot_vars,
                                       skip_plot = skip_plot,
                                       plot_main = FALSE,
-                                      spike_seed = as.integer(spike_seed))
+                                      spike_seed = as.integer(spike_seed),
+                                      save_figs = TRUE,
+                                      fig_path = save_path)
 
   return(mod_overimp)
 
