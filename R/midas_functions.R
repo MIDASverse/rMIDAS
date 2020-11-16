@@ -318,7 +318,8 @@ overimpute <- function(# Input data
   }
 
   if (plot_vars) {
-    message("**Note**: Plotting variables is enabled.\n Overimputation will not proceed until these graphs are closed.")
+    message("**Note**: Plotting for individual variables is enabled.\n If your dataset has many variables, this will generate a lot of files!
+            To run without plotting variable graphs, set plot_vars = FALSE")
   }
 
 
