@@ -1000,6 +1000,8 @@ class Midas(object):
                  excessive= False,
                  plot_main = True,
                  skip_plot = False,
+                 save_figs = False,
+                 fig_path = "",
                  ):
     """
     This function spikes in additional missingness, so that known values can be
@@ -1073,6 +1075,12 @@ class Midas(object):
       (default = False). This may be desirable when users are conducting multiple 
       overimputation exercises sequentially and are primarily interested in the console 
       output.
+      
+      save_figs: Boolean. Specifies whether to save generated figures instead of
+      displaying graphical output (default = False).
+      
+      fig_path: String. Specifies path to save pyplots if save_figs = True 
+      (default = working directory).
 
       verbose: Boolean. Prints out messages, including loss, to the terminal (default = True).
 
@@ -1291,7 +1299,12 @@ class Midas(object):
                 plt.xlabel(temp_true_name)
                 plt.ylabel('Proportion')
                 plt.legend()
-                plt.show()
+                
+                if save_figs:
+                  plt.savefig(fig_path+"/"+temp_true_name+"_epoch_"+epoch+".png")
+                else:
+                  plt.show()
+                  
               agg_sacc += (1 - sacc(temp_true.values, temp_pred.values,
                                    temp_spike)) / n_softmax
             elif self.output_types[n] == 'rmse':
@@ -1311,7 +1324,12 @@ class Midas(object):
                   plt.xlabel(temp_pred.columns[n_rmse])
                   plt.ylabel('Density')
                   plt.legend()
-                plt.show()
+                
+                
+                if save_figs:
+                  plt.savefig(fig_path+"/continuous_vars_epoch_"+epoch+".png")
+                else:
+                  plt.show()
 
               agg_rmse += np.sqrt(mse(temp_true[temp_spike],
                                          temp_pred[temp_spike]))
@@ -1326,7 +1344,12 @@ class Midas(object):
                 plt.xlabel('Variables')
                 plt.ylabel('Proportion')
                 plt.legend()
-                plt.show()
+                
+                if save_figs:
+                  plt.savefig(fig_path+"/binary_vars_epoch_"+epoch+".png")
+                else:
+                  plt.show()
+
               agg_bacc += 1 - bacc(temp_true.values, temp_pred.values, temp_spike)
 
           #Plot losses depending on which loss values present in data
@@ -1392,9 +1415,11 @@ class Midas(object):
               plt.legend()
               plt.ylim(ymin= 0)
               plt.xlabel("Reporting interval")
-              plt.show()
-            
-
+              
+              if save_figs:
+                plt.savefig(fig_path+"/overimputation_error.png")
+              else:
+                plt.show()
           
       print("Overimputation complete. Adjust complexity as needed.", flush = True)
       return self
