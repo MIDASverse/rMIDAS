@@ -1175,8 +1175,8 @@ class Midas(object):
         train_rng = np.random.default_rng(self.seed)
       
       sess.run(self.init)
-      print("Model initialised")
-      print()
+      print("Model initialised", flush = True)
+      print(flush = True)
       for epoch in range(training_epochs + 1):
         count = 0
         run_loss = 0
@@ -1201,7 +1201,7 @@ class Midas(object):
             run_loss += loss
         if verbose:
           if epoch % verbosity_ival == 0:
-            print('Epoch:', epoch, ", loss:", str(run_loss/count))
+            print('Epoch:', epoch, ", loss:", str(run_loss/count), flush = True)
 
         if epoch % report_ival == 0:
           """
@@ -1333,20 +1333,20 @@ class Midas(object):
           if rmse_in:
             s_rmse.append(single_rmse)
             a_rmse.append(agg_rmse)
-            print("Individual RMSE on spike-in:", single_rmse)
-            print("Aggregated RMSE on spike-in:", agg_rmse)
+            print("Individual RMSE on spike-in:", single_rmse, flush = True)
+            print("Aggregated RMSE on spike-in:", agg_rmse, flush = True)
             
           if sacc_in:
             s_sacc.append(single_sacc)
             a_sacc.append(agg_sacc)
-            print("Individual error on softmax spike-in:", single_sacc)
-            print("Aggregated error on softmax spike-in:", agg_sacc)
+            print("Individual error on softmax spike-in:", single_sacc, flush = True)
+            print("Aggregated error on softmax spike-in:", agg_sacc, flush = True)
             
           if bacc_in:
             s_bacc.append(single_bacc)
             a_bacc.append(agg_bacc)
-            print("Individual error on binary spike-in:", single_bacc)
-            print("Aggregated error on binary spike-in:", agg_bacc)
+            print("Individual error on binary spike-in:", single_bacc, flush = True)
+            print("Aggregated error on binary spike-in:", agg_bacc, flush = True)
 
           if plot_main or ((training_epochs - epoch) < report_ival):
             if rmse_in:
@@ -1396,7 +1396,7 @@ class Midas(object):
             
 
           
-      print("Overimputation complete. Adjust complexity as needed.")
+      print("Overimputation complete. Adjust complexity as needed.", flush = True)
       return self
 
   def build_model_pipeline(self,
