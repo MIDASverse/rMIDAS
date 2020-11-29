@@ -25,6 +25,7 @@ import_midas <- function(...) {
 #' @param learn_rate A number, the learning rate \eqn{\gamma} (default = 0.0001), which controls the size of the weight adjustment in each training epoch. In general, higher values reduce training time at the expense of less accurate results.
 #' @param input_drop A number between 0 and 1. The probability of corruption for input columns in training mini-batches (default = 0.8). Higher values increase training time but reduce the risk of overfitting. In our experience, values between 0.7 and 0.95 deliver the best performance.
 #' @param seed An integer, the value to which \proglang{Python}'s pseudo-random number generator is initialized. This enables users to ensure that data shuffling, weight and bias initialization, and missingness indicator vectors are reproducible.
+#' @param train_batch An integer, the number of observations in training mini-batches (default = 16).
 #' @param latent_space_size An integer, the number of normal dimensions used to parameterize the latent space.
 #' @param cont_adj A number, weights the importance of continuous variables in the loss function
 #' @param binary_adj A number, weights the importance of binary variables in the loss function
@@ -46,6 +47,7 @@ train <- function(data,
                    learn_rate = 0.0004,
                    input_drop = 0.8,
                    seed=123L,
+                   train_batch = 16L,
                    latent_space_size = 4,
                    cont_adj= 1.0,
                    binary_adj= 1.0,
@@ -56,7 +58,6 @@ train <- function(data,
                    vae_sample_var = 1.0) {
 
   ## Parameters not integrated:
-  # train_batch = 16,
   # output_layers= 'reversed',
   # loss_scale= 1,
   # init_scale= 1,
@@ -362,7 +363,7 @@ overimpute <- function(# Input data
                                       plot_main = FALSE,
                                       spike_seed = as.integer(spike_seed),
                                       save_figs = TRUE,
-                                      fig_path = save_path)
+                                      save_path = save_path)
 
   return(mod_overimp)
 
