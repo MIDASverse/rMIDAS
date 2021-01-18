@@ -5,12 +5,12 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org/package=rMIDAS)
-[![R build
-status](https://github.com/MIDASverse/rMIDAS/workflows/R/badge.svg)](https://github.com/tidyverse/dplyr/actions?workflow=R)
 [![R build
 status](https://github.com/tsrobinson/rMIDAS/workflows/R-CMD-check/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org/package=rMIDAS)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2021--01--18-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
 ## Overview
