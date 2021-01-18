@@ -31,7 +31,7 @@
 #' cat <- c("a","f")
 #'
 #' convert(data, bin_cols = bin, cat_cols = cat)
-convert <- function(data, bin_cols, cat_cols, minmax_scale = FALSE) {
+convert <- function(data, bin_cols = NULL, cat_cols = NULL, minmax_scale = FALSE) {
 
   # Check data input
 
