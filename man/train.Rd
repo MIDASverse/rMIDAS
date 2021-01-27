@@ -13,6 +13,7 @@ train(
   learn_rate = 4e-04,
   input_drop = 0.8,
   seed = 123L,
+  train_batch = 16L,
   latent_space_size = 4,
   cont_adj = 1,
   binary_adj = 1,
@@ -39,6 +40,8 @@ train(
 \item{input_drop}{A number between 0 and 1. The probability of corruption for input columns in training mini-batches (default = 0.8). Higher values increase training time but reduce the risk of overfitting. In our experience, values between 0.7 and 0.95 deliver the best performance.}
 
 \item{seed}{An integer, the value to which \proglang{Python}'s pseudo-random number generator is initialized. This enables users to ensure that data shuffling, weight and bias initialization, and missingness indicator vectors are reproducible.}
+
+\item{train_batch}{An integer, the number of observations in training mini-batches (default = 16).}
 
 \item{latent_space_size}{An integer, the number of normal dimensions used to parameterize the latent space.}
 

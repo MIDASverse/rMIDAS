@@ -14,10 +14,12 @@ overimpute(
   plot_vars = FALSE,
   skip_plot = FALSE,
   spike_seed = NULL,
+  save_path = "",
   layer_structure = c(256, 256, 256),
   learn_rate = 4e-04,
   input_drop = 0.8,
   seed = 123L,
+  train_batch = 16L,
   latent_space_size = 4,
   cont_adj = 1,
   binary_adj = 1,
@@ -47,11 +49,15 @@ overimpute(
 
 \item{spike_seed, seed}{An integer, to initialize the pseudo-random number generators. Separate seeds can be provided for the spiked-in missingness and imputation, otherwise \code{spike_seed} is set to \code{seed} (default = 123L).}
 
+\item{save_path}{String, indicating path to directory to save overimputation figures. Users should include a trailing "/" at the end of the path i.e. save_path = "path/to/figures/".}
+
 \item{layer_structure}{A vector of integers, The number of nodes in each layer of the network (default = \code{c(256, 256, 256)}, denoting a three-layer network with 256 nodes per layer). Larger networks can learn more complex data structures but require longer training and are more prone to overfitting.}
 
 \item{learn_rate}{A number, the learning rate \eqn{\gamma} (default = 0.0001), which controls the size of the weight adjustment in each training epoch. In general, higher values reduce training time at the expense of less accurate results.}
 
 \item{input_drop}{A number between 0 and 1. The probability of corruption for input columns in training mini-batches (default = 0.8). Higher values increase training time but reduce the risk of overfitting. In our experience, values between 0.7 and 0.95 deliver the best performance.}
+
+\item{train_batch}{An integer, the number of observations in training mini-batches (default = 16).}
 
 \item{latent_space_size}{An integer, the number of normal dimensions used to parameterize the latent space.}
 

@@ -78,7 +78,7 @@ convert <- function(data, bin_cols = NULL, cat_cols = NULL, minmax_scale = FALSE
                           # Locate whether other variables share same root e.g. c("var1", "var1_other")
                           if (sum(grepl(x, cat_cols)) > 1) {
 
-                            var_matches <- cat_vars[grep(x, cat_cols)]
+                            var_matches <- cat_cols[grep(x, cat_cols)]
 
                             # Get vector of variables to remove from matching
                             del_vars <- var_matches[!(var_matches == x)]

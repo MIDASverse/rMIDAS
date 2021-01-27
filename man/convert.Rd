@@ -4,7 +4,7 @@
 \alias{convert}
 \title{Pre-process data for Midas imputation}
 \usage{
-convert(data, bin_cols, cat_cols, minmax_scale = FALSE)
+convert(data, bin_cols = NULL, cat_cols = NULL, minmax_scale = FALSE)
 }
 \arguments{
 \item{data}{Either an object of class \code{data.frame}, \code{data.table}, or a path to a regular, delimited file}

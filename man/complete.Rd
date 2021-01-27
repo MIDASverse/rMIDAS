@@ -30,7 +30,7 @@ complete(
 
 \item{file}{Path to save completed datasets. If \code{NULL}, completed datasets are only loaded into memory.}
 
-\item{file_root}{A character string, used as the root for all filenames when saving completed datasets if a \code{filepath} is supplied. If no file_root is provided, saved datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"}
+\item{file_root}{A character string, used as the root for all filenames when saving completed datasets if a \code{filepath} is supplied. If no file_root is provided, completed datasets will be saved as "file/midas_impute_yymmdd_hhmmss_m.csv"}
 }
 \value{
 List of length \code{m}, each element of which is a completed data.frame (i.e. no missing values)
