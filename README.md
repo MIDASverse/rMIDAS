@@ -9,8 +9,8 @@
 status](https://github.com/tsrobinson/rMIDAS/workflows/R-CMD-check/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org/package=rMIDAS)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2021--01--25-yellowgreen.svg)](https://github.com/MIDASverse/rMIDAS/commits/master)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2021--01--29-yellowgreen.svg)](https://github.com/MIDASverse/rMIDAS/commits/master)
 <!-- badges: end -->
 
 ## Overview
