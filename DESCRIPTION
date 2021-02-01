@@ -1,6 +1,6 @@
 Package: rMIDAS
 Title: Multiple Imputation with Denoising Autoencoders
-Version: 0.3.0
+Version: 0.3.0.9000
 Authors@R: c(
     person(given = "Thomas",
            family = "Robinson",
@@ -26,8 +26,8 @@ Depends:
   data.table,
   mltools,
   reticulate
-Imports: 
-Suggests: 
+Imports:
+Suggests:
     testthat,
     knitr,
     rmarkdown
