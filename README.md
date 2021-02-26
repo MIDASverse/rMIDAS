@@ -40,7 +40,7 @@ the efficiency of multiple imputation analysis:
   - Built-in regression function based on `glm` (applying Rubin’s
     combination rules)
 
-### Background on method
+### Suggested citation
 
 For more information on the underlying multiple imputation method,
 MIDAS, see:
