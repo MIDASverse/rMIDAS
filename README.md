@@ -90,7 +90,7 @@ set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 # Now run rMIDAS::train() and rMIDAS::complete()...
 ```
 
-## Vignettes (including example)
+## Vignettes (including simple example)
 
 **rMIDAS** is packaged with two vignettes:
 
