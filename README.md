@@ -60,7 +60,7 @@ package in R, you can use the following code:
 install.packages("rMIDAS")
 ```
 
-To install the latest development version, please use the following
+To install the latest development version, use the following
 code:
 
 ``` r
