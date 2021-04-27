@@ -94,7 +94,7 @@ train <- function(data,
                            savepath= gsub("//","/",tempdir()))
 
   transf_model = FALSE
-  if (class(data) == "midas_pre") {
+  if (inherits(data, "midas_pre")) {
     binary_columns <- data$bin_list
     softmax_columns <- data$cat_lists
     data_in <- data$data
@@ -142,7 +142,7 @@ complete <- function(mid_obj,
                      file = NULL,
                      file_root = NULL) {
 
-  if (!("midas_base.Midas" %in% class(mid_obj))) {
+  if (!inherits(mid_obj,"midas_base.Midas")) {
     stop("Trained midas object not supplied to 'mid_obj' argument")
   }
 
@@ -341,7 +341,7 @@ overimpute <- function(# Input data
                            savepath= tempdir())
 
   transf_model = FALSE
-  if (class(data) == "midas_pre") {
+  if (inherits(data, "midas_pre")) {
     binary_columns = data$bin_list
     softmax_columns = data$cat_lists
     transf_model = TRUE
@@ -354,7 +354,7 @@ overimpute <- function(# Input data
   matplotlib <- import("matplotlib", convert = TRUE)
   matplot_render <- try(matplotlib$use("TkAgg"), silent = TRUE)
 
-  if ("try-error" %in% class(matplot_render)) {
+  if (inherits(matplot_render, "try-error")) {
     stop("Cannot load TkAgg, which is needed to render the overimputation plot.\n You can try installing TkAgg by running the following at the command line: `sudo apt-get install python3-tk' ")
   }
 

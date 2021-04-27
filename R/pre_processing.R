@@ -35,9 +35,9 @@ convert <- function(data, bin_cols = NULL, cat_cols = NULL, minmax_scale = FALSE
 
   # Check data input
 
-  if ("character" %in% class(data)) {
+  if (inherits(data,"character")) {
     data.table::fread(data)
-  } else  if (!("data.table" %in% class(data))) {
+  } else  if (!inherits(data,"data.table")) {
     data.table::setDT(data)
   }
 

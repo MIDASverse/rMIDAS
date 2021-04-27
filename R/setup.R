@@ -37,7 +37,7 @@ set_python_env <- function(python, type = "auto", ...) {
     class(set_py_attempt) <- "try-error"
   }
 
-  if ("try-error" %in% class(set_py_attempt)) {
+  if (inherits(set_py_attempt,"try-error")) {
     stop("Setting user-specified python environment '",python, "' failed.
          Please check the specified path/environment and try again.")
   }
@@ -70,7 +70,7 @@ python_init <- function() {
         load_stat <- substr(py_config()$version[1],1,1)
       }
 
-      if ("try-error" %in% class(load_stat)) {
+      if (inherits(load_stat, "try-error")) {
 
         stop("Unable to initialise Python and required packages.\n
             Please use set_python_env() to set the Python environment manually, then try again.")
@@ -129,7 +129,7 @@ mid_py_setup <- function() {
   py_pkg_load <- sapply(py_pkgs, function (py_pkg) try(reticulate::import(py_pkg, delay_load = FALSE),
                                                        silent = TRUE))
 
-  missing_pkg <- sapply(py_pkg_load, function (x) ("try-error" %in% class(x)))
+  missing_pkg <- sapply(py_pkg_load, function (x) inherits(x, "try-error"))
   missing_pkg <- py_dep[missing_pkg]
 
   if ("sklearn" %in% missing_pkg) {
@@ -155,7 +155,7 @@ mid_py_setup <- function() {
                                                   python_version = "<3.9"),
                            silent = TRUE)
 
-        if ("try-error" %in% class(pkg_install)) {
+        if (inherits(pkg_install, "try-error")) {
           stop("Unable to install package ", py_pkg, "\n")
         }
       }
@@ -184,7 +184,7 @@ mid_py_setup <- function() {
       py_pkg_load <- sapply(py_pkgs, function (py_pkg) try(reticulate::import(py_pkg, delay_load = FALSE),
                                                            silent = TRUE))
 
-      inst_check <- sum(sapply(py_pkg_load, function (x) ("try-error" %in% class(x))))
+      inst_check <- sum(sapply(py_pkg_load, function (x) inherits(x,"try-error")))
 
       if (inst_check != 0) {
         stop("\nUnable to load required packages after install")
