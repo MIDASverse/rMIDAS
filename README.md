@@ -26,7 +26,7 @@ simplified workflow for imputing and then analyzing data:
   - `combine()` runs regression analysis across the complete data,
     following Rubin’s combination rules
 
-**rMIDAS** is based on the Python class
+**rMIDAS** is based on the Python package
 [MIDASpy](https://github.com/MIDASverse/MIDASpy).
 
 ### Efficient handling of large data
@@ -40,14 +40,11 @@ the efficiency of multiple imputation analysis:
   - Built-in regression function based on `glm` (applying Rubin’s
     combination rules)
 
-### Background on method
+### Background and suggested citation
 
-For more information on the underlying multiple imputation method,
-MIDAS, see:
+For more information on MIDAS, the method underlying the software, see:
 
-Lall, Ranjit, and Thomas Robinson. 2020. “Applying the MIDAS Touch: How
-to Handle Missing Values in Large and Complex Data.” APSA Preprints.
-<https://doi.org/10.33774/apsa-2020-3tk40-v3>
+Lall, Ranjit, and Thomas Robinson. Forthcoming. “The MIDAS Touch: Accurate and Scalable Missing-Data Imputation with Deep Learning.” _Political Analysis_. [Gated](https://doi.org/10.1017/pan.2020.49). [Ungated](http://eprints.lse.ac.uk/108170/1/Lall_Robinson_PA_Forthcoming.pdf).
 
 ## Installation
 
@@ -59,7 +56,7 @@ package in R, you can use the following code:
 install.packages("rMIDAS")
 ```
 
-To install the latest development version, please use the following
+To install the latest development version, use the following
 code:
 
 ``` r
@@ -90,7 +87,7 @@ set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 # Now run rMIDAS::train() and rMIDAS::complete()...
 ```
 
-## Vignettes (including example)
+## Vignettes (including simple example)
 
 **rMIDAS** is packaged with two vignettes:
 
