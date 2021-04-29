@@ -18,7 +18,7 @@ Authors@R: c(
     )
 Description: A tool for multiply imputing missing data using 'MIDAS', a deep learning method based on denoising autoencoder neural networks. This algorithm offers significant accuracy and efficiency advantages over other multiple imputation strategies, particularly when applied to large datasets with complex features. Alongside interfacing with 'Python' to run the core algorithm, this package contains functions for processing data before and after model training, running imputation model diagnostics, generating multiple completed datasets, and estimating regression models on these datasets.
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends:
