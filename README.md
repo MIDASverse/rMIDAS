@@ -101,6 +101,10 @@ set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
     provides detailed guidance on configuring Python binaries and
     environments, including some troubleshooting tips
 
+## Contributing to rMIDAS
+
+Interested in contributing to **rMIDAS**? We are looking to hire a research assistant to work part-time (flexibly) to help us build out new features and integrate our software with existing machine learning pipelines. You would be paid the standard research assistant rate at LSE. To apply, please send your CV (or a summary of relevant skills/experience)  to R.Lall@lse.ac.uk.
+
 ## Getting help
 
 rMIDAS is still in development, and we may not have caught all bugs. If
