@@ -103,7 +103,7 @@ set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 
 ## Contributing to rMIDAS
 
-Interested in contributing to **rMIDAS**? We are looking to hire a research assistant to work part-time (flexibly) to help us build out new features and integrate our software with existing machine learning pipelines. You would be paid the standard research assistant rate at LSE. To apply, please send your CV (or a summary of relevant skills/experience)  to R.Lall@lse.ac.uk.
+Interested in contributing to **rMIDAS**? We are looking to hire a research assistant to work part-time (flexibly) to help us build out new features and integrate our software with existing machine learning pipelines. You would be paid the standard research assistant rate at the London School of Economics. To apply, please send your CV (or a summary of relevant skills/experience)  to R.Lall@lse.ac.uk.
 
 ## Getting help
 
