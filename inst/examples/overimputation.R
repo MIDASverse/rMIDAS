@@ -1,4 +1,4 @@
-\donttest{
+\dontrun{
 # Run where Python available
 if (reticulate::py_module_available("numpy")) {
 

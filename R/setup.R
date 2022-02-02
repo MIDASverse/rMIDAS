@@ -4,13 +4,13 @@
 #' Users comfortable with reticulate can configure Python manually using `reticulate::use_`.
 #' Note: If users wish to set a custom binary/environment, this must be completed prior to the first call to either `train()` or `complete()`. The same is true if users use the reticulate package directly.
 #' If users wish to switch to a different Python binaries, R must be restarted prior to calling this function.
-#' @param python Character string, path to python binary, or directory of virtualenv, or name of conda environment
+#' @param x Character string, path to python binary, or directory of virtualenv, or name of conda environment
 #' @param type Character string, specifies whether to set a python binary ("auto"), "virtualenv", or "conda"
 #' @param ... Further arguments passed to `reticulate::use_condaenv()`
 #' @keywords setup
 #' @export
 #' @return Boolean indicating whether the custom python environment was activated.
-set_python_env <- function(python, type = "auto", ...) {
+set_python_env <- function(x, type = "auto", ...) {
 
   set_complete <- FALSE
 
@@ -19,17 +19,17 @@ set_python_env <- function(python, type = "auto", ...) {
     return(set_complete)
   } else if (type == "auto") {
 
-    set_py_attempt <- try(reticulate::use_python(python = python, required = TRUE),
+    set_py_attempt <- try(reticulate::use_python(python = x, required = TRUE),
                             silent = TRUE)
 
   } else if (type == "virtualenv") {
 
-    set_py_attempt <- try(reticulate::use_virtualenv(virtualenv = python, required = TRUE),
+    set_py_attempt <- try(reticulate::use_virtualenv(virtualenv = x, required = TRUE),
                           silent = TRUE)
 
   } else if (type == "conda") {
 
-    set_py_attempt <- try(reticulate::use_condaenv(condaenv = python, required = TRUE, ...),
+    set_py_attempt <- try(reticulate::use_condaenv(condaenv = x, required = TRUE, ...),
                           silent = TRUE)
 
   } else {
@@ -38,7 +38,7 @@ set_python_env <- function(python, type = "auto", ...) {
   }
 
   if (inherits(set_py_attempt,"try-error")) {
-    stop("Setting user-specified python environment '",python, "' failed.
+    stop("Setting user-specified python environment '",x, "' failed.
          Please check the specified path/environment and try again.")
   }
 
@@ -176,7 +176,7 @@ mid_py_setup <- function() {
     if (py_v == "3.9") {
 
       warning("Packages installed but the R session needs to be restarted before proceeding.
-              Please restart R then call set_py_env('your_conda_name', type = 'conda')
+              Please restart R then call set_py_env('your_conda_name', type = 'conda').
               rMIDAS will then be ready to train and impute missing data.")
 
     } else {

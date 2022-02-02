@@ -269,10 +269,10 @@ coalesce_one_hot <- function(X, var_name, fast = TRUE) {
 
 #' Apply MAR missingness to data
 #'
-#' Helper function to re-apply binary variable labels post-imputation.
+#' Helper function to add missing values to data.
 #' @keywords preprocessing
 #' @param X A data.frame or similar
-#' @param prop Numeric between 0 and 1; the proportion of observations set to missing
+#' @param prop Numeric value between 0 and 1; the proportion of observations set to missing
 #' @param cols A vector of column names to be corrupted; if NULL, all columns are used
 #' @export
 #' @return Data with missing values

@@ -1,4 +1,7 @@
-# rMIDAS 0.3.0.9000 (development)
+# rMIDAS 0.4.0 
+
+* Minor changes to fix R CMD check --run-donttest issue
+
 
 # rMIDAS 0.3
 

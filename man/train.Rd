@@ -67,7 +67,7 @@ Build and run a MIDAS neural network on the supplied missing data.
 }
 \examples{
 # Generate raw data, with numeric, binary, and categorical variables
-\donttest{
+\dontrun{
 # Run where Python available
 if (reticulate::py_module_available("numpy")) {
 set.seed(89)

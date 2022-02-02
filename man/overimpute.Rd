@@ -93,7 +93,7 @@ Both metrics are reported in two forms:
 In the final model, we recommend selecting the number of training epochs that minimizes the average value of these metrics --- weighted by the proportion (or substantive importance) of continuous and categorical variables --- in the overimputation exercise.  This ``early stopping'' rule reduces the risk of overtraining and thus, in effect, serves as an extra layer of regularization in the network.
 }
 \examples{
-\donttest{
+\dontrun{
 # Run where Python available
 if (reticulate::py_module_available("numpy")) {
 

@@ -1,11 +1,14 @@
-## Resubmission
+## v0.4.0
 
-This is a resubmission. In this version I have:
+In this new version I have:
 
-* Updated a possibly invalid URL in README.md
+* Change \donttest{} wrappers to \dontrun{} to fix R CMD check --run-donttest issue
+* Removed LazyData in description to remedy NOTE in v0.3.0 CRAN checks
+* Fixed minor bug issues
+* Improved argument names and documentation
 
 ## Test environments
-* Local OS X install, R 4.0.3
+* Local OS X install, R 4.1.2
 * Ubuntu Linux 16.04 LTS, R-release, GCC (rhub)
 * Fedora Linux, R-devel, clang, gfortran
 * Windows Server 2008 R2 SP1, R-devel, 32/64 bit (rhub)

@@ -1,5 +1,6 @@
 ---
-output: github_document
+output: 
+  github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -44,7 +45,9 @@ rMIDAS also incorporates several features to streamline and improve the the effi
 
 For more information on MIDAS, the method underlying the software, see:
 
-Lall, Ranjit, and Thomas Robinson. Forthcoming. “The MIDAS Touch: Accurate and Scalable Missing-Data Imputation with Deep Learning.” _Political Analysis_. [Gated](https://doi.org/10.1017/pan.2020.49). [Ungated](http://eprints.lse.ac.uk/108170/1/Lall_Robinson_PA_Forthcoming.pdf).
+Lall, Ranjit, and Thomas Robinson. 2021. “The MIDAS Touch: Accurate and Scalable Missing-Data Imputation with Deep Learning.” _Political Analysis_. https://doi.org/10.1017/pan.2020.49. 
+
+An ungated version of the paper is available [here](http://eprints.lse.ac.uk/108170/1/Lall_Robinson_PA_Forthcoming.pdf).
 
 ## Installation
 
@@ -61,24 +64,42 @@ To install the latest development version, use the following code:
 devtools::install_github("MIDASverse/rMIDAS")
 ```
 
-Note that rMIDAS uses the [reticulate](https://github.com/rstudio/reticulate) package to interface with Python. Users must have Python 3.5 - 3.8 installed in order to run MIDAS (Python 3.9 is not yet supported). rMIDAS will automatically try to set up a Python configuration unless users specify their own version using `set_python_env()` (examples below). Setting a custom Python install must be performed *before* training or imputing data occurs:
+Note that rMIDAS uses the [reticulate](https://github.com/rstudio/reticulate) package to interface with Python. Users must have Python 3.7 or 3.8 installed in order to run MIDAS (3.9 is currently untested), as well as the following dependencies:
+
+  * matplotlib
+  * numpy
+  * pandas
+  * scikit-learn
+  * tensorflow
+  * tensorflow-addons (for TF2)
+
+rMIDAS will automatically try to set up a Python configuration unless users specify their own version using `set_python_env()` (examples below). Setting a custom Python install must be performed *before* training or imputing data occurs:
 
 ```{r, eval = FALSE}
 library(rMIDAS)
 
 # Point to a Python binary
-set_python_env(python = "path/to/python/binary")
+set_python_env(x = "path/to/python/binary")
 
 # Or point to a virtualenv binary
-set_python_env(python = "virtual_env", type = "virtualenv")
+set_python_env(x = "virtual_env", type = "virtualenv")
 
 # Or point to a condaenv, where conda can be supplied to choose a specific executable
-set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
+set_python_env(x = "conda_env", type = "condaenv", conda = "auto")
 
 # Now run rMIDAS::train() and rMIDAS::complete()...
 
 ```
 
+You can also download the `rmidas-env.yml` conda environment file from this repository to set up all dependencies in a new condaenv. To do so, download the .yml file, navigate to the download directory in your console and run:
+```{bash, eval=FALSE}
+conda env create -f rmidas-env.yml
+```
+
+Then, prior to training a MIDAS model, make sure to load this environment in R:
+```{r, eval=FALSE}
+set_python_env(x = "rmidas-env", type = "conda")
+```
 
 ## Vignettes (including simple example)
 
@@ -86,6 +107,10 @@ set_python_env(python = "conda_env", type = "condaenv", conda = "auto")
 
 1. [`vignette("imputation_demo", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/imputation_demo.Rmd) demonstrates the basic workflow and capacities of **rMIDAS**
 2. [`vignette("custom_python_versions", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/custom_python_versions.Rmd) provides detailed guidance on configuring Python binaries and environments, including some troubleshooting tips
+
+## Contributing to rMIDAS
+
+Interested in contributing to **rMIDAS**? We are looking to hire a research assistant to work part-time (flexibly) to help us build out new features and integrate our software with existing machine learning pipelines. You would be paid the standard research assistant rate at the London School of Economics. To apply, please send your CV (or a summary of relevant skills/experience)  to R.Lall@lse.ac.uk.
 
 ## Getting help
 

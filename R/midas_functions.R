@@ -198,9 +198,10 @@ complete <- function(mid_obj,
 
     }
 
-    if (cat_coalesce) {
+    cat_params <- mid_obj$preproc$cat_lists
+    if (cat_coalesce & !is.null(cat_params)) {
 
-      cat_params <- mid_obj$preproc$cat_lists
+
       cat_cols <- mid_obj$preproc$cat_names
 
       for (i in 1:length(cat_cols)) {

@@ -9,7 +9,7 @@ add_missingness(X, prop, cols = NULL)
 \arguments{
 \item{X}{A data.frame or similar}
 
-\item{prop}{Numeric between 0 and 1; the proportion of observations set to missing}
+\item{prop}{Numeric value between 0 and 1; the proportion of observations set to missing}
 
 \item{cols}{A vector of column names to be corrupted; if NULL, all columns are used}
 }
@@ -17,7 +17,7 @@ add_missingness(X, prop, cols = NULL)
 Data with missing values
 }
 \description{
-Helper function to re-apply binary variable labels post-imputation.
+Helper function to add missing values to data.
 }
 \examples{
 whole_data <- data.frame(a = rnorm(1000),

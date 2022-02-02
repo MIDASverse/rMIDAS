@@ -2,7 +2,7 @@
 title: "Imputing missing data using rMIDAS"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{impute-demo}
+  %\VignetteIndexEntry{Imputing missing data using rMIDAS}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

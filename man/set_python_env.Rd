@@ -4,10 +4,10 @@
 \alias{set_python_env}
 \title{Manually select python binary}
 \usage{
-set_python_env(python, type = "auto", ...)
+set_python_env(x, type = "auto", ...)
 }
 \arguments{
-\item{python}{Character string, path to python binary, or directory of virtualenv, or name of conda environment}
+\item{x}{Character string, path to python binary, or directory of virtualenv, or name of conda environment}
 
 \item{type}{Character string, specifies whether to set a python binary ("auto"), "virtualenv", or "conda"}
 
