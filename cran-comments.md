@@ -9,9 +9,9 @@ In this new version I have:
 
 ## Test environments
 * Local OS X install, R 4.1.2
-* Ubuntu Linux 16.04 LTS, R-release, GCC (rhub)
+* Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Fedora Linux, R-devel, clang, gfortran
-* Windows Server 2008 R2 SP1, R-devel, 32/64 bit (rhub)
+* Windows Server 2022, R-devel, 64 bit
 * win-builder (devel and release)
 
 ## R CMD check results

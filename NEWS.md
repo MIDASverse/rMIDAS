@@ -1,7 +1,8 @@
-# rMIDAS 0.4.0 
+# rMIDAS 0.4
 
-* Minor changes to fix R CMD check --run-donttest issue
-
+* `python` argument in `set_python_env` renamed to `x` for clarity
+* Minor fixes including bug in `complete()` function
+* Improved documentation
 
 # rMIDAS 0.3
 
