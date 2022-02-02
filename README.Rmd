@@ -114,4 +114,4 @@ Interested in contributing to **rMIDAS**? We are looking to hire a research assi
 
 ## Getting help
 
-rMIDAS is still in development, and we may not have caught all bugs. If you come across any difficulties, or have any suggestions for improvements, please raise an issue [here](https://github.com/MIDASverse/MIDASpy/issues). 
+rMIDAS is still in development, and we may not have caught all bugs. If you come across any difficulties, or have any suggestions for improvements, please raise an issue [here](https://github.com/MIDASverse/MIDASpy/issues).
