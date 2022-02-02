@@ -101,7 +101,7 @@ set_python_env(x = "conda_env", type = "condaenv", conda = "auto")
 # Now run rMIDAS::train() and rMIDAS::complete()...
 ```
 
-You can als download the `rmidas-env.yml` conda environment file from
+You can also download the `rmidas-env.yml` conda environment file from
 this repository to set up all dependencies in a new condaenv. To do so,
 download the .yml file, navigate to the download directory in your
 console and run:
