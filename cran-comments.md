@@ -1,3 +1,9 @@
+## Resubmission
+
+This is a resubmission. In this version I have:
+
+* Fixed the invalid URL to point to the moved content
+
 ## v0.4.0
 
 In this new version I have:
