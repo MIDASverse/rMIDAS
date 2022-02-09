@@ -1,6 +1,6 @@
 \dontrun{
-# Run where Python available
-if (reticulate::py_module_available("numpy")) {
+# Run where Python available and configured correctly
+if (python_configured()) {
 
 raw_data <- data.table(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),
                          b = 1:1000,
