@@ -1,5 +1,5 @@
 \dontrun{
-# Run where Python available and configured correctly
+# Run where Python initialised and configured correctly
 if (python_configured()) {
 
 raw_data <- data.table(a = sample(c("red","yellow","blue",NA),1000, replace = TRUE),

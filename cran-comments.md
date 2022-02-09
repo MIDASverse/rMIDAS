@@ -1,8 +1,10 @@
-## Resubmission
+## Resubmission 
 
 This is a resubmission. In this version I have:
 
-* Fixed the invalid URL to point to the moved content
+* Updated system checking functions to ensure all requirements are met before running examples that interface with Python
+* Added SystemRequirements to Description file
+* Fixed invalid URL to point to the moved content
 
 ## v0.4.0
 

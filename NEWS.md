@@ -1,7 +1,7 @@
 # rMIDAS 0.4
 
 * `python` argument in `set_python_env` renamed to `x` for clarity
-* Minor fixes including bug in `complete()` function
+* Minor fixes including remedying bug in `complete()` function
 * Improved documentation
 
 # rMIDAS 0.3

@@ -41,8 +41,8 @@ Having trained an imputation model, complete() produces \code{m} completed datas
 \examples{
 # Generate raw data, with numeric, binary, and categorical variables
 \dontrun{
-# Run where Python available
-if (reticulate::py_module_available("numpy")) {
+# Run where Python available and configured correctly
+if (python_configured()) {
 set.seed(89)
 n_obs <- 10000
 raw_data <- data.table(a = sample(c("red","yellow","blue",NA),n_obs, replace = TRUE),

@@ -18,13 +18,19 @@ skip_if_no_numpy <- function() {
 #' @return `NULL`
 python_configured <- function() {
 
-  py_dep <- c("matplotlib","numpy","pandas","tensorflow","sklearn","os","random", "tensorflow_addons")
-  dep_avail <- sapply(py_dep, function (x) reticulate::py_module_available(x))
-
-  if (sum(dep_avail) == length(py_dep)) {
-    return(TRUE)
-  } else {
+  if (!reticulate::py_available()) {
     return(FALSE)
+  } else {
+
+    py_dep <- c("matplotlib","numpy","pandas","tensorflow","sklearn","os","random", "tensorflow_addons")
+    dep_avail <- sapply(py_dep, function (x) reticulate::py_module_available(x))
+
+    if (sum(dep_avail) == length(py_dep)) {
+      return(TRUE)
+    } else {
+      return(FALSE)
+    }
+
   }
 }
 
