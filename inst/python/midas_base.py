@@ -34,6 +34,8 @@ import os
 if tf.__version__[0] == '2':
   import tensorflow_addons as tfa
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 from sklearn.metrics import mean_squared_error as mse
 import random
 

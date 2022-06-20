@@ -1,14 +1,14 @@
-name: rmidas-env
-channels:
-  - conda-forge
-  - defaults
+name: rmidas
 dependencies:
-  - python=3.7
+  - python=3.8.12
+  - pandas=1.3.5
+  - statsmodels=0.13.2
+  - scikit-learn=1.0.2
+  - matplotlib=3.5.0
   - pip
   - pip:
-    - matplotlib
-    - numpy
-    - pandas
-    - scikit-learn
-    - tensorflow==2.7
-    - tensorflow-addons
+    - --no-binary=numpy
+    - numpy==1.22.4
+    - MIDASpy==1.2.1
+    - tensorflow==2.9.1
+    - tensorflow-addons==0.17.0

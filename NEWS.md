@@ -1,5 +1,12 @@
 # rMIDAS 0.4
 
+## v0.4.1
+* Disabled Tensorflow deprecation warnings as default (as Python rather than R warning)
+* Updated accompanying YAML for easier Conda setup
+* Added `no-binary` pip install to YAML to resolve BLAS issues on Macs
+
+## v0.4
+
 * `python` argument in `set_python_env` renamed to `x` for clarity
 * Minor fixes including remedying bug in `complete()` function
 * Improved documentation
