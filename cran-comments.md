@@ -1,26 +1,18 @@
-## Resubmission 
-
-This is a resubmission. In this version I have:
-
-* Updated system checking functions to ensure all requirements are met before running examples that interface with Python
-* Added SystemRequirements to Description file
-* Fixed invalid URL to point to the moved content
-
-## v0.4.0
+## v0.4.1
 
 In this new version I have:
 
-* Change \donttest{} wrappers to \dontrun{} to fix R CMD check --run-donttest issue
-* Removed LazyData in description to remedy NOTE in v0.3.0 CRAN checks
-* Fixed minor bug issues
-* Improved argument names and documentation
+* Updated Python source code
+* Fixed minor bugs
+* Improved documentation
+* Updated DESCRIPTION to reflect updated system requirements
 
 ## Test environments
-* Local OS X install, R 4.1.2
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Fedora Linux, R-devel, clang, gfortran
 * Windows Server 2022, R-devel, 64 bit
 * win-builder (devel and release)
+* Local OS X install, R 4.1.2
 
 ## R CMD check results
 
