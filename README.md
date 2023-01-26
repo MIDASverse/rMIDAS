@@ -14,9 +14,7 @@ status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org
 
 ## Overview
 
-**rMIDAS** is an R package for accurate and efficient multiple
-imputation using deep learning methods. The package provides a
-simplified workflow for imputing and then analyzing data:
+**rMIDAS** is an R package for accurate and efficient multiple imputation using deep learning methods. The package provides a simplified workflow for imputing and then analyzing data:
 
 -   `convert()` carries out all necessary preprocessing steps
 -   `train()` constructs and trains a MIDAS imputation model
