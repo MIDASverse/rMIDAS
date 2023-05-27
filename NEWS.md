@@ -1,5 +1,14 @@
 # rMIDAS 0.4
 
+## v0.4.2
+* rMIDAS now includes an automatic setup that prompts the user on whether to automatically set up a Python environment and its dependencies
+* Addressed dependency issues and deprecation warnings (rather a Python update than R)
+* An additional .Rmd example that showcases rMIDAS core functionalities
+* Added a new vignette for running rMIDAS in headless mode, along with updates to the existing vignettes
+* Updated the accompanying YAML environment file that works on all major operating systems (including macOS running Apple silicon hardware)
+* Expanded our GitHub Actions workflow to also perform R-CMD-checks on macOS and Windows systems
+* Updated README file
+
 ## v0.4.1
 * Disabled Tensorflow deprecation warnings as default (as Python rather than R warning)
 * Updated accompanying YAML for easier Conda setup

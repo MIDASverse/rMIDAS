@@ -12,11 +12,11 @@ knitr::opts_chunk$set(echo = TRUE)
 LOCAL <- identical(Sys.getenv("LOCAL"), "true")
 ```
 
-This vignette provides a brief demonstration of **rMIDAS**. We show how to use the package to multiply impute missing values in the Adult census dataset, which is commonly used for benchmarking machine learning tasks.
+This vignette provides a brief demonstration of **rMIDAS**. We show how to use the package to impute missing values in the [*Adult Census*](https://github.com/MIDASverse/MIDASpy/blob/master/Examples/adult_data.csv) dataset, which is commonly used for benchmarking machine learning tasks.
 
 ## Ensure your system is correctly configured
 
-**rMIDAS** relies on Python to implement the MIDAS imputation algorithm, so you should ensure you have a Python 3.X environment installed on your machine. When the package is first loaded, it will try and automatically locate a suitable Python environment; if this fails, you will receive a warning message. When this occurs, users can manually specify a Python binary using `set_python_env()` or via **reticulate** directly (see [this vignette](custom_python_versions.html) for more information).
+**rMIDAS** relies on Python to implement the MIDAS imputation algorithm, so a Python environment needs to be installed on your machine. Currently, Python versions from 3.6 to 3.10 are supported. When the package is first loaded, it will prompt the user on whether to set up a Python environment and its dependencies automatically. Users that choose to set up the environment and dependencies manually, or who use **rMIDAS** in headless mode can specify a Python binary using `set_python_env()`. For additional help on manually setting up a Python environment and its dependencies please refer to our other vignettes (*Using custom Python versions* and *Running rMIDAS on a server instance*) or visit the [rMIDAS GitHub](https://github.com/MIDASverse/rMIDAS/) page.
 
 ## Loading the data
 
@@ -54,7 +54,7 @@ adult_conv <- convert(adult,
 The data are now ready to be fed into the MIDAS algorithm, which involves a single call of the `train()` function. At this stage, we specify the dimensions, input corruption proportion, and other hyperparameters of the MIDAS neural network as well as the number of training epochs:
 
 ```{r, eval = LOCAL}
-# Train the model for 2 epochs
+# Train the model for 20 epochs
 adult_train <- train(adult_conv,
                        training_epochs = 20,
                        layer_structure = c(128,128),

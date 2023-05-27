@@ -15,7 +15,7 @@ This guide runs through how to configure an Amazon AWS server instance to run MI
 
 Amazon AWS (and other server providers) provide a range of different hardware configurations. In our experience, the largest bottleneck to training times is memory as sizable datasets are memory-intensive. Both the *t5* and *c6* classes offer cost-efficient and memory-scalable solutions, which we have used successfully in our own testing and workflows.
 
-Users may also wish to use GPU-acceleration. More information on GPU-compatible classes can be found [https://docs.aws.amazon.com/dlami/latest/devguide/gpu.html](here). Note, MIDASpy is not configured to take advantage of distributed training at present.
+Users may also wish to use GPU-acceleration. More information on GPU-compatible classes can be found [here](https://docs.aws.amazon.com/dlami/latest/devguide/gpu.html). Note, MIDASpy is not configured to take advantage of distributed training at present.
 
 ## Server setup
 

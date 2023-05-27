@@ -8,20 +8,28 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org/package=rMIDAS/)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2022--02--03-yellowgreen.svg)](https://github.com/MIDASverse/rMIDAS/commits/master/)
-[![R-CMD-check](https://github.com/MIDASverse/rMIDAS/workflows/R-CMD-check/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2023--05--27-yellowgreen.svg)](https://github.com/MIDASverse/rMIDAS/commits/master/)
+[![R-CMD-check](https://github.com/MIDASverse/rMIDAS/workflows/R-CMD-check-Linux/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/testlinux.yml)
+[![R-CMD-check](https://github.com/MIDASverse/rMIDAS/workflows/R-CMD-check-macOS/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/testmacos.yml)
+[![R-CMD-check](https://github.com/MIDASverse/rMIDAS/workflows/R-CMD-check-Windows/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/testwindows.yml)
+
+[![R-CMD-check](https://github.com/edvinskis/rMIDAS/workflows/R-CMD-check-Linux/badge.svg)](https://github.com/edvinskis/rMIDAS/actions/testlinux.yml)
+[![R-CMD-check](https://github.com/edvinskis/rMIDAS/workflows/R-CMD-check-macOS/badge.svg)](https://github.com/edvinskis/rMIDAS/actions/testmacos.yml)
+[![R-CMD-check](https://github.com/edvinskis/rMIDAS/workflows/R-CMD-check-Windows/badge.svg)](https://github.com/edvinskis/rMIDAS/actions/testwindows.yml)
 <!-- badges: end -->
 
 ## Overview
 
-**rMIDAS** is an R package for accurate and efficient multiple imputation using deep learning methods. The package provides a simplified workflow for imputing and then analyzing data:
+**rMIDAS** is an R package for accurate and efficient multiple
+imputation using deep learning methods. The package provides a
+simplified workflow for imputing and then analyzing data:
 
--   `convert()` carries out all necessary preprocessing steps
--   `train()` constructs and trains a MIDAS imputation model
--   `complete()` generates multiple completed datasets from the trained
-    model
--   `combine()` runs regression analysis across the complete data,
-    following Rubin’s combination rules
+- `convert()` carries out all necessary preprocessing steps
+- `train()` constructs and trains a MIDAS imputation model
+- `complete()` generates multiple completed datasets from the trained
+  model
+- `combine()` runs regression analysis across the complete data,
+  following Rubin’s combination rules
 
 **rMIDAS** is based on the Python package
 [MIDASpy](https://github.com/MIDASverse/MIDASpy).
@@ -31,24 +39,32 @@ status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org
 rMIDAS also incorporates several features to streamline and improve the
 the efficiency of multiple imputation analysis:
 
--   Optimisation for large datasets using `data.table` and `mltools`
-    packages
--   Automatic reversing of all pre-processing steps prior to analysis
--   Built-in regression function based on `glm` (applying Rubin’s
-    combination rules)
+- Optimisation for large datasets using `data.table` and `mltools`
+  packages
+- Automatic reversing of all pre-processing steps prior to analysis
+- Built-in regression function based on `glm` (applying Rubin’s
+  combination rules)
 
 ### Background and suggested citations
 
 For more information on MIDAS, the method underlying the software, see:
 
-Lall, Ranjit, and Thomas Robinson. 2022. "The MIDAS Touch: Accurate and Scalable Missing-Data Imputation with Deep Learning." _Political Analysis_ 30, no. 2: 179-196. [Published version](https://ranjitlall.github.io/assets/pdf/Lall%20and%20Robinson%202022%20PA.pdf). [Accepted version](http://eprints.lse.ac.uk/108170/1/Lall_Robinson_PA_Forthcoming.pdf).
+Lall, Ranjit, and Thomas Robinson. 2022. “The MIDAS Touch: Accurate and
+Scalable Missing-Data Imputation with Deep Learning.” *Political
+Analysis* 30, no. 2: 179-196. [Published
+version](https://ranjitlall.github.io/assets/pdf/Lall%20and%20Robinson%202022%20PA.pdf).
+[Accepted
+version](http://eprints.lse.ac.uk/108170/1/Lall_Robinson_PA_Forthcoming.pdf).
 
-Lall, Ranjit, and Thomas Robinson. 2023. "Efficient Multiple Imputation for Diverse Data in Python and R: MIDASpy and rMIDAS." _Journal of Statistical Software_. [Accepted version](https://ranjitlall.github.io/assets/pdf/jss4379.pdf) (in press).
-
+Lall, Ranjit, and Thomas Robinson. 2023. “Efficient Multiple Imputation
+for Diverse Data in Python and R: MIDASpy and rMIDAS.” *Journal of
+Statistical Software*. [Accepted
+version](https://ranjitlall.github.io/assets/pdf/jss4379.pdf) (in
+press).
 
 ## Installation
 
-rMIDAS is now available on
+rMIDAS is available on
 [CRAN](https://cran.r-project.org/package=rMIDAS). To install the
 package in R, you can use the following code:
 
@@ -65,24 +81,29 @@ devtools::install_github("MIDASverse/rMIDAS")
 
 Note that rMIDAS uses the
 [reticulate](https://github.com/rstudio/reticulate) package to interface
-with Python. Users must have Python 3.7 or 3.8 installed in order to run
-MIDAS (3.9 is currently untested), as well as the following
-dependencies:
+with Python. When the package is first loaded, it will prompt the user
+on whether to set up a Python environment and its dependencies
+automatically. Users that choose to set up the environment and
+dependencies manually, or who use rMIDAS in headless mode can specify a
+Python binary using `set_python_env()` (examples below). Currently,
+Python versions from 3.6 to 3.10 are supported. For a custom Python
+environment the following dependencies are also required:
 
--   matplotlib
--   numpy
--   pandas
--   scikit-learn
--   tensorflow
--   tensorflow-addons (for TF2)
+- matplotlib
+- numpy
+- pandas
+- scikit-learn
+- scipy
+- statsmodels
+- tensorflow (\<2.12.0)
+- tensorflow-addons (\<0.20.0)
 
-rMIDAS will automatically try to set up a Python configuration unless
-users specify their own version using `set_python_env()` (examples
-below). Setting a custom Python install must be performed *before*
-training or imputing data occurs:
+Setting a custom Python install must be performed *before* training or
+imputing data occurs. To manually set up a Python environment:
 
 ``` r
 library(rMIDAS)
+# Decline the automatic setup
 
 # Point to a Python binary
 set_python_env(x = "path/to/python/binary")
@@ -90,8 +111,8 @@ set_python_env(x = "path/to/python/binary")
 # Or point to a virtualenv binary
 set_python_env(x = "virtual_env", type = "virtualenv")
 
-# Or point to a condaenv, where conda can be supplied to choose a specific executable
-set_python_env(x = "conda_env", type = "condaenv", conda = "auto")
+# Or point to a conda environment
+set_python_env(x = "conda_env", type = "conda")
 
 # Now run rMIDAS::train() and rMIDAS::complete()...
 ```
@@ -99,8 +120,8 @@ set_python_env(x = "conda_env", type = "condaenv", conda = "auto")
 You can also download the
 [`rmidas-env.yml`](https://github.com/MIDASverse/rMIDAS/blob/master/rmidas-env.yml)
 conda environment file from this repository to set up all dependencies
-in a new condaenv. To do so, download the .yml file, navigate to the
-download directory in your console and run:
+in a new conda environment. To do so, download the .yml file, navigate
+to the download directory in your console and run:
 
 ``` bash
 conda env create -f rmidas-env.yml
@@ -110,18 +131,33 @@ Then, prior to training a MIDAS model, make sure to load this
 environment in R:
 
 ``` r
-set_python_env(x = "rmidas-env", type = "conda")
+# First load the rMIDAS package
+library(rMIDAS)
+# Decline the automatic setup
+
+set_python_env(x = "rmidas", type = "conda")
 ```
+
+*Note*: **reticulate** only allows you to set a Python binary once per R
+session, so if you wish to switch to a different Python binary, or have
+already run `train()` or `convert()`, you will need to restart or
+terminate R prior to using `set_python_env()`.
 
 ## Vignettes (including simple example)
 
-**rMIDAS** is packaged with two vignettes:
+**rMIDAS** is packaged with three vignettes:
 
-1.  [`vignette("imputation_demo", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/imputation_demo.Rmd)
+1.  [`vignette("imputation_demo", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/imputation_demo.md)
     demonstrates the basic workflow and capacities of **rMIDAS**
-2.  [`vignette("custom_python_versions", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/custom_python_versions.Rmd)
+2.  [`vignette("custom_python_versions", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/custom_python_versions.md)
     provides detailed guidance on configuring Python binaries and
     environments, including some troubleshooting tips
+3.  [`vignette("use_server", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/use_server.md)
+    provides guidance for running **rMIDAS** in headless mode
+
+An additional example that showcases rMIDAS core functionalities can be
+found
+[here](https://github.com/MIDASverse/rMIDAS/blob/master/examples/rmidas_demo.md).
 
 ## Contributing to rMIDAS
 
@@ -129,8 +165,8 @@ Interested in contributing to **rMIDAS**? We are looking to hire a
 research assistant to work part-time (flexibly) to help us build out new
 features and integrate our software with existing machine learning
 pipelines. You would be paid the standard research assistant rate at the
-University of Oxford. To apply, please send your CV (or a summary
-of relevant skills/experience) to <ranjit.lall@sjc.ox.ac.uk>.
+University of Oxford. To apply, please send your CV (or a summary of
+relevant skills/experience) to <ranjit.lall@sjc.ox.ac.uk>.
 
 ## Getting help
 

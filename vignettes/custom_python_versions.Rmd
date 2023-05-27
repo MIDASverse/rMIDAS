@@ -15,9 +15,11 @@ This vignette describes the three different ways to initialize the R session's c
 
 ## Option 1: Do nothing!
  
-rMIDAS relies on Python 3.X to run the MIDAS imputation algorithm (note: Python 3.9 is as yet untested for full rMIDAS functionality). For most users, the default settings in **rMIDAS** will be sufficient. Both `train()` and `complete()` check if Python has been initialized and, if not, run the required setup using the best Python 3 version available on your system (as determined by **reticulate**). The first time you run **rMIDAS** after installation, you may be prompted to install additional Python dependencies.
+rMIDAS relies on Python to run the MIDAS imputation algorithm. Currently, Python versions from 3.6 to 3.10 are supported. For most users, the default settings in **rMIDAS** will be sufficient. Both `train()` and `complete()` check if Python has been initialized. The first time you call **rMIDAS** after installation, you will be prompted on whether to set up the Python environment and dependencies automatically.
 
-If a suitable Python version is not found on your system, you will be asked to manually set the path to a Python binary. You can do this using the next option.
+If the automatic setup fails or you want to set up your Python environment manually, you can do this using the next option.
+
+*Note*: If you are using **rMIDAS** in headless mode (for example using Amazon AWS), the automatic setup will not execute. In this instance you need to set up the Python environment and its dependencies manually. Please refer to our *Running rMIDAS on a server instance* vignette for additional help.
 
 ## Option 2: 
 
@@ -27,17 +29,21 @@ If the automatic setup returns an error or you wish to use a specific Python bin
 
 library(rMIDAS)
 
+# Decline the automatic setup
+
 set_python_env(x = "~/path/to/bin/python")
 
 # Then proceed as normal...
 
 ```
 
-With `set_python_env()` you can also set a virtualenv or condaenv environment:
+With `set_python_env()` you can also set a virtualenv or conda environment:
 
 ```{r, eval = FALSE}
 
 library(rMIDAS)
+
+# Decline the automatic setup
 
 set_python_env(x = "myenv", type = "virtualenv")
 
@@ -49,7 +55,7 @@ set_python_env(x = "mycondaenv", type = "conda")
 
 ```
 
-On the [GitHub repository](https://github.com/MIDASverse/rMIDAS/) you can also find an environment file (`rmidas-env.yml`) which can be used to initialise a new conda environment that contains Python 3.7 and all required dependencies. 
+On the [rMIDAS GitHub repository](https://github.com/MIDASverse/rMIDAS/) you can also find an environment file (`rmidas-env.yml`) which can be used to initialise a new conda environment that contains Python 3.8 and all required dependencies. 
 
 Once you have downloaded this file, in your console navigate to the download directory and run:
 ```{bash, eval=FALSE}
@@ -58,10 +64,10 @@ conda env create -f rmidas-env.yml
 
 Then, prior to training a MIDAS model, make sure to load this environment in R:
 ```{r, eval=FALSE}
-set_python_env(x = "rmidas-env", type = "conda")
+set_python_env(x = "rmidas", type = "conda")
 ```
 
-*Note*: **reticulate** only allows you to set a Python binary once per R session, so if you wish to switch to a different Python binary, or have already run `train()` or `convert()`, you will need to restart R prior to using `set_python_env()`.
+*Note*: **reticulate** only allows you to set a Python binary once per R session, so if you wish to switch to a different Python binary, or have already run `train()` or `convert()`, you will need to restart or terminate R prior to using `set_python_env()`.
 
 ## Option 3:
 
@@ -71,6 +77,8 @@ If you desire more granular control of the R-Python interface, it is possible to
 
 library(rMIDAS)
 
+# Decline the automatic setup
+
 reticulate::use_condaenv(condaenv = "myenv", conda = "some_conda_executable", required = FALSE)
 midas_setup()
 
@@ -78,15 +86,15 @@ midas_setup()
 
 ```
 
-As with option 2, **reticulate** only allows you to set a Python binary once per R session. If you wish to switch to a different Python binary, or have already run `train()` or `convert()`, you will need to restart R prior to changing Python version and then call `midas_setup()`.
+As with Option 2, **reticulate** only allows you to set a Python binary once per R session. If you wish to switch to a different Python binary, or have already run `train()` or `convert()`, you will need to restart R prior to changing Python version and then call `midas_setup()`.
 
 ## Troubleshooting errors
 
 Sometimes the above three options may fail due to system configuration issues. Here we note a few common issues and fixes.
 
-### Mac defaults to Python 2.7
+### Older versions of macOS default to Python 2.7
 
-If you are using a Mac, **reticulate** may be defaulting to Python 2.7 which is not supported by **rMIDAS**. If this is the case you will have to configure the R session to use a Python 3 binary, as in option 2 above, by running:
+Macs used to come with Python 2.7 pre-installed between macOS versions 10.8 and 12.3. If you are using a Mac, **reticulate** may be defaulting to Python 2.7 which is not supported by **rMIDAS**. If this is the case you will have to configure the R session to use a Python 3 binary, as in option 2 above, by running:
 
 ```{r, eval = FALSE}
 

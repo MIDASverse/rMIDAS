@@ -3,15 +3,16 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.8.12
-  - pandas=1.5.3
-  - statsmodels=0.13.2
+  - python=3.8.16
+  - pandas=2.0.0
+  - statsmodels=0.13.5
   - scikit-learn=1.2.1
-  - matplotlib=3.5.0
-  - numpy=1.23.1
-  - pip=23.0
+  - matplotlib=3.7.1
+  - numpy=1.24.2
+  - pip=23.0.1
+  - scipy=1.10.1
   - pip:
-    - MIDASpy==1.2.3
-    - tensorflow>=2.5.0; sys_platform != "darwin" or platform_machine != "arm64"
-    - tensorflow-macos>=2.5.0; sys_platform == "darwin" and platform_machine == "arm64"
-    - tensorflow-addons>=0.13.0
+    - MIDASpy==1.2.4
+    - tensorflow==2.11.0; sys_platform != "darwin" or platform_machine != "arm64"
+    - tensorflow-macos==2.11.0; sys_platform == "darwin" and platform_machine == "arm64"
+    - tensorflow-addons==0.19.0
