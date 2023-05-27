@@ -9,9 +9,9 @@
 status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org/package=rMIDAS/)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![Last-changedate](https://img.shields.io/badge/last%20change-2023--05--27-yellowgreen.svg)](https://github.com/MIDASverse/rMIDAS/commits/master/)
-[![R-CMD-check](https://github.com/MIDASverse/rMIDAS/workflows/R-CMD-check-Linux/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/)
-[![R-CMD-check](https://github.com/MIDASverse/rMIDAS/workflows/R-CMD-check-macOS/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/)
-[![R-CMD-check](https://github.com/MIDASverse/rMIDAS/workflows/R-CMD-check-Windows/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/)
+[![R-CMD-check-Linux](https://github.com/MIDASverse/rMIDAS/actions/workflows/testlinux.yml/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/workflows/testlinux.yml)
+[![R-CMD-check-macOS](https://github.com/MIDASverse/rMIDAS/actions/workflows/testmacos.yml/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/workflows/testmacos.yml)
+[![R-CMD-check-Windows](https://github.com/MIDASverse/rMIDAS/actions/workflows/testwindows.yml/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/workflows/testwindows.yml)
 <!-- badges: end -->
 
 ## Overview
