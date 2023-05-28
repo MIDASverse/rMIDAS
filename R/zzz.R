@@ -66,6 +66,7 @@ scipy
   packageStartupMessage("\n## \n",
                         "## rMIDAS: Multiple Imputation using Denoising Autoencoders \n",
                         "## Authors: Thomas Robinson and Ranjit Lall \n",
+                        "## Please visit https://github.com/MIDASverse/rMIDAS for more information \n",
                         "## \n"
   )
 }
