@@ -2,26 +2,15 @@
   
   options("python_custom" = NULL)
   options("python_initialised" = NULL)
-
-}
-
-.onAttach <- function(libname, pkgname) {
   
-  packageStartupMessage("\n## \n",
-                        "## rMIDAS: Multiple Imputation using Denoising Autoencoders \n",
-                        "## Authors: Thomas Robinson and Ranjit Lall \n",
-                        "## Please visit https://github.com/MIDASverse/rMIDAS for more information \n",
-                        "## \n"
-  )
-
   if (!interactive()) {
     user_input <- "n"
-    cat("rMIDAS is loaded but its environment and dependencies are not set up automatically. \nPlease read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment.")
+    packageStartupMessage("rMIDAS is loaded but its environment and dependencies are not set up automatically. \n Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment.")
   } else {
-    user_input <- readline("rMIDAS uses Python. Do you want rMIDAS to automatically set up a Python environment and its dependencies? Enter 'y' for Yes, or any other key for No : ")
+    user_input <- readline("Do you want rMIDAS to automatically set up a Python environment and its dependencies? Enter 'y' for Yes, or any other key for No : \n")
   }
   if(tolower(user_input) != "y") {
-    cat("rMIDAS is loaded but its environment and dependencies are not set up automatically.\nPlease read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment.")
+    packageStartupMessage("rMIDAS is loaded but its environment and dependencies are not set up automatically.\n Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment.")
   }
   if (tolower(user_input) == "y") {
     if (!requireNamespace("reticulate", quietly = TRUE)) {
@@ -46,7 +35,7 @@
 scikit-learn
 matplotlib
 pandas>=0.19
-tensorflow_addons>=0.11
+tensorflow_addons<0.20
 statsmodels
 scipy
 "
@@ -69,7 +58,16 @@ scipy
     writeLines(requirements_txt, requirements_file)
     
     reticulate::conda_install(envname = conda_env_name, packages = NULL, pip = TRUE, pip_options = c("-r", requirements_file))
-  }  
+  }
+}
+
+.onAttach <- function(libname, pkgname) {
+  
+  packageStartupMessage("\n## \n",
+                        "## rMIDAS: Multiple Imputation using Denoising Autoencoders \n",
+                        "## Authors: Thomas Robinson and Ranjit Lall \n",
+                        "## \n"
+  )
 }
 
 .onUnload <- function(libpath) {
