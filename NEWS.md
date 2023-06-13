@@ -1,5 +1,11 @@
 # rMIDAS 0.4
 
+## v0.4.2
+* Added headless functionality to `matplotlib` calls in Python
+* Updated conda setup file
+* Minor updates to underlying Python code to address deprecation issues
+
+
 ## v0.4.1
 * Disabled Tensorflow deprecation warnings as default (as Python rather than R warning)
 * Updated accompanying YAML for easier Conda setup

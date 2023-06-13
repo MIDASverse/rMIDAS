@@ -1,6 +1,4 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # rMIDAS <img src='man/figures/logo.png' align="right" height="105" />
 
 <!-- badges: start -->
