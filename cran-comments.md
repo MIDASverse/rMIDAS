@@ -8,6 +8,7 @@ In this version I have:
 ## Test environments
 * Local OS X install, R 4.3.0
 * Fedora Linux, R-devel, clang, gfortran
+* Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Windows Server 2022, R-devel, 64 bit
 * win-builder (devel and release)
 
