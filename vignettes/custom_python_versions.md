@@ -1,0 +1,155 @@
+Using custom Python versions
+================
+
+This vignette describes the three different ways to initialize the R
+session’s connection to Python using the **rMIDAS** package as well as
+[**reticulate**](https://github.com/rstudio/reticulate).
+
+## Option 1: Do nothing!
+
+rMIDAS relies on Python to run the MIDAS imputation algorithm.
+Currently, Python versions from 3.6 to 3.10 are supported. For most
+users, the default settings in **rMIDAS** will be sufficient. Both
+`train()` and `complete()` check if Python has been initialized. The
+first time you call **rMIDAS** after installation, you will be prompted
+on whether to set up the Python environment and dependencies
+automatically.
+
+If the automatic setup fails or you want to set up your Python
+environment manually, you can do this using the next option.
+
+*Note*: If you are using **rMIDAS** in headless mode (for example using
+Amazon AWS), the automatic setup will not execute. In this instance you
+need to set up the Python environment and its dependencies manually.
+Please refer to our *Running rMIDAS on a server instance* vignette for
+additional help.
+
+## Option 2:
+
+If the automatic setup returns an error or you wish to use a specific
+Python binary on your system, you can use the `set_python_env()`
+function in **rMIDAS**, providing an exact path to your chosen Python
+binary:
+
+``` r
+library(rMIDAS)
+
+# Decline the automatic setup
+
+set_python_env(x = "~/path/to/bin/python")
+
+# Then proceed as normal...
+```
+
+With `set_python_env()` you can also set a virtualenv or conda
+environment:
+
+``` r
+library(rMIDAS)
+
+# Decline the automatic setup
+
+set_python_env(x = "myenv", type = "virtualenv")
+
+# or
+
+set_python_env(x = "mycondaenv", type = "conda")
+
+# Then proceed as normal...
+```
+
+On the [rMIDAS GitHub repository](https://github.com/MIDASverse/rMIDAS/)
+you can also find an environment file (`rmidas-env.yml`) which can be
+used to initialise a new conda environment that contains Python 3.8 and
+all required dependencies.
+
+Once you have downloaded this file, in your console navigate to the
+download directory and run:
+
+``` bash
+conda env create -f rmidas-env.yml
+```
+
+Then, prior to training a MIDAS model, make sure to load this
+environment in R:
+
+``` r
+set_python_env(x = "rmidas", type = "conda")
+```
+
+*Note*: **reticulate** only allows you to set a Python binary once per R
+session, so if you wish to switch to a different Python binary, or have
+already run `train()` or `convert()`, you will need to restart or
+terminate R prior to using `set_python_env()`.
+
+## Option 3:
+
+If you desire more granular control of the R-Python interface, it is
+possible to use **reticulate**’s in-built Python configuration tools.
+Since these commands are outside of **rMIDAS**, you must also manually
+call `midas_setup()` after configuring your Python install, e.g.:
+
+``` r
+library(rMIDAS)
+
+# Decline the automatic setup
+
+reticulate::use_condaenv(condaenv = "myenv", conda = "some_conda_executable", required = FALSE)
+midas_setup()
+
+# Then proceed as normal...
+```
+
+As with Option 2, **reticulate** only allows you to set a Python binary
+once per R session. If you wish to switch to a different Python binary,
+or have already run `train()` or `convert()`, you will need to restart R
+prior to changing Python version and then call `midas_setup()`.
+
+## Troubleshooting errors
+
+Sometimes the above three options may fail due to system configuration
+issues. Here we note a few common issues and fixes.
+
+### Older versions of macOS default to Python 2.7
+
+Macs used to come with Python 2.7 pre-installed between macOS versions
+10.8 and 12.3. If you are using a Mac, **reticulate** may be defaulting
+to Python 2.7 which is not supported by **rMIDAS**. If this is the case
+you will have to configure the R session to use a Python 3 binary, as in
+option 2 above, by running:
+
+``` r
+set_python_env(x = "/usr/local/bin/python3")
+
+# Then proceed as normal...
+```
+
+If this returns an error, it’s likely **reticulate** cannot find a
+Python environment related to the binary. In which case we recommend
+restarting the R session and creating a `virtualenv` that points to your
+desired Python 3 binary, as follows:
+
+``` r
+reticulate::virtualenv_create(envname = "myenv", python = "/path/to/your/python3/bin")
+set_python_env(x = "myenv", type = "virtualenv")
+
+# Then proceed as normal...
+```
+
+### Shared library access
+
+If, after setting a Python binary/virtualenv/conda environment using
+either **rMIDAS** or **reticulate**, you still get an error, it is worth
+calling `reticulate::py_discover_config` to check whether the required
+python binary is visible.
+
+If the `python` path is correct, but `libpython` is listed as
+`[NOT FOUND]` this suggests your Python binary does not have a shared
+library. In which case, either point to an alternative Python binary or
+reinstall your Python version with shared library enabled. On a
+Unix/Linux system, and using `pyenv`, this can be done as follows
+(replacing the version number as required):
+
+``` bash
+env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.6
+```
