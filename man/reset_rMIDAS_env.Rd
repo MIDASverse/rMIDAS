@@ -10,7 +10,7 @@ reset_rMIDAS_env()
 A message indicating the completion of the reset process.
 }
 \description{
-Resets the configuration for the rMIDAS package by deleting the configuration file. 
-Once the configuration is reset, it is necessary to restart the R session 
+Resets the configuration for the rMIDAS package by deleting the configuration file.
+Once the configuration is reset, it is necessary to restart the R session
 and then load the rMIDAS package once more.
 }
