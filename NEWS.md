@@ -1,4 +1,4 @@
-# rMIDAS 0.4
+# rMIDAS 0.5
 
 ## v0.5.0
 * rMIDAS now includes an automatic setup that prompts the user on whether to automatically set up a Python environment and its dependencies
