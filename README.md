@@ -148,7 +148,7 @@ terminate R prior to using `set_python_env()`.
 2.  [`vignette("custom_python_versions", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/custom_python_versions.md)
     provides detailed guidance on configuring Python binaries and
     environments, including some troubleshooting tips
-3.  [`vignette("use_server", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/use_server.md)
+3.  [`vignette("use_server", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/use-server.md)
     provides guidance for running **rMIDAS** in headless mode
 
 An additional example that showcases rMIDAS core functionalities can be
