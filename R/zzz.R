@@ -1,3 +1,28 @@
+custom_readline <- function(prompt, default = "skip") {
+  if (interactive()) {
+    return(readline(prompt))
+  } else {
+    return(default)
+  }
+}
+
+custom_writelines <- function(input, con) {
+  writeLines(input, con = con)
+}
+
+custom_packageStartupMessage <- function(msg) {
+  messages <- list(
+    msg1 = "rMIDAS is loaded. In headless mode its environment and dependencies need to be set up manually. Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment.",
+    msg2 = "If you want to change your Python environment use 'reset_rMIDAS_env()' to reset your configuration. After resetting, you'll need to restart the R session and run 'library(rMIDAS)' again.",
+    msg3 = "rMIDAS is loaded but its environment and dependencies are not set up automatically. Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment.",
+    msg4 = "rMIDAS is being set up automatically.",
+    msg5 = "rMIDAS is loaded. Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment. If you want to use a different Python environment use 'reset_rMIDAS_env()' to reset the your configuration. After resetting, you'll need to restart the R session and run 'library(rMIDAS)' again.",
+    msg6 = "rMIDAS has been automatically set up.",
+    msg7 = "rMIDAS is loaded. Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment. If you want to change your Python environment use 'reset_rMIDAS_env()' to reset your configuration. After resetting, you'll need to restart the R session and run 'library(rMIDAS)' again."
+  )
+  packageStartupMessage(messages[msg])
+}
+
 .onLoad <- function(libname, pkgname) {
   
   options("python_custom" = NULL)
@@ -21,19 +46,19 @@
   if (!file.exists(config_file)) {
     if (!interactive()) {
       user_input <- "n"
-      packageStartupMessage("rMIDAS is loaded. In headless mode its environment and dependencies need to be set up manually. Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment.")
-      packageStartupMessage("If you want to change your Python environment use 'reset_rMIDAS_env()' to reset your configuration. After resetting, you'll need to restart the R session and run 'library(rMIDAS)' again.")
+      custom_packageStartupMessage("msg1")
+      custom_packageStartupMessage("msg2")
     } else {
-      user_input <- readline("Do you want rMIDAS to automatically set up a Python environment and its dependencies? Enter 'y' for Yes, or any other key for No : \n")
-      writeLines(user_input, con = config_file)
-      if(tolower(user_input) != "y") {packageStartupMessage("rMIDAS is loaded but its environment and dependencies are not set up automatically. Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment.")}
-      if(tolower(user_input) == "y") {packageStartupMessage("rMIDAS is being set up automatically.")}
+      user_input <- custom_readline("Do you want rMIDAS to automatically set up a Python environment and its dependencies? Enter 'y' for Yes, or any other key for No : \n", default = "n")
+      custom_writelines(user_input, con = config_file)
+      if(tolower(user_input) != "y") {custom_packageStartupMessage("msg3")}
+      if(tolower(user_input) == "y") {custom_packageStartupMessage("msg4")}
     }
   } else {
     user_input <- readLines(con = config_file)[1]
     if(tolower(user_input) != "y") {
-      packageStartupMessage("\n \n","rMIDAS is loaded. Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment. If you want to use a different Python environment use 'reset_rMIDAS_env()' to reset the your configuration. After resetting, you'll need to restart the R session and run 'library(rMIDAS)' again.\n")
-      writeLines(user_input, con = config_file)
+      custom_packageStartupMessage("msg5")
+      custom_writelines(user_input, con = config_file)
     }
   }
   
@@ -82,20 +107,18 @@ scipy
       }
       
       requirements_file <- tempfile(fileext = ".txt")
-      writeLines(requirements_txt, requirements_file)
+      custom_writelines(requirements_txt, requirements_file)
       
       reticulate::py_install(envname = virtual_env_name, pip = TRUE, packages = c("-r", requirements_file))
       reticulate::py_config()
       reticulate::use_virtualenv(virtual_env_name, required = TRUE)
-      packageStartupMessage("rMIDAS has been automatically set up.")
-      #.rs.restartR()
+      custom_packageStartupMessage("msg6")
     }
-    packageStartupMessage("rMIDAS is loaded. Please read https://github.com/MIDASverse/rMIDAS for additional help on how to set up and configure your environment. If you want to change your Python environment use 'reset_rMIDAS_env()' to reset your configuration. After resetting, you'll need to restart the R session and run 'library(rMIDAS)' again.")
+    custom_packageStartupMessage("msg7")
   }
 }
 
 .onAttach <- function(libname, pkgname) {
-  
   packageStartupMessage("\n## \n",
                         "## rMIDAS: Multiple Imputation using Denoising Autoencoders \n",
                         "## Authors: Thomas Robinson and Ranjit Lall \n",
