@@ -1,10 +1,6 @@
 ## v1.0.0
 
-This version updates package documentation and is the first stable release. 
-
-The DOI in the CITATION is for a new JSS publication that will be registered after publication on CRAN.
-
-"Lall" is not misspelled.
+This version updates package documentation.
 
 ## Test environments
 * Local OS X install, R 4.3.1
@@ -17,7 +13,9 @@ The DOI in the CITATION is for a new JSS publication that will be registered aft
 
 There were no errors or warnings, and 1 note.
 
-This note refers to the invalid DOI, as noted above.
+The DOI in the CITATION is for a new JSS publication that will be registered after publication on CRAN.
+
+"Lall" is not misspelled.
 
 ## Downstream dependencies
 There are no downstream dependencies currently.

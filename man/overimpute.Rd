@@ -91,6 +91,8 @@ Both metrics are reported in two forms:
 }
 
 In the final model, we recommend selecting the number of training epochs that minimizes the average value of these metrics --- weighted by the proportion (or substantive importance) of continuous and categorical variables --- in the overimputation exercise.  This ``early stopping'' rule reduces the risk of overtraining and thus, in effect, serves as an extra layer of regularization in the network.
+
+For more information, see Lall and Robinson (2023): \url{doi:10.18637/jss.v107.i09}.
 }
 \examples{
 \dontrun{

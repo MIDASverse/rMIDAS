@@ -33,6 +33,8 @@ The function has two advantages over manual pre-processing:
 \item Utilises data.table for fast read-in and processing of large datasets
 \item Outputs an object that can be passed directly to \code{train()} without re-specifying column names etc.
 }
+
+For more information, see Lall and Robinson (2023): \url{doi:10.18637/jss.v107.i09}.
 }
 \examples{
 data = data.frame(a = sample(c("red","yellow","blue",NA),100, replace = TRUE),

@@ -65,6 +65,9 @@ Object of class \code{midas} from which completed datasets can be drawn, using \
 \description{
 Build and run a MIDAS neural network on the supplied missing data.
 }
+\details{
+For more information, see Lall and Robinson (2023): \url{doi:10.18637/jss.v107.i09}.
+}
 \examples{
 # Generate raw data, with numeric, binary, and categorical variables
 \dontrun{
