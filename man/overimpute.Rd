@@ -124,6 +124,9 @@ test_imp <- overimpute(test_data,
 }
 }
 }
+\references{
+\insertRef{rmidas_jss}{rMIDAS}
+}
 \seealso{
 \code{\link{train}} for the main imputation function.
 }

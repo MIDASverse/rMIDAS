@@ -75,4 +75,7 @@ midas_pool <- combine(formula = d~a+c+e+f,
 }
 
 }
+\references{
+\insertRef{rmidas_jss}{rMIDAS}
+}
 \keyword{imputation}

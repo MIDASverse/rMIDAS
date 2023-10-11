@@ -18,6 +18,8 @@
 #' @import mltools
 #' @export
 #' @return List containing converted data, categorical and binary labels to be imported into the imputation model, and scaling parameters for post-imputation transformations.
+#' @references
+#' \insertRef{rmidas_jss}{rMIDAS}
 #' @examples
 #' data = data.frame(a = sample(c("red","yellow","blue",NA),100, replace = TRUE),
 #'                   b = 1:100,

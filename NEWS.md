@@ -1,5 +1,10 @@
 # rMIDAS 0.5
 
+## v1.0.0
+
+* To mark the publication of our new article in the Journal of Statistical Software (see `citation("rMIDAS")`), v1.0.0 is our first stable release.
+* Minor documentation changes to reflect this milestone
+
 ## v0.5.0
 * rMIDAS now includes an automatic setup that prompts the user on whether to automatically set up a Python environment and its dependencies
 * Addressed dependency issues and deprecation warnings (rather a Python update than R)

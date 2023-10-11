@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org/package=rMIDAS/)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](https://github.com/MIDASverse/rMIDAS/commits/master/)
 [![R-CMD-check-Linux](https://github.com/MIDASverse/rMIDAS/actions/workflows/testlinux.yml/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/workflows/testlinux.yml)
 [![R-CMD-check-macOS](https://github.com/MIDASverse/rMIDAS/actions/workflows/testmacos.yml/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/workflows/testmacos.yml)
@@ -49,7 +49,7 @@ For more information on MIDAS, the method underlying the software, see:
 
 Lall, Ranjit, and Thomas Robinson. 2022. "The MIDAS Touch: Accurate and Scalable Missing-Data Imputation with Deep Learning." _Political Analysis_ 30, no. 2: 179-196. [Published version](https://ranjitlall.github.io/assets/pdf/Lall%20and%20Robinson%202022%20PA.pdf). [Accepted version](http://eprints.lse.ac.uk/108170/1/Lall_Robinson_PA_Forthcoming.pdf).
 
-Lall, Ranjit, and Thomas Robinson. 2023. "Efficient Multiple Imputation for Diverse Data in Python and R: MIDASpy and rMIDAS." _Journal of Statistical Software_. [Accepted version](https://ranjitlall.github.io/assets/pdf/jss4379.pdf) (in press).
+Lall, Ranjit, and Thomas Robinson. 2023. "Efficient Multiple Imputation for Diverse Data in Python and R: MIDASpy and rMIDAS." _Journal of Statistical Software_ 107, no. 9:1-38. [Accepted version](https://ranjitlall.github.io/assets/pdf/jss4379.pdf) (in press).
 
 ## Installation
 

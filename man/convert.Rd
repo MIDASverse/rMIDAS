@@ -48,4 +48,7 @@ cat <- c("a","f")
 
 convert(data, bin_cols = bin, cat_cols = cat)
 }
+\references{
+\insertRef{rmidas_jss}{rMIDAS}
+}
 \keyword{preprocessing}
