@@ -9,6 +9,14 @@ vignette: >
 
 MIDAS offers a scalable solution to multiple imputation of very large datasets. Such applications can, of course, have sizable memory requirements that push the limits of a personal computer. Users may therefore wish to "offshore" model training to a virtual server that has greater memory capacity.
 
+> **Lifecycle note**
+>
+> **rMIDAS is deprecated.** This vignette is retained for users who need
+> to keep an existing deployment running. For new work, use
+> [**rMIDAS2**](https://CRAN.R-project.org/package=rMIDAS2) and consult
+> `vignette("migrating-to-rMIDAS2", package = "rMIDAS")`.
+> Source repository: <https://github.com/MIDASverse/rMIDAS2>
+
 This guide runs through how to configure an Amazon AWS server instance to run MIDAS in R (and Python).
 
 ## Choice of server instance
@@ -74,7 +82,3 @@ The server is now configured and ready to be used. Remember to include a line at
 library(rMIDAS)
 set_python_env("rmidas", type = "conda")
 ```
-
-
-
-

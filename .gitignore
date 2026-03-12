@@ -2,3 +2,9 @@
 tmp
 doc
 Meta
+.DS_Store
+.Rhistory
+*.Rcheck
+*.tar.gz
+Library
+Outputs

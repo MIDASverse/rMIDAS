@@ -7,12 +7,30 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rMIDAS)](https://cran.r-project.org/package=rMIDAS/)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2023--08--16-yellowgreen.svg)](https://github.com/MIDASverse/rMIDAS/commits/master/)
-[![R-CMD-check-Linux](https://github.com/MIDASverse/rMIDAS/actions/workflows/testlinux.yml/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/workflows/testlinux.yml)
-[![R-CMD-check-macOS](https://github.com/MIDASverse/rMIDAS/actions/workflows/testmacos.yml/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/workflows/testmacos.yml)
-[![R-CMD-check-Windows](https://github.com/MIDASverse/rMIDAS/actions/workflows/testwindows.yml/badge.svg)](https://github.com/MIDASverse/rMIDAS/actions/workflows/testwindows.yml)
+[![lifecycle](https://img.shields.io/badge/lifecycle-deprecated-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#deprecated)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2026--03--12-yellowgreen.svg)](https://github.com/MIDASverse/rMIDAS/commits/master/)
 <!-- badges: end -->
+
+> **⚠ Deprecation notice**
+>
+> **rMIDAS is deprecated.** Please use
+> [**rMIDAS2**](https://CRAN.R-project.org/package=rMIDAS2), which replaces
+> rMIDAS with a faster PyTorch-based backend, a simpler API (no manual
+> preprocessing), and no `reticulate` dependency at runtime. rMIDAS will
+> remain on CRAN for existing users but will not receive new features or
+> bug fixes.
+> Source repository: <https://github.com/MIDASverse/rMIDAS2>
+>
+> A migration guide is included as a vignette in both packages:
+> `vignette("migrating-to-rMIDAS2", package = "rMIDAS")`.
+>
+> Install the replacement:
+>
+> ``` r
+> install.packages("rMIDAS2")
+> ```
+
+------------------------------------------------------------------------
 
 ## Overview
 
@@ -45,15 +63,12 @@ the efficiency of multiple imputation analysis:
 
 For more information on MIDAS, the method underlying the software, see:
 
-Lall, Ranjit, and Thomas Robinson. 2022. “The MIDAS Touch: Accurate and
-Scalable Missing-Data Imputation with Deep Learning.” *Political
+Lall, Ranjit, and Thomas Robinson. 2022. "The MIDAS Touch: Accurate and
+Scalable Missing-Data Imputation with Deep Learning." *Political
 Analysis* 30, no. 2: 179-196. [Published
 version](https://ranjitlall.github.io/assets/pdf/Lall%20and%20Robinson%202022%20PA.pdf).
-[Accepted
-version](http://eprints.lse.ac.uk/108170/1/Lall_Robinson_PA_Forthcoming.pdf).
 
 Lall, Ranjit, and Thomas Robinson. 2023. "Efficient Multiple Imputation for Diverse Data in Python and R: MIDASpy and rMIDAS." _Journal of Statistical Software_ 107, no. 9: 1-38. doi:10.18637/jss.v107.i09. [Published version](https://ranjitlall.github.io/assets/pdf/Lall%20and%20Robinson%202023%20JSS.pdf).
-
 
 ## Installation
 
@@ -138,7 +153,7 @@ terminate R prior to using `set_python_env()`.
 
 ## Vignettes (including simple example)
 
-**rMIDAS** is packaged with three vignettes:
+**rMIDAS** is packaged with four vignettes:
 
 1.  [`vignette("imputation_demo", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/imputation_demo.md)
     demonstrates the basic workflow and capacities of **rMIDAS**
@@ -147,23 +162,19 @@ terminate R prior to using `set_python_env()`.
     environments, including some troubleshooting tips
 3.  [`vignette("use_server", "rMIDAS")`](https://github.com/MIDASverse/rMIDAS/blob/master/vignettes/use-server.md)
     provides guidance for running **rMIDAS** in headless mode
+4.  `vignette("migrating-to-rMIDAS2", "rMIDAS")` guides migration to the
+    new **rMIDAS2** package
 
 An additional example that showcases rMIDAS core functionalities can be
 found
 [here](https://github.com/MIDASverse/rMIDAS/blob/master/examples/rmidas_demo.md).
 
-## Contributing to rMIDAS
-
-Interested in contributing to **rMIDAS**? We are looking to hire a
-research assistant to work part-time (flexibly) to help us build out new
-features and integrate our software with existing machine learning
-pipelines. You would be paid the standard research assistant rate at the
-University of Oxford. To apply, please send your CV (or a summary of
-relevant skills/experience) to <ranjit.lall@sjc.ox.ac.uk>.
-
 ## Getting help
 
-rMIDAS is still in development, and we may not have caught all bugs. If
-you come across any difficulties, or have any suggestions for
-improvements, please raise an issue
-[here](https://github.com/MIDASverse/MIDASpy/issues).
+rMIDAS is deprecated and is being retained for existing workflows. If
+you need new development or a simpler installation path, please migrate
+to [**rMIDAS2**](https://CRAN.R-project.org/package=rMIDAS2). The
+successor package source repository is
+<https://github.com/MIDASverse/rMIDAS2>. If you encounter an issue that
+affects an existing rMIDAS workflow, please raise it
+[here](https://github.com/MIDASverse/rMIDAS/issues).

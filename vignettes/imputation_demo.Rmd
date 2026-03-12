@@ -14,6 +14,14 @@ LOCAL <- identical(Sys.getenv("LOCAL"), "true")
 
 This vignette provides a brief demonstration of **rMIDAS**. We show how to use the package to impute missing values in the [*Adult Census*](https://github.com/MIDASverse/MIDASpy/blob/master/Examples/adult_data.csv) dataset, which is commonly used for benchmarking machine learning tasks.
 
+> **Lifecycle note**
+>
+> **rMIDAS is deprecated.** New work should use
+> [**rMIDAS2**](https://CRAN.R-project.org/package=rMIDAS2). Existing
+> users can follow
+> `vignette("migrating-to-rMIDAS2", package = "rMIDAS")`.
+> Source repository: <https://github.com/MIDASverse/rMIDAS2>
+
 ## Ensure your system is correctly configured
 
 **rMIDAS** relies on Python to implement the MIDAS imputation algorithm, so a Python environment needs to be installed on your machine. Currently, Python versions from 3.6 to 3.10 are supported. When the package is first loaded, it will prompt the user on whether to set up a Python environment and its dependencies automatically. Users that choose to set up the environment and dependencies manually, or who use **rMIDAS** in headless mode can specify a Python binary using `set_python_env()`. For additional help on manually setting up a Python environment and its dependencies please refer to our other vignettes (*Using custom Python versions* and *Running rMIDAS on a server instance*) or visit the [rMIDAS GitHub](https://github.com/MIDASverse/rMIDAS/) page.

@@ -13,11 +13,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This vignette describes the three different ways to initialize the R session's connection to Python using the **rMIDAS** package as well as [**reticulate**](https://github.com/rstudio/reticulate).
 
+> **Lifecycle note**
+>
+> **rMIDAS is deprecated.** For new projects, prefer
+> [**rMIDAS2**](https://CRAN.R-project.org/package=rMIDAS2), which does
+> not require `reticulate` at runtime. Existing users can follow
+> `vignette("migrating-to-rMIDAS2", package = "rMIDAS")`.
+> Source repository: <https://github.com/MIDASverse/rMIDAS2>
+
 ## Option 1: Do nothing!
  
 rMIDAS relies on Python to run the MIDAS imputation algorithm. Currently, Python versions from 3.6 to 3.10 are supported. For most users, the default settings in **rMIDAS** will be sufficient. Both `train()` and `complete()` check if Python has been initialized. The first time you call **rMIDAS** after installation, you will be prompted on whether to set up the Python environment and dependencies automatically.
 
-If the automatic setup fails or you want to set up your Python environment manually, you can do this using the next option.
+If the automatic setup fails or you want to keep an existing **rMIDAS** workflow running, you can do this using the next option.
 
 *Note*: If you are using **rMIDAS** in headless mode (for example using Amazon AWS), the automatic setup will not execute. In this instance you need to set up the Python environment and its dependencies manually. Please refer to our *Running rMIDAS on a server instance* vignette for additional help.
 

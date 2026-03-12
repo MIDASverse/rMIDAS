@@ -1,3 +1,8 @@
+# rMIDAS 1.0.1
+
+* Marked the package as deprecated and directed users to `rMIDAS2`
+* Added a migration vignette and startup/package documentation notices to support existing users
+
 # rMIDAS 1.0.0
 
 * To mark the publication of our article in the Journal of Statistical Software (see `citation("rMIDAS")`), we are releasing our first stable release!

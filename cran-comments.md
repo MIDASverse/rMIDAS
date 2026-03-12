@@ -1,21 +1,19 @@
-## v1.0.0
+## v1.0.1
 
-This version updates package documentation.
+This version marks `rMIDAS` as deprecated in favor of `rMIDAS2`.
+The package remains on CRAN for existing users, but the documentation,
+package help, startup banner, and vignettes now point users to the
+successor package and its migration guide.
 
 ## Test environments
-* Local OS X install, R 4.3.1
-* Fedora Linux, R-devel, clang, gfortran
-* Ubuntu Linux 20.04.1 LTS, R-release, GCC
-* Windows Server 2022, R-devel, 64 bit
-* win-builder (devel and release)
+* Local macOS Sequoia 15.7.3, R 4.5.2
+* macOS devel, R 4.6.0
+* Windows release, R 4.5.2
 
 ## R CMD check results
 
-There were no errors or warnings, and 1 note.
-
-The DOI in the CITATION is for a new JSS publication that will be registered after publication on CRAN.
-
-"Lall" is not misspelled.
+There were no errors, warnings, or notes on a clean local
+`R CMD check --as-cran` run.
 
 ## Downstream dependencies
 There are no downstream dependencies currently.

@@ -121,7 +121,11 @@ scipy
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("\n## \n",
                         "## rMIDAS: Multiple Imputation using Denoising Autoencoders \n",
+                        "## Status: deprecated; please migrate to rMIDAS2 when feasible \n",
+                        "## Replacement package: https://CRAN.R-project.org/package=rMIDAS2 \n",
+                        "## Source repository: https://github.com/MIDASverse/rMIDAS2 \n",
                         "## Authors: Thomas Robinson and Ranjit Lall \n",
+                        "## Migration guide: vignette('migrating-to-rMIDAS2', package = 'rMIDAS') \n",
                         "## Please visit https://github.com/MIDASverse/rMIDAS for more information \n",
                         "## \n"
   )
