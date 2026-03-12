@@ -11,7 +11,8 @@ algorithm.
 }
 \details{
 \code{rMIDAS} is deprecated in favor of
-\href{https://CRAN.R-project.org/package=rMIDAS2}{\code{rMIDAS2}}, which provides the actively maintained successor interface and backend.
+\href{https://CRAN.R-project.org/package=rMIDAS2}{\code{rMIDAS2}},
+which provides the actively maintained successor interface and backend.
 The source repository for the successor package is
 \url{https://github.com/MIDASverse/rMIDAS2}. \code{rMIDAS}
 remains available on CRAN for existing workflows but will receive only

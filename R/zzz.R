@@ -23,6 +23,35 @@ custom_packageStartupMessage <- function(msg) {
   packageStartupMessage(messages[msg])
 }
 
+startup_supports_color <- function() {
+  if (!interactive()) {
+    return(FALSE)
+  }
+
+  if (nzchar(Sys.getenv("NO_COLOR", unset = ""))) {
+    return(FALSE)
+  }
+
+  if (identical(getOption("crayon.enabled"), FALSE)) {
+    return(FALSE)
+  }
+
+  term <- Sys.getenv("TERM", unset = "")
+  if (identical(term, "") || identical(term, "dumb")) {
+    return(FALSE)
+  }
+
+  TRUE
+}
+
+startup_red <- function(msg) {
+  if (!startup_supports_color()) {
+    return(msg)
+  }
+
+  paste0("\033[1;31m", msg, "\033[22;39m")
+}
+
 .onLoad <- function(libname, pkgname) {
   
   options("python_custom" = NULL)
@@ -121,7 +150,7 @@ scipy
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("\n## \n",
                         "## rMIDAS: Multiple Imputation using Denoising Autoencoders \n",
-                        "## Status: deprecated; please migrate to rMIDAS2 when feasible \n",
+                        startup_red("## Status: deprecated; please migrate to rMIDAS2 when feasible \n"),
                         "## Replacement package: https://CRAN.R-project.org/package=rMIDAS2 \n",
                         "## Source repository: https://github.com/MIDASverse/rMIDAS2 \n",
                         "## Authors: Thomas Robinson and Ranjit Lall \n",
