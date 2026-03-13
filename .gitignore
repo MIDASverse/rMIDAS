@@ -8,3 +8,5 @@ Meta
 *.tar.gz
 Library
 Outputs
+__pycache__/
+*.pyc

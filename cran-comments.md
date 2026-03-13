@@ -15,5 +15,11 @@ successor package and its migration guide.
 There were no errors, warnings, or notes on a clean local
 `R CMD check --as-cran` run.
 
+After submission of `rMIDAS_1.0.1.tar.gz`, the CRAN incoming pretest on
+Debian reported one NOTE in `tests`:
+"Running `testthat.R` had CPU time 3.5 times elapsed time".
+The test harness now explicitly limits BLAS/OpenMP/TensorFlow/data.table
+threads to 1 during checks to avoid multithreaded CPU inflation.
+
 ## Downstream dependencies
 There are no downstream dependencies currently.

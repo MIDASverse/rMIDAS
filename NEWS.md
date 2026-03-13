@@ -2,6 +2,7 @@
 
 * Marked the package as deprecated and directed users to `rMIDAS2`
 * Added a migration vignette and startup/package documentation notices to support existing users
+* Limited test-time thread usage to avoid CRAN check CPU-time inflation on Debian
 
 # rMIDAS 1.0.0
 

@@ -13,3 +13,5 @@
 ^rmidas-env.yml
 ^CRAN-SUBMISSION$
 ^examples
+^inst/python/__pycache__$
+\.pyc$
