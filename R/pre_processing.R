@@ -14,7 +14,7 @@
 #' * \code{bin_list} -- vector of binary variable names
 #' * \code{cat_lists} -- embedded list of one-hot encoded categorical variable names
 #' * \code{minmax_params} -- list of min. and max. values for each numeric object scaled
-#' @import data.table
+#' @importFrom data.table := .SD as.data.table copy fread fwrite set setDT
 #' @import mltools
 #' @export
 #' @return List containing converted data, categorical and binary labels to be imported into the imputation model, and scaling parameters for post-imputation transformations.
@@ -250,7 +250,6 @@ add_bin_labels <- function(x, one, zero, fast = TRUE) {
 #' @param X A data.frame, data.table or matrix, for a single variable
 #' @param var_name A character string, with the original variable label
 #' @param fast Boolean, indicating whether to choose category with highest predicted probability (TRUE), or use predicted probabilities as weights in draw from random distribution
-#' @import data.table
 #' @return A vector of length equal to `nrow(X)`, containing categorical labels corresponding to the columns of `X`
 coalesce_one_hot <- function(X, var_name, fast = TRUE) {
 

@@ -4,7 +4,7 @@
 if (python_configured()) {
 set.seed(89)
 n_obs <- 10000
-raw_data <- data.table(a = sample(c("red","yellow","blue",NA),n_obs, replace = TRUE),
+raw_data <- data.table::data.table(a = sample(c("red","yellow","blue",NA),n_obs, replace = TRUE),
                        b = 1:n_obs,
                        c = sample(c("YES","NO",NA),n_obs,replace=TRUE),
                        d = runif(n_obs,1,10),
