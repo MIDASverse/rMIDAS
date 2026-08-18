@@ -36,6 +36,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Thomas Robinson \email{ts.robinson1994@gmail.com} (\href{https://orcid.org/0000-0001-7097-1599}{ORCID}) [copyright holder]
   \item Ranjit Lall \email{R.Lall@lse.ac.uk} (\href{https://orcid.org/0000-0003-1455-3506}{ORCID}) [copyright holder]
 }
 
